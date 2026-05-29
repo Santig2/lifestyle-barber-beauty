@@ -447,25 +447,15 @@ function Team() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-sm group cursor-pointer"
+            className="w-full max-w-sm mt-10 lg:mt-0 p-8 md:p-10 bg-espresso/30 border border-white/5 hover:border-gold/20 transition-all"
           >
-            <div className="relative aspect-[3/4] overflow-hidden mb-6 bg-espresso flex items-center justify-center shadow-2xl border border-white/5">
-              {/* Empty placeholder until real photo is provided */}
-              <div className="text-champagne/20 font-display italic text-8xl group-hover:scale-110 transition-transform duration-700">
-                A
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-charcoal/90 via-charcoal/20 to-transparent" />
-              <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-gold bg-charcoal/80 backdrop-blur px-3 py-1.5 border border-gold/20">
-                  {t.team.badge}
-                </span>
-                <button className="size-12 rounded-full bg-gold text-charcoal flex items-center justify-center text-lg opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all shadow-lg">
-                  →
-                </button>
-              </div>
-            </div>
-            <h4 className="font-display text-4xl text-champagne italic mb-2">{t.team.name}</h4>
-            <div className="flex justify-between items-center mt-1 border-t border-white/10 pt-3">
+            <span className="inline-block font-mono text-[10px] uppercase tracking-widest text-gold bg-charcoal/80 px-3 py-1.5 border border-gold/20 mb-8">
+              {t.team.badge}
+            </span>
+            <h4 className="font-display text-5xl md:text-6xl text-champagne italic mb-6">
+              {t.team.name}
+            </h4>
+            <div className="flex justify-between items-center border-t border-white/10 pt-6 mt-2">
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold font-bold">
                 {t.team.role}
               </p>

@@ -1,7 +1,10 @@
 import { AsyncLocalStorage } from "node:async_hooks";
 import { Readable, PassThrough } from "node:stream";
 import { j as jsxRuntimeExports } from "../_libs/react.mjs";
-import { r as renderRouterToStream, R as RouterProvider } from "../_libs/tanstack__react-router.mjs";
+import {
+  r as renderRouterToStream,
+  R as RouterProvider,
+} from "../_libs/tanstack__react-router.mjs";
 import { f as defineHandlerCallback } from "../_libs/tanstack__router-core.mjs";
 import "../_libs/react-dom.mjs";
 import "util";
@@ -14,38 +17,46 @@ import "node:stream/web";
 function StartServer(props) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(RouterProvider, { router: props.router });
 }
-var defaultStreamHandler = defineHandlerCallback(({ request, router, responseHeaders }) => renderRouterToStream({
-  request,
-  router,
-  responseHeaders,
-  children: /* @__PURE__ */ jsxRuntimeExports.jsx(StartServer, { router })
-}));
+var defaultStreamHandler = defineHandlerCallback(({ request, router, responseHeaders }) =>
+  renderRouterToStream({
+    request,
+    router,
+    responseHeaders,
+    children: /* @__PURE__ */ jsxRuntimeExports.jsx(StartServer, { router }),
+  }),
+);
 const NullProtoObj = /* @__PURE__ */ (() => {
-  const e = function() {
-  };
-  return e.prototype = /* @__PURE__ */ Object.create(null), Object.freeze(e.prototype), e;
+  const e = function () {};
+  return ((e.prototype = /* @__PURE__ */ Object.create(null)), Object.freeze(e.prototype), e);
 })();
 function lazyInherit(target, source, sourceKey) {
-  for (const key of [...Object.getOwnPropertyNames(source), ...Object.getOwnPropertySymbols(source)]) {
+  for (const key of [
+    ...Object.getOwnPropertyNames(source),
+    ...Object.getOwnPropertySymbols(source),
+  ]) {
     if (key === "constructor") continue;
     const targetDesc = Object.getOwnPropertyDescriptor(target, key);
     const desc = Object.getOwnPropertyDescriptor(source, key);
     let modified = false;
     if (desc.get) {
       modified = true;
-      desc.get = targetDesc?.get || function() {
-        return this[sourceKey][key];
-      };
+      desc.get =
+        targetDesc?.get ||
+        function () {
+          return this[sourceKey][key];
+        };
     }
     if (desc.set) {
       modified = true;
-      desc.set = targetDesc?.set || function(value) {
-        this[sourceKey][key] = value;
-      };
+      desc.set =
+        targetDesc?.set ||
+        function (value) {
+          this[sourceKey][key] = value;
+        };
     }
     if (!targetDesc?.value && typeof desc.value === "function") {
       modified = true;
-      desc.value = function(...args) {
+      desc.value = function (...args) {
         return this[sourceKey][key](...args);
       };
     }
@@ -65,9 +76,13 @@ const FastURL = /* @__PURE__ */ (() => {
     #searchParams;
     #pos;
     constructor(url) {
-      if (typeof url === "string") if (url[0] === "/") this.#href = url;
-      else this.#url = new NativeURL(url);
-      else if (_needsNormRE.test(url.pathname)) this.#url = new NativeURL(`${url.protocol || "http:"}//${url.host || "localhost"}${url.pathname}${url.search || ""}`);
+      if (typeof url === "string")
+        if (url[0] === "/") this.#href = url;
+        else this.#url = new NativeURL(url);
+      else if (_needsNormRE.test(url.pathname))
+        this.#url = new NativeURL(
+          `${url.protocol || "http:"}//${url.host || "localhost"}${url.pathname}${url.search || ""}`,
+        );
       else {
         this.#protocol = url.protocol;
         this.#host = url.host;
@@ -92,7 +107,8 @@ const FastURL = /* @__PURE__ */ (() => {
     }
     get href() {
       if (this.#url) return this.#url.href;
-      if (!this.#href) this.#href = `${this.#protocol || "http:"}//${this.#host || "localhost"}${this.#pathname || "/"}${this.#search || ""}`;
+      if (!this.#href)
+        this.#href = `${this.#protocol || "http:"}//${this.#host || "localhost"}${this.#pathname || "/"}${this.#search || ""}`;
       return this.#href;
     }
     #getPos() {
@@ -101,11 +117,7 @@ const FastURL = /* @__PURE__ */ (() => {
         const protoIndex = url.indexOf("://");
         const pathnameIndex = protoIndex === -1 ? -1 : url.indexOf("/", protoIndex + 4);
         const qIndex = pathnameIndex === -1 ? -1 : url.indexOf("?", pathnameIndex);
-        this.#pos = [
-          protoIndex,
-          pathnameIndex,
-          qIndex
-        ];
+        this.#pos = [protoIndex, pathnameIndex, qIndex];
       }
       return this.#pos;
     }
@@ -124,7 +136,8 @@ const FastURL = /* @__PURE__ */ (() => {
         const [, pathnameIndex, queryIndex] = this.#getPos();
         if (pathnameIndex === -1) return this._url.search;
         const url = this.href;
-        this.#search = queryIndex === -1 || queryIndex === url.length - 1 ? "" : url.slice(queryIndex);
+        this.#search =
+          queryIndex === -1 || queryIndex === url.length - 1 ? "" : url.slice(queryIndex);
       }
       return this.#search;
     }
@@ -174,13 +187,16 @@ const NodeResponse = /* @__PURE__ */ (() => {
       return this.#response?.status || this.#init?.status || 200;
     }
     get statusText() {
-      return this.#response?.statusText || this.#init?.statusText || STATUS_CODES[this.status] || "";
+      return (
+        this.#response?.statusText || this.#init?.statusText || STATUS_CODES[this.status] || ""
+      );
     }
     get headers() {
       if (this.#response) return this.#response.headers;
       if (this.#headers) return this.#headers;
       const initHeaders = this.#init?.headers;
-      return this.#headers = initHeaders instanceof Headers ? initHeaders : new Headers(initHeaders);
+      return (this.#headers =
+        initHeaders instanceof Headers ? initHeaders : new Headers(initHeaders));
     }
     get ok() {
       if (this.#response) return this.#response.ok;
@@ -197,10 +213,15 @@ const NodeResponse = /* @__PURE__ */ (() => {
         if (abort) stream.once("close", () => abort());
         body = stream;
       }
-      this.#response = new NativeResponse(body, this.#headers ? {
-        ...this.#init,
-        headers: this.#headers
-      } : this.#init);
+      this.#response = new NativeResponse(
+        body,
+        this.#headers
+          ? {
+              ...this.#init,
+              headers: this.#headers,
+            }
+          : this.#init,
+      );
       this.#init = void 0;
       this.#headers = void 0;
       this.#body = void 0;
@@ -213,39 +234,51 @@ const NodeResponse = /* @__PURE__ */ (() => {
       let contentType;
       let contentLength;
       if (this.#response) body = this.#response.body;
-      else if (this.#body) if (this.#body instanceof ReadableStream) body = this.#body;
-      else if (typeof this.#body === "string") {
-        body = this.#body;
-        contentType = "text/plain; charset=UTF-8";
-        contentLength = Buffer.byteLength(this.#body);
-      } else if (this.#body instanceof ArrayBuffer) {
-        body = Buffer.from(this.#body);
-        contentLength = this.#body.byteLength;
-      } else if (this.#body instanceof Uint8Array) {
-        body = this.#body;
-        contentLength = this.#body.byteLength;
-      } else if (this.#body instanceof DataView) {
-        body = Buffer.from(this.#body.buffer);
-        contentLength = this.#body.byteLength;
-      } else if (this.#body instanceof Blob) {
-        body = this.#body.stream();
-        contentType = this.#body.type;
-        contentLength = this.#body.size;
-      } else if (typeof this.#body.pipe === "function") body = this.#body;
-      else body = this._response.body;
+      else if (this.#body)
+        if (this.#body instanceof ReadableStream) body = this.#body;
+        else if (typeof this.#body === "string") {
+          body = this.#body;
+          contentType = "text/plain; charset=UTF-8";
+          contentLength = Buffer.byteLength(this.#body);
+        } else if (this.#body instanceof ArrayBuffer) {
+          body = Buffer.from(this.#body);
+          contentLength = this.#body.byteLength;
+        } else if (this.#body instanceof Uint8Array) {
+          body = this.#body;
+          contentLength = this.#body.byteLength;
+        } else if (this.#body instanceof DataView) {
+          body = Buffer.from(this.#body.buffer);
+          contentLength = this.#body.byteLength;
+        } else if (this.#body instanceof Blob) {
+          body = this.#body.stream();
+          contentType = this.#body.type;
+          contentLength = this.#body.size;
+        } else if (typeof this.#body.pipe === "function") body = this.#body;
+        else body = this._response.body;
       const headers = [];
       const initHeaders = this.#init?.headers;
-      const headerEntries = this.#response?.headers || this.#headers || (initHeaders ? Array.isArray(initHeaders) ? initHeaders : initHeaders?.entries ? initHeaders.entries() : Object.entries(initHeaders).map(([k2, v2]) => [k2.toLowerCase(), v2]) : void 0);
+      const headerEntries =
+        this.#response?.headers ||
+        this.#headers ||
+        (initHeaders
+          ? Array.isArray(initHeaders)
+            ? initHeaders
+            : initHeaders?.entries
+              ? initHeaders.entries()
+              : Object.entries(initHeaders).map(([k2, v2]) => [k2.toLowerCase(), v2])
+          : void 0);
       let hasContentTypeHeader;
       let hasContentLength;
-      if (headerEntries) for (const [key, value] of headerEntries) {
-        if (Array.isArray(value)) for (const v2 of value) headers.push([key, v2]);
-        else headers.push([key, value]);
-        if (key === "content-type") hasContentTypeHeader = true;
-        else if (key === "content-length") hasContentLength = true;
-      }
+      if (headerEntries)
+        for (const [key, value] of headerEntries) {
+          if (Array.isArray(value)) for (const v2 of value) headers.push([key, v2]);
+          else headers.push([key, value]);
+          if (key === "content-type") hasContentTypeHeader = true;
+          else if (key === "content-length") hasContentLength = true;
+        }
       if (contentType && !hasContentTypeHeader) headers.push(["content-type", contentType]);
-      if (contentLength && !hasContentLength) headers.push(["content-length", String(contentLength)]);
+      if (contentLength && !hasContentLength)
+        headers.push(["content-length", String(contentLength)]);
       this.#init = void 0;
       this.#headers = void 0;
       this.#response = void 0;
@@ -254,7 +287,7 @@ const NodeResponse = /* @__PURE__ */ (() => {
         status,
         statusText,
         headers,
-        body
+        body,
       };
     }
   }
@@ -286,7 +319,7 @@ var H3Event = class {
     this.url = url;
   }
   get res() {
-    return this[kEventRes] ||= new H3EventResponse();
+    return (this[kEventRes] ||= new H3EventResponse());
   }
   get runtime() {
     return this.req.runtime;
@@ -317,10 +350,10 @@ var H3EventResponse = class {
   status;
   statusText;
   get headers() {
-    return this[kEventResHeaders] ||= new Headers();
+    return (this[kEventResHeaders] ||= new Headers());
   }
   get errHeaders() {
-    return this[kEventResErrHeaders] ||= new Headers();
+    return (this[kEventResErrHeaders] ||= new Headers());
   }
 };
 const DISALLOWED_STATUS_CHARS = /[^\u0009\u0020-\u007E]/g;
@@ -351,7 +384,7 @@ var HTTPError = class HTTPError2 extends Error {
     return new HTTPError2({
       ...details,
       statusText,
-      status
+      status,
     });
   }
   constructor(arg1, arg2) {
@@ -361,13 +394,26 @@ var HTTPError = class HTTPError2 extends Error {
       messageInput = arg1;
       details = arg2;
     } else details = arg1;
-    const status = sanitizeStatusCode(details?.status || details?.statusCode || details?.cause?.status || details?.cause?.statusCode, 500);
-    const statusText = sanitizeStatusMessage(details?.statusText || details?.statusMessage || details?.cause?.statusText || details?.cause?.statusMessage);
-    const message = messageInput || details?.message || details?.cause?.message || details?.statusText || details?.statusMessage || [
-      "HTTPError",
-      status,
-      statusText
-    ].filter(Boolean).join(" ");
+    const status = sanitizeStatusCode(
+      details?.status ||
+        details?.statusCode ||
+        details?.cause?.status ||
+        details?.cause?.statusCode,
+      500,
+    );
+    const statusText = sanitizeStatusMessage(
+      details?.statusText ||
+        details?.statusMessage ||
+        details?.cause?.statusText ||
+        details?.cause?.statusMessage,
+    );
+    const message =
+      messageInput ||
+      details?.message ||
+      details?.cause?.message ||
+      details?.statusText ||
+      details?.statusMessage ||
+      ["HTTPError", status, statusText].filter(Boolean).join(" ");
     super(message, { cause: details });
     this.cause = details;
     this.status = status;
@@ -392,7 +438,7 @@ var HTTPError = class HTTPError2 extends Error {
       unhandled,
       message: unhandled ? "HTTPError" : this.message,
       data: unhandled ? void 0 : this.data,
-      ...unhandled ? void 0 : this.body
+      ...(unhandled ? void 0 : this.body),
     };
   }
 };
@@ -409,7 +455,10 @@ function isJSONSerializable(value, _type) {
 const kNotFound = /* @__PURE__ */ Symbol.for("h3.notFound");
 const kHandled = /* @__PURE__ */ Symbol.for("h3.handled");
 function toResponse(val, event, config = {}) {
-  if (typeof val?.then === "function") return (val.catch?.((error) => error) || Promise.resolve(val)).then((resolvedVal) => toResponse(resolvedVal, event, config));
+  if (typeof val?.then === "function")
+    return (val.catch?.((error) => error) || Promise.resolve(val)).then((resolvedVal) =>
+      toResponse(resolvedVal, event, config),
+    );
   const response = prepareResponse(val, event, config);
   if (typeof response?.then === "function") return toResponse(response, event, config);
   const { onResponse } = config;
@@ -430,15 +479,16 @@ var HTTPResponse = class {
     return this.#init?.statusText || "OK";
   }
   get headers() {
-    return this.#headers ||= new Headers(this.#init?.headers);
+    return (this.#headers ||= new Headers(this.#init?.headers));
   }
 };
 function prepareResponse(val, event, config, nested) {
   if (val === kHandled) return new NodeResponse(null);
-  if (val === kNotFound) val = new HTTPError({
-    status: 404,
-    message: `Cannot find any route matching [${event.req.method}] ${event.url}`
-  });
+  if (val === kNotFound)
+    val = new HTTPError({
+      status: 404,
+      message: `Cannot find any route matching [${event.req.method}] ${event.url}`,
+    });
   if (val && val instanceof Error) {
     const isHTTPError = HTTPError.isError(val);
     const error = isHTTPError ? val : new HTTPError(val);
@@ -449,7 +499,11 @@ function prepareResponse(val, event, config, nested) {
     if (error.unhandled && !config.silent) console.error(error);
     const { onError } = config;
     const errHeaders = event[kEventRes]?.[kEventResErrHeaders];
-    return onError && !nested ? Promise.resolve(onError(error, event)).catch((error2) => error2).then((newVal) => prepareResponse(newVal ?? val, event, config, true)) : errorResponse(error, config.debug, errHeaders);
+    return onError && !nested
+      ? Promise.resolve(onError(error, event))
+          .catch((error2) => error2)
+          .then((newVal) => prepareResponse(newVal ?? val, event, config, true))
+      : errorResponse(error, config.debug, errHeaders);
   }
   const preparedRes = event[kEventRes];
   const preparedHeaders = preparedRes?.[kEventResHeaders];
@@ -460,7 +514,10 @@ function prepareResponse(val, event, config, nested) {
     return new NodeResponse(nullBody(event.req.method, status) ? null : res.body, {
       status,
       statusText: res.statusText || preparedRes?.statusText,
-      headers: res.headers && preparedHeaders ? mergeHeaders$1(res.headers, preparedHeaders) : res.headers || preparedHeaders
+      headers:
+        res.headers && preparedHeaders
+          ? mergeHeaders$1(res.headers, preparedHeaders)
+          : res.headers || preparedHeaders,
     });
   }
   if (!preparedHeaders || nested || !val.ok) return val;
@@ -471,30 +528,36 @@ function prepareResponse(val, event, config, nested) {
     return new NodeResponse(nullBody(event.req.method, val.status) ? null : val.body, {
       status: val.status,
       statusText: val.statusText,
-      headers: mergeHeaders$1(val.headers, preparedHeaders)
+      headers: mergeHeaders$1(val.headers, preparedHeaders),
     });
   }
 }
 function mergeHeaders$1(base, overrides, target = new Headers(base)) {
-  for (const [name, value] of overrides) if (name === "set-cookie") target.append(name, value);
-  else target.set(name, value);
+  for (const [name, value] of overrides)
+    if (name === "set-cookie") target.append(name, value);
+    else target.set(name, value);
   return target;
 }
-const frozen = (name) => (...args) => {
-  throw new Error(`Headers are frozen (${name} ${args.join(", ")})`);
-};
+const frozen =
+  (name) =>
+  (...args) => {
+    throw new Error(`Headers are frozen (${name} ${args.join(", ")})`);
+  };
 var FrozenHeaders = class extends Headers {
   set = frozen("set");
   append = frozen("append");
   delete = frozen("delete");
 };
 const emptyHeaders = /* @__PURE__ */ new FrozenHeaders({ "content-length": "0" });
-const jsonHeaders = /* @__PURE__ */ new FrozenHeaders({ "content-type": "application/json;charset=UTF-8" });
+const jsonHeaders = /* @__PURE__ */ new FrozenHeaders({
+  "content-type": "application/json;charset=UTF-8",
+});
 function prepareResponseBody(val, event, config) {
-  if (val === null || val === void 0) return {
-    body: "",
-    headers: emptyHeaders
-  };
+  if (val === null || val === void 0)
+    return {
+      body: "",
+      headers: emptyHeaders,
+    };
   const valType = typeof val;
   if (valType === "string") return { body: val };
   if (val instanceof Uint8Array) {
@@ -502,18 +565,20 @@ function prepareResponseBody(val, event, config) {
     return { body: val };
   }
   if (val instanceof HTTPResponse || val?.constructor?.name === "HTTPResponse") return val;
-  if (isJSONSerializable(val, valType)) return {
-    body: JSON.stringify(val, void 0, config.debug ? 2 : void 0),
-    headers: jsonHeaders
-  };
-  if (valType === "bigint") return {
-    body: val.toString(),
-    headers: jsonHeaders
-  };
+  if (isJSONSerializable(val, valType))
+    return {
+      body: JSON.stringify(val, void 0, config.debug ? 2 : void 0),
+      headers: jsonHeaders,
+    };
+  if (valType === "bigint")
+    return {
+      body: val.toString(),
+      headers: jsonHeaders,
+    };
   if (val instanceof Blob) {
     const headers = new Headers({
       "content-type": val.type,
-      "content-length": val.size.toString()
+      "content-length": val.size.toString(),
     });
     let filename = val.name;
     if (filename) {
@@ -522,7 +587,7 @@ function prepareResponseBody(val, event, config) {
     }
     return {
       body: val.stream(),
-      headers
+      headers,
     };
   }
   if (valType === "symbol") return { body: val.toString() };
@@ -530,30 +595,49 @@ function prepareResponseBody(val, event, config) {
   return { body: val };
 }
 function nullBody(method, status) {
-  return method === "HEAD" || status === 100 || status === 101 || status === 102 || status === 204 || status === 205 || status === 304;
+  return (
+    method === "HEAD" ||
+    status === 100 ||
+    status === 101 ||
+    status === 102 ||
+    status === 204 ||
+    status === 205 ||
+    status === 304
+  );
 }
 function errorResponse(error, debug, errHeaders) {
-  let headers = error.headers ? mergeHeaders$1(jsonHeaders, error.headers) : new Headers(jsonHeaders);
+  let headers = error.headers
+    ? mergeHeaders$1(jsonHeaders, error.headers)
+    : new Headers(jsonHeaders);
   if (errHeaders) headers = mergeHeaders$1(headers, errHeaders);
-  return new NodeResponse(JSON.stringify({
-    ...error.toJSON(),
-    stack: debug && error.stack ? error.stack.split("\n").map((l) => l.trim()) : void 0
-  }, void 0, debug ? 2 : void 0), {
-    status: error.status,
-    statusText: error.statusText,
-    headers
-  });
+  return new NodeResponse(
+    JSON.stringify(
+      {
+        ...error.toJSON(),
+        stack: debug && error.stack ? error.stack.split("\n").map((l) => l.trim()) : void 0,
+      },
+      void 0,
+      debug ? 2 : void 0,
+    ),
+    {
+      status: error.status,
+      statusText: error.statusText,
+      headers,
+    },
+  );
 }
 var GLOBAL_EVENT_STORAGE_KEY = /* @__PURE__ */ Symbol.for("tanstack-start:event-storage");
 var globalObj$1 = globalThis;
-if (!globalObj$1[GLOBAL_EVENT_STORAGE_KEY]) globalObj$1[GLOBAL_EVENT_STORAGE_KEY] = new AsyncLocalStorage();
+if (!globalObj$1[GLOBAL_EVENT_STORAGE_KEY])
+  globalObj$1[GLOBAL_EVENT_STORAGE_KEY] = new AsyncLocalStorage();
 var eventStorage = globalObj$1[GLOBAL_EVENT_STORAGE_KEY];
 function isPromiseLike(value) {
   return typeof value.then === "function";
 }
 function getSetCookieValues(headers) {
   const headersWithSetCookie = headers;
-  if (typeof headersWithSetCookie.getSetCookie === "function") return headersWithSetCookie.getSetCookie();
+  if (typeof headersWithSetCookie.getSetCookie === "function")
+    return headersWithSetCookie.getSetCookie();
   const value = headers.get("set-cookie");
   return value ? [value] : [];
 }
@@ -567,10 +651,11 @@ function mergeEventResponseHeaders(response, event) {
   for (const cookie of eventSetCookies) response.headers.append("set-cookie", cookie);
 }
 function attachResponseHeaders(value, event) {
-  if (isPromiseLike(value)) return value.then((resolved) => {
-    if (resolved instanceof Response) mergeEventResponseHeaders(resolved, event);
-    return resolved;
-  });
+  if (isPromiseLike(value))
+    return value.then((resolved) => {
+      if (resolved instanceof Response) mergeEventResponseHeaders(resolved, event);
+      return resolved;
+    });
   if (value instanceof Response) mergeEventResponseHeaders(value, event);
   return value;
 }
@@ -580,18 +665,28 @@ function requestHandler(handler) {
     try {
       h3Event = new H3Event(request);
     } catch (error) {
-      if (error instanceof URIError) return new Response(null, {
-        status: 400,
-        statusText: "Bad Request"
-      });
+      if (error instanceof URIError)
+        return new Response(null, {
+          status: 400,
+          statusText: "Bad Request",
+        });
       throw error;
     }
-    return toResponse(attachResponseHeaders(eventStorage.run({ h3Event }, () => handler(request, requestOpts)), h3Event), h3Event);
+    return toResponse(
+      attachResponseHeaders(
+        eventStorage.run({ h3Event }, () => handler(request, requestOpts)),
+        h3Event,
+      ),
+      h3Event,
+    );
   };
 }
 function getH3Event() {
   const event = eventStorage.getStore();
-  if (!event) throw new Error(`No StartEvent found in AsyncLocalStorage. Make sure you are using the function within the server runtime.`);
+  if (!event)
+    throw new Error(
+      `No StartEvent found in AsyncLocalStorage. Make sure you are using the function within the server runtime.`,
+    );
   return event.h3Event;
 }
 function getResponse() {
@@ -617,14 +712,16 @@ function decodeSegment(segment) {
   return sanitizePathSegment(decoded);
 }
 function decodePath(path) {
-  if (!path) return {
-    path,
-    handledProtocolRelativeURL: false
-  };
-  if (!/[%\\\x00-\x1f\x7f]/.test(path) && !path.startsWith("//")) return {
-    path,
-    handledProtocolRelativeURL: false
-  };
+  if (!path)
+    return {
+      path,
+      handledProtocolRelativeURL: false,
+    };
+  if (!/[%\\\x00-\x1f\x7f]/.test(path) && !path.startsWith("//"))
+    return {
+      path,
+      handledProtocolRelativeURL: false,
+    };
   const re2 = /%25|%5C/gi;
   let cursor = 0;
   let result = "";
@@ -641,7 +738,7 @@ function decodePath(path) {
   }
   return {
     path: result,
-    handledProtocolRelativeURL
+    handledProtocolRelativeURL,
   };
 }
 function invariant() {
@@ -697,7 +794,7 @@ function createLRUCache(max) {
         const entry = {
           key,
           value,
-          prev: newest
+          prev: newest,
         };
         if (newest) newest.next = entry;
         newest = entry;
@@ -709,7 +806,7 @@ function createLRUCache(max) {
       cache.clear();
       oldest = void 0;
       newest = void 0;
-    }
+    },
   };
 }
 function isNotFound(obj) {
@@ -736,10 +833,12 @@ function createHistory(opts) {
   const subscribers = /* @__PURE__ */ new Set();
   const notify = (action) => {
     location = opts.getLocation();
-    subscribers.forEach((subscriber) => subscriber({
-      location,
-      action
-    }));
+    subscribers.forEach((subscriber) =>
+      subscriber({
+        location,
+        action,
+      }),
+    );
   };
   const handleIndexChange = (action) => {
     if (opts.notifyOnIndexChange ?? true) notify(action);
@@ -752,17 +851,20 @@ function createHistory(opts) {
     }
     const blockers = opts.getBlockers?.() ?? [];
     const isPushOrReplace = actionInfo.type === "PUSH" || actionInfo.type === "REPLACE";
-    if (typeof document !== "undefined" && blockers.length && isPushOrReplace) for (const blocker of blockers) {
-      const nextLocation = parseHref(actionInfo.path, actionInfo.state);
-      if (await blocker.blockerFn({
-        currentLocation: location,
-        nextLocation,
-        action: actionInfo.type
-      })) {
-        opts.onBlocked?.();
-        return;
+    if (typeof document !== "undefined" && blockers.length && isPushOrReplace)
+      for (const blocker of blockers) {
+        const nextLocation = parseHref(actionInfo.path, actionInfo.state);
+        if (
+          await blocker.blockerFn({
+            currentLocation: location,
+            nextLocation,
+            action: actionInfo.type,
+          })
+        ) {
+          opts.onBlocked?.();
+          return;
+        }
       }
-    }
     task();
   };
   return {
@@ -790,7 +892,7 @@ function createHistory(opts) {
         navigateOpts,
         type: "PUSH",
         path,
-        state
+        state,
       });
     },
     replace: (path, state, navigateOpts) => {
@@ -804,7 +906,7 @@ function createHistory(opts) {
         navigateOpts,
         type: "REPLACE",
         path,
-        state
+        state,
       });
     },
     go: (index, navigateOpts) => {
@@ -813,11 +915,11 @@ function createHistory(opts) {
           opts.go(index);
           handleIndexChange({
             type: "GO",
-            index
+            index,
           });
         },
         navigateOpts,
-        type: "GO"
+        type: "GO",
       });
     },
     back: (navigateOpts) => {
@@ -827,7 +929,7 @@ function createHistory(opts) {
           handleIndexChange({ type: "BACK" });
         },
         navigateOpts,
-        type: "BACK"
+        type: "BACK",
       });
     },
     forward: (navigateOpts) => {
@@ -837,14 +939,13 @@ function createHistory(opts) {
           handleIndexChange({ type: "FORWARD" });
         },
         navigateOpts,
-        type: "FORWARD"
+        type: "FORWARD",
       });
     },
     canGoBack: () => location.state[stateIndexKey] !== 0,
     createHref: (str) => opts.createHref(str),
     block: (blocker) => {
-      if (!opts.setBlockers) return () => {
-      };
+      if (!opts.setBlockers) return () => {};
       const blockers = opts.getBlockers?.() ?? [];
       opts.setBlockers([...blockers, blocker]);
       return () => {
@@ -854,7 +955,7 @@ function createHistory(opts) {
     },
     flush: () => opts.flush?.(),
     destroy: () => opts.destroy?.(),
-    notify
+    notify,
   };
 }
 function assignKeyAndIndex(index, state) {
@@ -864,17 +965,19 @@ function assignKeyAndIndex(index, state) {
     ...state,
     key,
     __TSR_key: key,
-    [stateIndexKey]: index
+    [stateIndexKey]: index,
   };
 }
 function createMemoryHistory(opts = { initialEntries: ["/"] }) {
   const entries = opts.initialEntries;
-  let index = opts.initialIndex ? Math.min(Math.max(opts.initialIndex, 0), entries.length - 1) : entries.length - 1;
+  let index = opts.initialIndex
+    ? Math.min(Math.max(opts.initialIndex, 0), entries.length - 1)
+    : entries.length - 1;
   const states = entries.map((_entry, index2) => assignKeyAndIndex(index2, void 0));
   const getLocation = () => parseHref(entries[index], states[index]);
   let blockers = [];
   const _getBlockers = () => blockers;
-  const _setBlockers = (newBlockers) => blockers = newBlockers;
+  const _setBlockers = (newBlockers) => (blockers = newBlockers);
   return createHistory({
     getLocation,
     getLength: () => entries.length,
@@ -902,7 +1005,7 @@ function createMemoryHistory(opts = { initialEntries: ["/"] }) {
     },
     createHref: (path) => path,
     getBlockers: _getBlockers,
-    setBlockers: _setBlockers
+    setBlockers: _setBlockers,
   });
 }
 function sanitizePath(path) {
@@ -917,14 +1020,26 @@ function parseHref(href, state) {
   const addedKey = createRandomKey();
   return {
     href: sanitizedHref,
-    pathname: sanitizedHref.substring(0, hashIndex > 0 ? searchIndex > 0 ? Math.min(hashIndex, searchIndex) : hashIndex : searchIndex > 0 ? searchIndex : sanitizedHref.length),
+    pathname: sanitizedHref.substring(
+      0,
+      hashIndex > 0
+        ? searchIndex > 0
+          ? Math.min(hashIndex, searchIndex)
+          : hashIndex
+        : searchIndex > 0
+          ? searchIndex
+          : sanitizedHref.length,
+    ),
     hash: hashIndex > -1 ? sanitizedHref.substring(hashIndex) : "",
-    search: searchIndex > -1 ? sanitizedHref.slice(searchIndex, hashIndex === -1 ? void 0 : hashIndex) : "",
+    search:
+      searchIndex > -1
+        ? sanitizedHref.slice(searchIndex, hashIndex === -1 ? void 0 : hashIndex)
+        : "",
     state: state || {
       [stateIndexKey]: 0,
       key: addedKey,
-      __TSR_key: addedKey
-    }
+      __TSR_key: addedKey,
+    },
   };
 }
 function createRandomKey() {
@@ -940,35 +1055,39 @@ function getScriptPreloadAttrs(manifest2, link, assetCrossOrigin) {
   const preloadLink = resolveManifestAssetLink(link);
   const crossOrigin = getAssetCrossOrigin() ?? preloadLink.crossOrigin;
   return {
-    ...getManifestScriptFormat(manifest2) === "iife" ? {
-      rel: "preload",
-      as: "script"
-    } : { rel: "modulepreload" },
+    ...(getManifestScriptFormat(manifest2) === "iife"
+      ? {
+          rel: "preload",
+          as: "script",
+        }
+      : { rel: "modulepreload" }),
     href: preloadLink.href,
-    ...crossOrigin ? { crossOrigin } : {}
+    ...(crossOrigin ? { crossOrigin } : {}),
   };
 }
 function resolveManifestAssetLink(link) {
-  if (typeof link === "string") return {
-    href: link,
-    crossOrigin: void 0
-  };
+  if (typeof link === "string")
+    return {
+      href: link,
+      crossOrigin: void 0,
+    };
   return link;
 }
 function getStylesheetHref(asset) {
   return resolveManifestCssLink(asset).href;
 }
 function resolveManifestCssLink(link) {
-  if (typeof link === "string") return {
-    href: link,
-    crossOrigin: void 0
-  };
+  if (typeof link === "string")
+    return {
+      href: link,
+      crossOrigin: void 0,
+    };
   return link;
 }
 function createInlineCssStyleAsset(css) {
   return {
     attrs: { suppressHydrationWarning: true },
-    children: css
+    children: css,
   };
 }
 function createInlineCssPlaceholderAsset() {
@@ -976,17 +1095,117 @@ function createInlineCssPlaceholderAsset() {
 }
 const GLOBAL_TSR = "$_TSR";
 const TSR_SCRIPT_BARRIER_ID = "$tsr-stream-barrier";
-var M = ((i) => (i[i.AggregateError = 1] = "AggregateError", i[i.ArrowFunction = 2] = "ArrowFunction", i[i.ErrorPrototypeStack = 4] = "ErrorPrototypeStack", i[i.ObjectAssign = 8] = "ObjectAssign", i[i.BigIntTypedArray = 16] = "BigIntTypedArray", i[i.RegExp = 32] = "RegExp", i))(M || {});
-var v = Symbol.asyncIterator, pr = Symbol.hasInstance, R = Symbol.isConcatSpreadable, C = Symbol.iterator, dr = Symbol.match, gr = Symbol.matchAll, yr = Symbol.replace, Nr = Symbol.search, br = Symbol.species, vr = Symbol.split, Cr = Symbol.toPrimitive, P$1 = Symbol.toStringTag, Ar = Symbol.unscopables;
-var tt = { 0: "Symbol.asyncIterator", 1: "Symbol.hasInstance", 2: "Symbol.isConcatSpreadable", 3: "Symbol.iterator", 4: "Symbol.match", 5: "Symbol.matchAll", 6: "Symbol.replace", 7: "Symbol.search", 8: "Symbol.species", 9: "Symbol.split", 10: "Symbol.toPrimitive", 11: "Symbol.toStringTag", 12: "Symbol.unscopables" }, ve = { [v]: 0, [pr]: 1, [R]: 2, [C]: 3, [dr]: 4, [gr]: 5, [yr]: 6, [Nr]: 7, [br]: 8, [vr]: 9, [Cr]: 10, [P$1]: 11, [Ar]: 12 }, nt = { 0: v, 1: pr, 2: R, 3: C, 4: dr, 5: gr, 6: yr, 7: Nr, 8: br, 9: vr, 10: Cr, 11: P$1, 12: Ar }, ot = { 2: "!0", 3: "!1", 1: "void 0", 0: "null", 4: "-0", 5: "1/0", 6: "-1/0", 7: "0/0" }, o = void 0, at = { 2: true, 3: false, 1: o, 0: null, 4: -0, 5: Number.POSITIVE_INFINITY, 6: Number.NEGATIVE_INFINITY, 7: Number.NaN };
-var Ce = { 0: "Error", 1: "EvalError", 2: "RangeError", 3: "ReferenceError", 4: "SyntaxError", 5: "TypeError", 6: "URIError" }, st = { 0: Error, 1: EvalError, 2: RangeError, 3: ReferenceError, 4: SyntaxError, 5: TypeError, 6: URIError };
+var M = ((i) => (
+  (i[(i.AggregateError = 1)] = "AggregateError"),
+  (i[(i.ArrowFunction = 2)] = "ArrowFunction"),
+  (i[(i.ErrorPrototypeStack = 4)] = "ErrorPrototypeStack"),
+  (i[(i.ObjectAssign = 8)] = "ObjectAssign"),
+  (i[(i.BigIntTypedArray = 16)] = "BigIntTypedArray"),
+  (i[(i.RegExp = 32)] = "RegExp"),
+  i
+))(M || {});
+var v = Symbol.asyncIterator,
+  pr = Symbol.hasInstance,
+  R = Symbol.isConcatSpreadable,
+  C = Symbol.iterator,
+  dr = Symbol.match,
+  gr = Symbol.matchAll,
+  yr = Symbol.replace,
+  Nr = Symbol.search,
+  br = Symbol.species,
+  vr = Symbol.split,
+  Cr = Symbol.toPrimitive,
+  P$1 = Symbol.toStringTag,
+  Ar = Symbol.unscopables;
+var tt = {
+    0: "Symbol.asyncIterator",
+    1: "Symbol.hasInstance",
+    2: "Symbol.isConcatSpreadable",
+    3: "Symbol.iterator",
+    4: "Symbol.match",
+    5: "Symbol.matchAll",
+    6: "Symbol.replace",
+    7: "Symbol.search",
+    8: "Symbol.species",
+    9: "Symbol.split",
+    10: "Symbol.toPrimitive",
+    11: "Symbol.toStringTag",
+    12: "Symbol.unscopables",
+  },
+  ve = {
+    [v]: 0,
+    [pr]: 1,
+    [R]: 2,
+    [C]: 3,
+    [dr]: 4,
+    [gr]: 5,
+    [yr]: 6,
+    [Nr]: 7,
+    [br]: 8,
+    [vr]: 9,
+    [Cr]: 10,
+    [P$1]: 11,
+    [Ar]: 12,
+  },
+  nt = {
+    0: v,
+    1: pr,
+    2: R,
+    3: C,
+    4: dr,
+    5: gr,
+    6: yr,
+    7: Nr,
+    8: br,
+    9: vr,
+    10: Cr,
+    11: P$1,
+    12: Ar,
+  },
+  ot = { 2: "!0", 3: "!1", 1: "void 0", 0: "null", 4: "-0", 5: "1/0", 6: "-1/0", 7: "0/0" },
+  o = void 0,
+  at = {
+    2: true,
+    3: false,
+    1: o,
+    0: null,
+    4: -0,
+    5: Number.POSITIVE_INFINITY,
+    6: Number.NEGATIVE_INFINITY,
+    7: Number.NaN,
+  };
+var Ce = {
+    0: "Error",
+    1: "EvalError",
+    2: "RangeError",
+    3: "ReferenceError",
+    4: "SyntaxError",
+    5: "TypeError",
+    6: "URIError",
+  },
+  st = {
+    0: Error,
+    1: EvalError,
+    2: RangeError,
+    3: ReferenceError,
+    4: SyntaxError,
+    5: TypeError,
+    6: URIError,
+  };
 function c(e, r, t, n2, a, s, i, u, l, g, S, d) {
   return { t: e, i: r, s: t, c: n2, m: a, p: s, e: i, a: u, f: l, b: g, o: S, l: d };
 }
 function B(e) {
   return c(2, o, e, o, o, o, o, o, o, o, o, o);
 }
-var H = B(2), J = B(3), Ae = B(1), Ee = B(0), it = B(4), ut = B(5), lt = B(6), ct = B(7);
+var H = B(2),
+  J = B(3),
+  Ae = B(1),
+  Ee = B(0),
+  it = B(4),
+  ut = B(5),
+  lt = B(6),
+  ct = B(7);
 function mn(e) {
   switch (e) {
     case '"':
@@ -1015,9 +1234,12 @@ function mn(e) {
   }
 }
 function y(e) {
-  let r = "", t = 0, n2;
-  for (let a = 0, s = e.length; a < s; a++) n2 = mn(e[a]), n2 && (r += e.slice(t, a) + n2, t = a + 1);
-  return t === 0 ? r = e : r += e.slice(t), r;
+  let r = "",
+    t = 0,
+    n2;
+  for (let a = 0, s = e.length; a < s; a++)
+    ((n2 = mn(e[a])), n2 && ((r += e.slice(t, a) + n2), (t = a + 1)));
+  return (t === 0 ? (r = e) : (r += e.slice(t)), r);
 }
 function pn(e) {
   switch (e) {
@@ -1049,11 +1271,14 @@ function pn(e) {
 function D(e) {
   return e.replace(/(\\\\|\\"|\\n|\\r|\\b|\\t|\\f|\\u2028|\\u2029|\\x3C)/g, pn);
 }
-var L = "__SEROVAL_REFS__", le = "$R", Ie = `self.${le}`;
+var L = "__SEROVAL_REFS__",
+  le = "$R",
+  Ie = `self.${le}`;
 function dn(e) {
   return `(${Ie}=${Ie}||{})["${y(e)}"]=[]`;
 }
-var Er = /* @__PURE__ */ new Map(), U = /* @__PURE__ */ new Map();
+var Er = /* @__PURE__ */ new Map(),
+  U = /* @__PURE__ */ new Map();
 function Ir(e) {
   return Er.has(e);
 }
@@ -1068,17 +1293,65 @@ function St(e) {
   if (yn(e)) return U.get(e);
   throw new Pe(e);
 }
-typeof globalThis != "undefined" ? Object.defineProperty(globalThis, L, { value: U, configurable: true, writable: false, enumerable: false }) : typeof window != "undefined" ? Object.defineProperty(window, L, { value: U, configurable: true, writable: false, enumerable: false }) : typeof self != "undefined" ? Object.defineProperty(self, L, { value: U, configurable: true, writable: false, enumerable: false }) : typeof global != "undefined" && Object.defineProperty(global, L, { value: U, configurable: true, writable: false, enumerable: false });
+typeof globalThis != "undefined"
+  ? Object.defineProperty(globalThis, L, {
+      value: U,
+      configurable: true,
+      writable: false,
+      enumerable: false,
+    })
+  : typeof window != "undefined"
+    ? Object.defineProperty(window, L, {
+        value: U,
+        configurable: true,
+        writable: false,
+        enumerable: false,
+      })
+    : typeof self != "undefined"
+      ? Object.defineProperty(self, L, {
+          value: U,
+          configurable: true,
+          writable: false,
+          enumerable: false,
+        })
+      : typeof global != "undefined" &&
+        Object.defineProperty(global, L, {
+          value: U,
+          configurable: true,
+          writable: false,
+          enumerable: false,
+        });
 function xe(e) {
-  return e instanceof EvalError ? 1 : e instanceof RangeError ? 2 : e instanceof ReferenceError ? 3 : e instanceof SyntaxError ? 4 : e instanceof TypeError ? 5 : e instanceof URIError ? 6 : 0;
+  return e instanceof EvalError
+    ? 1
+    : e instanceof RangeError
+      ? 2
+      : e instanceof ReferenceError
+        ? 3
+        : e instanceof SyntaxError
+          ? 4
+          : e instanceof TypeError
+            ? 5
+            : e instanceof URIError
+              ? 6
+              : 0;
 }
 function Nn(e) {
   let r = Ce[xe(e)];
-  return e.name !== r ? { name: e.name } : e.constructor.name !== r ? { name: e.constructor.name } : {};
+  return e.name !== r
+    ? { name: e.name }
+    : e.constructor.name !== r
+      ? { name: e.constructor.name }
+      : {};
 }
 function Z(e, r) {
-  let t = Nn(e), n2 = Object.getOwnPropertyNames(e);
-  for (let a = 0, s = n2.length, i; a < s; a++) i = n2[a], i !== "name" && i !== "message" && (i === "stack" ? r & 4 && (t = t || {}, t[i] = e[i]) : (t = t || {}, t[i] = e[i]));
+  let t = Nn(e),
+    n2 = Object.getOwnPropertyNames(e);
+  for (let a = 0, s = n2.length, i; a < s; a++)
+    ((i = n2[a]),
+      i !== "name" &&
+        i !== "message" &&
+        (i === "stack" ? r & 4 && ((t = t || {}), (t[i] = e[i])) : ((t = t || {}), (t[i] = e[i]))));
   return t;
 }
 function Te(e) {
@@ -1167,62 +1440,73 @@ var bn = { parsing: 1, serialization: 2, deserialization: 3 };
 function vn(e) {
   return `Seroval Error (step: ${bn[e]})`;
 }
-var Cn = (e, r) => vn(e), fe = class extends Error {
-  constructor(t, n2) {
-    super(Cn(t));
-    this.cause = n2;
-  }
-}, z = class extends fe {
-  constructor(r) {
-    super("parsing", r);
-  }
-}, He = class extends fe {
-  constructor(r) {
-    super("deserialization", r);
-  }
-};
+var Cn = (e, r) => vn(e),
+  fe = class extends Error {
+    constructor(t, n2) {
+      super(Cn(t));
+      this.cause = n2;
+    }
+  },
+  z = class extends fe {
+    constructor(r) {
+      super("parsing", r);
+    }
+  },
+  He = class extends fe {
+    constructor(r) {
+      super("deserialization", r);
+    }
+  };
 function _(e) {
   return `Seroval Error (specific: ${e})`;
 }
 var x$1 = class x extends Error {
-  constructor(t) {
-    super(_(1));
-    this.value = t;
-  }
-}, h = class extends Error {
-  constructor(r) {
-    super(_(2));
-  }
-}, X = class extends Error {
-  constructor(r) {
-    super(_(3));
-  }
-}, V = class extends Error {
-  constructor(r) {
-    super(_(4));
-  }
-}, Re = class extends Error {
-  constructor(t) {
-    super(_(5));
-    this.value = t;
-  }
-}, Pe = class extends Error {
-  constructor(r) {
-    super(_(6));
-  }
-}, Je = class extends Error {
-  constructor(r) {
-    super(_(7));
-  }
-}, O = class extends Error {
-  constructor(r) {
-    super(_(8));
-  }
-}, Q = class extends Error {
-  constructor(r) {
-    super(_(9));
-  }
-};
+    constructor(t) {
+      super(_(1));
+      this.value = t;
+    }
+  },
+  h = class extends Error {
+    constructor(r) {
+      super(_(2));
+    }
+  },
+  X = class extends Error {
+    constructor(r) {
+      super(_(3));
+    }
+  },
+  V = class extends Error {
+    constructor(r) {
+      super(_(4));
+    }
+  },
+  Re = class extends Error {
+    constructor(t) {
+      super(_(5));
+      this.value = t;
+    }
+  },
+  Pe = class extends Error {
+    constructor(r) {
+      super(_(6));
+    }
+  },
+  Je = class extends Error {
+    constructor(r) {
+      super(_(7));
+    }
+  },
+  O = class extends Error {
+    constructor(r) {
+      super(_(8));
+    }
+  },
+  Q = class extends Error {
+    constructor(r) {
+      super(_(9));
+    }
+  };
 var j = class {
   constructor(r, t) {
     this.value = r;
@@ -1230,72 +1514,126 @@ var j = class {
   }
 };
 var ee$1 = () => {
-  let e = { p: 0, s: 0, f: 0 };
-  return e.p = new Promise((r, t) => {
-    e.s = r, e.f = t;
-  }), e;
-}, An = (e, r) => {
-  e.s(r), e.p.s = 1, e.p.v = r;
-}, En = (e, r) => {
-  e.f(r), e.p.s = 2, e.p.v = r;
-}, Nt = ee$1.toString(), bt = An.toString(), vt = En.toString(), Pr = () => {
-  let e = [], r = [], t = true, n2 = false, a = 0, s = (l, g, S) => {
-    for (S = 0; S < a; S++) r[S] && r[S][g](l);
-  }, i = (l, g, S, d) => {
-    for (g = 0, S = e.length; g < S; g++) d = e[g], !t && g === S - 1 ? l[n2 ? "return" : "throw"](d) : l.next(d);
-  }, u = (l, g) => (t && (g = a++, r[g] = l), i(l), () => {
-    t && (r[g] = r[a], r[a--] = void 0);
-  });
-  return { __SEROVAL_STREAM__: true, on: (l) => u(l), next: (l) => {
-    t && (e.push(l), s(l, "next"));
-  }, throw: (l) => {
-    t && (e.push(l), s(l, "throw"), t = false, n2 = false, r.length = 0);
-  }, return: (l) => {
-    t && (e.push(l), s(l, "return"), t = false, n2 = true, r.length = 0);
-  } };
-}, Ct = Pr.toString(), xr = (e) => (r) => () => {
-  let t = 0, n2 = { [e]: () => n2, next: () => {
-    if (t > r.d) return { done: true, value: void 0 };
-    let a = t++, s = r.v[a];
-    if (a === r.t) throw s;
-    return { done: a === r.d, value: s };
-  } };
-  return n2;
-}, At = xr.toString(), Tr = (e, r) => (t) => () => {
-  let n2 = 0, a = -1, s = false, i = [], u = [], l = (S = 0, d = u.length) => {
-    for (; S < d; S++) u[S].s({ done: true, value: void 0 });
-  };
-  t.on({ next: (S) => {
-    let d = u.shift();
-    d && d.s({ done: false, value: S }), i.push(S);
-  }, throw: (S) => {
-    let d = u.shift();
-    d && d.f(S), l(), a = i.length, s = true, i.push(S);
-  }, return: (S) => {
-    let d = u.shift();
-    d && d.s({ done: true, value: S }), l(), a = i.length, i.push(S);
-  } });
-  let g = { [e]: () => g, next: () => {
-    if (a === -1) {
-      let G = n2++;
-      if (G >= i.length) {
-        let rt = r();
-        return u.push(rt), rt.p;
-      }
-      return { done: false, value: i[G] };
-    }
-    if (n2 > a) return { done: true, value: void 0 };
-    let S = n2++, d = i[S];
-    if (S !== a) return { done: false, value: d };
-    if (s) throw d;
-    return { done: true, value: d };
-  } };
-  return g;
-}, Et = Tr.toString(), Or = (e) => {
-  let r = atob(e), t = r.length, n2 = new Uint8Array(t);
-  for (let a = 0; a < t; a++) n2[a] = r.charCodeAt(a);
-  return n2.buffer;
-}, It = Or.toString();
+    let e = { p: 0, s: 0, f: 0 };
+    return (
+      (e.p = new Promise((r, t) => {
+        ((e.s = r), (e.f = t));
+      })),
+      e
+    );
+  },
+  An = (e, r) => {
+    (e.s(r), (e.p.s = 1), (e.p.v = r));
+  },
+  En = (e, r) => {
+    (e.f(r), (e.p.s = 2), (e.p.v = r));
+  },
+  Nt = ee$1.toString(),
+  bt = An.toString(),
+  vt = En.toString(),
+  Pr = () => {
+    let e = [],
+      r = [],
+      t = true,
+      n2 = false,
+      a = 0,
+      s = (l, g, S) => {
+        for (S = 0; S < a; S++) r[S] && r[S][g](l);
+      },
+      i = (l, g, S, d) => {
+        for (g = 0, S = e.length; g < S; g++)
+          ((d = e[g]), !t && g === S - 1 ? l[n2 ? "return" : "throw"](d) : l.next(d));
+      },
+      u = (l, g) => (
+        t && ((g = a++), (r[g] = l)),
+        i(l),
+        () => {
+          t && ((r[g] = r[a]), (r[a--] = void 0));
+        }
+      );
+    return {
+      __SEROVAL_STREAM__: true,
+      on: (l) => u(l),
+      next: (l) => {
+        t && (e.push(l), s(l, "next"));
+      },
+      throw: (l) => {
+        t && (e.push(l), s(l, "throw"), (t = false), (n2 = false), (r.length = 0));
+      },
+      return: (l) => {
+        t && (e.push(l), s(l, "return"), (t = false), (n2 = true), (r.length = 0));
+      },
+    };
+  },
+  Ct = Pr.toString(),
+  xr = (e) => (r) => () => {
+    let t = 0,
+      n2 = {
+        [e]: () => n2,
+        next: () => {
+          if (t > r.d) return { done: true, value: void 0 };
+          let a = t++,
+            s = r.v[a];
+          if (a === r.t) throw s;
+          return { done: a === r.d, value: s };
+        },
+      };
+    return n2;
+  },
+  At = xr.toString(),
+  Tr = (e, r) => (t) => () => {
+    let n2 = 0,
+      a = -1,
+      s = false,
+      i = [],
+      u = [],
+      l = (S = 0, d = u.length) => {
+        for (; S < d; S++) u[S].s({ done: true, value: void 0 });
+      };
+    t.on({
+      next: (S) => {
+        let d = u.shift();
+        (d && d.s({ done: false, value: S }), i.push(S));
+      },
+      throw: (S) => {
+        let d = u.shift();
+        (d && d.f(S), l(), (a = i.length), (s = true), i.push(S));
+      },
+      return: (S) => {
+        let d = u.shift();
+        (d && d.s({ done: true, value: S }), l(), (a = i.length), i.push(S));
+      },
+    });
+    let g = {
+      [e]: () => g,
+      next: () => {
+        if (a === -1) {
+          let G = n2++;
+          if (G >= i.length) {
+            let rt = r();
+            return (u.push(rt), rt.p);
+          }
+          return { done: false, value: i[G] };
+        }
+        if (n2 > a) return { done: true, value: void 0 };
+        let S = n2++,
+          d = i[S];
+        if (S !== a) return { done: false, value: d };
+        if (s) throw d;
+        return { done: true, value: d };
+      },
+    };
+    return g;
+  },
+  Et = Tr.toString(),
+  Or = (e) => {
+    let r = atob(e),
+      t = r.length,
+      n2 = new Uint8Array(t);
+    for (let a = 0; a < t; a++) n2[a] = r.charCodeAt(a);
+    return n2.buffer;
+  },
+  It = Or.toString();
 function Ze(e) {
   return "__SEROVAL_SEQUENCE__" in e;
 }
@@ -1303,24 +1641,30 @@ function wr(e, r, t) {
   return { __SEROVAL_SEQUENCE__: true, v: e, t: r, d: t };
 }
 function $e(e) {
-  let r = [], t = -1, n2 = -1, a = e[C]();
-  for (; ; ) try {
-    let s = a.next();
-    if (r.push(s.value), s.done) {
-      n2 = r.length - 1;
-      break;
+  let r = [],
+    t = -1,
+    n2 = -1,
+    a = e[C]();
+  for (;;)
+    try {
+      let s = a.next();
+      if ((r.push(s.value), s.done)) {
+        n2 = r.length - 1;
+        break;
+      }
+    } catch (s) {
+      ((t = r.length), r.push(s));
     }
-  } catch (s) {
-    t = r.length, r.push(s);
-  }
   return wr(r, t, n2);
 }
 var In = xr(C);
 function Rt(e) {
   return In(e);
 }
-var Pt = {}, xt = {};
-var Tt = { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {} }, Ot = { 0: "[]", 1: Nt, 2: bt, 3: vt, 4: Ct, 5: It };
+var Pt = {},
+  xt = {};
+var Tt = { 0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {} },
+  Ot = { 0: "[]", 1: Nt, 2: bt, 3: vt, 4: Ct, 5: It };
 function Xe(e) {
   return "__SEROVAL_STREAM__" in e;
 }
@@ -1328,7 +1672,8 @@ function re() {
   return Pr();
 }
 function Qe(e) {
-  let r = re(), t = e[v]();
+  let r = re(),
+    t = e[v]();
   async function n2() {
     try {
       let a = await t.next();
@@ -1337,8 +1682,7 @@ function Qe(e) {
       r.throw(a);
     }
   }
-  return n2().catch(() => {
-  }), r;
+  return (n2().catch(() => {}), r);
 }
 var Rn = Tr(v, ee$1);
 function wt(e) {
@@ -1352,14 +1696,21 @@ async function hr(e) {
   }
 }
 function me(e, r) {
-  return { plugins: r.plugins, mode: e, marked: /* @__PURE__ */ new Set(), features: 63 ^ (r.disabledFeatures || 0), refs: r.refs || /* @__PURE__ */ new Map(), depthLimit: r.depthLimit || 1e3 };
+  return {
+    plugins: r.plugins,
+    mode: e,
+    marked: /* @__PURE__ */ new Set(),
+    features: 63 ^ (r.disabledFeatures || 0),
+    refs: r.refs || /* @__PURE__ */ new Map(),
+    depthLimit: r.depthLimit || 1e3,
+  };
 }
 function pe(e, r) {
   e.marked.add(r);
 }
 function zr(e, r) {
   let t = e.refs.size;
-  return e.refs.set(r, t), t;
+  return (e.refs.set(r, t), t);
 }
 function er(e, r) {
   let t = e.refs.get(r);
@@ -1397,7 +1748,8 @@ function zt(e, r, t) {
   return c(22, r, t, o, o, o, o, o, k(e, 1), o, o, o);
 }
 function ar(e, r, t) {
-  let n2 = new Uint8Array(t), a = "";
+  let n2 = new Uint8Array(t),
+    a = "";
   for (let s = 0, i = n2.length; s < i; s++) a += String.fromCharCode(n2[s]);
   return c(19, r, y(btoa(a)), o, o, o, o, o, k(e, 5), o, o, o);
 }
@@ -1415,16 +1767,24 @@ var kr = class {
 };
 async function xn(e, r, t) {
   let n2 = [];
-  for (let a = 0, s = t.length; a < s; a++) a in t ? n2[a] = await N(e, r, t[a]) : n2[a] = 0;
+  for (let a = 0, s = t.length; a < s; a++) a in t ? (n2[a] = await N(e, r, t[a])) : (n2[a] = 0);
   return n2;
 }
 async function Tn(e, r, t, n2) {
   return _e(t, n2, await xn(e, r, n2));
 }
 async function Dr(e, r, t) {
-  let n2 = Object.entries(t), a = [], s = [];
-  for (let i = 0, u = n2.length; i < u; i++) a.push(y(n2[i][0])), s.push(await N(e, r, n2[i][1]));
-  return C in t && (a.push(I(e.base, C)), s.push(Ue(rr(e.base), await N(e, r, $e(t))))), v in t && (a.push(I(e.base, v)), s.push(je(tr(e.base), await N(e, r, Qe(t))))), P$1 in t && (a.push(I(e.base, P$1)), s.push($(t[P$1]))), R in t && (a.push(I(e.base, R)), s.push(t[R] ? H : J)), { k: a, v: s };
+  let n2 = Object.entries(t),
+    a = [],
+    s = [];
+  for (let i = 0, u = n2.length; i < u; i++) (a.push(y(n2[i][0])), s.push(await N(e, r, n2[i][1])));
+  return (
+    C in t && (a.push(I(e.base, C)), s.push(Ue(rr(e.base), await N(e, r, $e(t))))),
+    v in t && (a.push(I(e.base, v)), s.push(je(tr(e.base), await N(e, r, Qe(t))))),
+    P$1 in t && (a.push(I(e.base, P$1)), s.push($(t[P$1]))),
+    R in t && (a.push(I(e.base, R)), s.push(t[R] ? H : J)),
+    { k: a, v: s }
+  );
 }
 async function _r(e, r, t, n2, a) {
   return nr(t, n2, a, await Dr(e, r, n2));
@@ -1450,8 +1810,9 @@ async function _n(e, r, t, n2) {
   return Me(t, n2, a ? await Dr(e, r, a) : o);
 }
 async function kn(e, r, t, n2) {
-  let a = [], s = [];
-  for (let [i, u] of n2.entries()) a.push(await N(e, r, i)), s.push(await N(e, r, u));
+  let a = [],
+    s = [];
+  for (let [i, u] of n2.entries()) (a.push(await N(e, r, i)), s.push(await N(e, r, u)));
   return or(e.base, t, a, s);
 }
 async function Dn(e, r, t, n2) {
@@ -1461,10 +1822,12 @@ async function Dn(e, r, t, n2) {
 }
 async function kt(e, r, t, n2) {
   let a = e.base.plugins;
-  if (a) for (let s = 0, i = a.length; s < i; s++) {
-    let u = a[s];
-    if (u.parse.async && u.test(n2)) return ce(t, u.tag, await u.parse.async(n2, new kr(e, r), { id: t }));
-  }
+  if (a)
+    for (let s = 0, i = a.length; s < i; s++) {
+      let u = a[s];
+      if (u.parse.async && u.test(n2))
+        return ce(t, u.tag, await u.parse.async(n2, new kr(e, r), { id: t }));
+    }
   return o;
 }
 async function Fn(e, r, t, n2) {
@@ -1472,25 +1835,42 @@ async function Fn(e, r, t, n2) {
   return c(12, t, a, o, o, o, o, o, await N(e, r, s), o, o, o);
 }
 function Bn(e, r, t, n2, a) {
-  let s = [], i = t.on({ next: (u) => {
-    pe(this.base, r), N(this, e, u).then((l) => {
-      s.push(qe(r, l));
-    }, (l) => {
-      a(l), i();
+  let s = [],
+    i = t.on({
+      next: (u) => {
+        (pe(this.base, r),
+          N(this, e, u).then(
+            (l) => {
+              s.push(qe(r, l));
+            },
+            (l) => {
+              (a(l), i());
+            },
+          ));
+      },
+      throw: (u) => {
+        (pe(this.base, r),
+          N(this, e, u).then(
+            (l) => {
+              (s.push(We(r, l)), n2(s), i());
+            },
+            (l) => {
+              (a(l), i());
+            },
+          ));
+      },
+      return: (u) => {
+        (pe(this.base, r),
+          N(this, e, u).then(
+            (l) => {
+              (s.push(Ge(r, l)), n2(s), i());
+            },
+            (l) => {
+              (a(l), i());
+            },
+          ));
+      },
     });
-  }, throw: (u) => {
-    pe(this.base, r), N(this, e, u).then((l) => {
-      s.push(We(r, l)), n2(s), i();
-    }, (l) => {
-      a(l), i();
-    });
-  }, return: (u) => {
-    pe(this.base, r), N(this, e, u).then((l) => {
-      s.push(Ge(r, l)), n2(s), i();
-    }, (l) => {
-      a(l), i();
-    });
-  } });
 }
 async function Vn(e, r, t, n2) {
   return Ye(t, k(e.base, 4), await new Promise(Bn.bind(e, r, t, n2)));
@@ -1550,12 +1930,18 @@ async function Ln(e, r, t, n2) {
   if (a === Promise || n2 instanceof Promise) return Fn(e, r, t, n2);
   let i = e.base.features;
   if (i & 32 && a === RegExp) return ze(t, n2);
-  if (i & 16) switch (a) {
-    case BigInt64Array:
-    case BigUint64Array:
-      return hn(e, r, t, n2);
-  }
-  if (i & 1 && typeof AggregateError != "undefined" && (a === AggregateError || n2 instanceof AggregateError)) return _n(e, r, t, n2);
+  if (i & 16)
+    switch (a) {
+      case BigInt64Array:
+      case BigUint64Array:
+        return hn(e, r, t, n2);
+    }
+  if (
+    i & 1 &&
+    typeof AggregateError != "undefined" &&
+    (a === AggregateError || n2 instanceof AggregateError)
+  )
+    return _n(e, r, t, n2);
   if (n2 instanceof Error) return _t(e, r, t, n2);
   if (C in n2 || v in n2) return _r(e, r, t, n2, !!a);
   throw new x$1(n2);
@@ -1601,7 +1987,7 @@ async function ne(e, r) {
     throw t instanceof z ? t : new z(t);
   }
 }
-var oe = ((t) => (t[t.Vanilla = 1] = "Vanilla", t[t.Cross = 2] = "Cross", t))(oe || {});
+var oe = ((t) => ((t[(t.Vanilla = 1)] = "Vanilla"), (t[(t.Cross = 2)] = "Cross"), t))(oe || {});
 function ai(e) {
   return e;
 }
@@ -1614,7 +2000,7 @@ function Dt(e, r) {
 function A(e) {
   if (e) {
     let r = /* @__PURE__ */ new Set();
-    return Dt(r, e), [...r];
+    return (Dt(r, e), [...r]);
   }
 }
 function Ft(e) {
@@ -1645,7 +2031,9 @@ function Ft(e) {
       throw new Je(e);
   }
 }
-var jn = 1e6, Yn = 1e4, qn = 2e4;
+var jn = 1e6,
+  Yn = 1e4,
+  qn = 2e4;
 function Vt(e, r) {
   switch (r) {
     case 3:
@@ -1662,7 +2050,16 @@ var Wn = 1e3;
 function Mt(e, r) {
   var n2;
   let t = r.refs || /* @__PURE__ */ new Map();
-  return "types" in t || Object.assign(t, { types: /* @__PURE__ */ new Map() }), { mode: e, plugins: r.plugins, refs: t, features: (n2 = r.features) != null ? n2 : 63 ^ (r.disabledFeatures || 0), depthLimit: r.depthLimit || Wn };
+  return (
+    "types" in t || Object.assign(t, { types: /* @__PURE__ */ new Map() }),
+    {
+      mode: e,
+      plugins: r.plugins,
+      refs: t,
+      features: (n2 = r.features) != null ? n2 : 63 ^ (r.disabledFeatures || 0),
+      depthLimit: r.depthLimit || Wn,
+    }
+  );
 }
 function Lt(e) {
   return { mode: 1, base: Mt(1, e), child: o, state: { marked: new Set(e.markedRefs) } };
@@ -1681,10 +2078,10 @@ function jt(e, r) {
   if (e.refs.has(r)) throw new Error("Conflicted ref id: " + r);
 }
 function Gn(e, r, t) {
-  return jt(e.base, r), e.state.marked.has(r) && e.base.refs.set(r, t), t;
+  return (jt(e.base, r), e.state.marked.has(r) && e.base.refs.set(r, t), t);
 }
 function Kn(e, r, t) {
-  return jt(e.base, r), e.base.refs.set(r, t), t;
+  return (jt(e.base, r), e.base.refs.set(r, t), t);
 }
 function b(e, r, t) {
   return e.mode === 1 ? Gn(e, r, t) : Kn(e, r, t);
@@ -1697,9 +2094,11 @@ function Hn(e, r) {
   return b(e, r.i, St(D(r.s)));
 }
 function Jn(e, r, t) {
-  let n2 = t.a, a = n2.length, s = b(e, t.i, new Array(a));
-  for (let i = 0, u; i < a; i++) u = n2[i], u && (s[i] = p$1(e, r, u));
-  return Vt(s, t.o), s;
+  let n2 = t.a,
+    a = n2.length,
+    s = b(e, t.i, new Array(a));
+  for (let i = 0, u; i < a; i++) ((u = n2[i]), u && (s[i] = p$1(e, r, u)));
+  return (Vt(s, t.o), s);
 }
 function Zn(e) {
   switch (e) {
@@ -1727,7 +2126,14 @@ function $n(e) {
   }
 }
 function Bt(e, r, t) {
-  Zn(r) ? e[r] = t : Object.defineProperty(e, r, { value: t, configurable: true, enumerable: true, writable: true });
+  Zn(r)
+    ? (e[r] = t)
+    : Object.defineProperty(e, r, {
+        value: t,
+        configurable: true,
+        enumerable: true,
+        writable: true,
+      });
 }
 function Xn(e, r, t, n2, a) {
   if (typeof n2 == "string") Bt(t, D(n2), p$1(e, r, a));
@@ -1758,7 +2164,7 @@ function qt(e, r, t, n2) {
 }
 function Qn(e, r, t) {
   let n2 = b(e, t.i, t.t === 10 ? {} : /* @__PURE__ */ Object.create(null));
-  return qt(e, r, t.p, n2), Vt(n2, t.o), n2;
+  return (qt(e, r, t.p, n2), Vt(n2, t.o), n2);
 }
 function eo(e, r) {
   return b(e, r.i, new Date(r.s));
@@ -1778,7 +2184,8 @@ function to(e, r, t) {
 }
 function no(e, r, t) {
   let n2 = b(e, t.i, /* @__PURE__ */ new Map());
-  for (let a = 0, s = t.e.k, i = t.e.v, u = s.length; a < u; a++) n2.set(p$1(e, r, s[a]), p$1(e, r, i[a]));
+  for (let a = 0, s = t.e.k, i = t.e.v, u = s.length; a < u; a++)
+    n2.set(p$1(e, r, s[a]), p$1(e, r, i[a]));
   return n2;
 }
 function oo(e, r) {
@@ -1787,13 +2194,16 @@ function oo(e, r) {
 }
 function ao(e, r, t) {
   var u;
-  let n2 = Ft(t.c), a = p$1(e, r, t.f), s = (u = t.b) != null ? u : 0;
+  let n2 = Ft(t.c),
+    a = p$1(e, r, t.f),
+    s = (u = t.b) != null ? u : 0;
   if (s < 0 || s > a.byteLength) throw new O(t);
   return b(e, t.i, new n2(a, s, t.l));
 }
 function so(e, r, t) {
   var i;
-  let n2 = p$1(e, r, t.f), a = (i = t.b) != null ? i : 0;
+  let n2 = p$1(e, r, t.f),
+    a = (i = t.b) != null ? i : 0;
   if (a < 0 || a > n2.byteLength) throw new O(t);
   return b(e, t.i, new DataView(n2, a, t.l));
 }
@@ -1809,12 +2219,15 @@ function io(e, r, t) {
   return Wt(e, r, t, n2);
 }
 function uo(e, r, t) {
-  let n2 = Br(t, st, t.s), a = b(e, t.i, new n2(D(t.m)));
+  let n2 = Br(t, st, t.s),
+    a = b(e, t.i, new n2(D(t.m)));
   return Wt(e, r, t, a);
 }
 function lo(e, r, t) {
-  let n2 = ee$1(), a = b(e, t.i, n2.p), s = p$1(e, r, t.f);
-  return t.s ? n2.s(s) : n2.f(s), a;
+  let n2 = ee$1(),
+    a = b(e, t.i, n2.p),
+    s = p$1(e, r, t.f);
+  return (t.s ? n2.s(s) : n2.f(s), a);
 }
 function co(e, r, t) {
   return b(e, t.i, Object(p$1(e, r, t.f)));
@@ -1832,16 +2245,16 @@ function fo(e, r, t) {
 }
 function So(e, r) {
   let t = b(e, r.i, b(e, r.s, ee$1()).p);
-  return Yt(e, r.s, 22), t;
+  return (Yt(e, r.s, 22), t);
 }
 function mo(e, r, t) {
   let n2 = e.base.refs.get(t.i);
-  if (n2) return de(e, t, t.i, 22), n2.s(p$1(e, r, t.a[1])), o;
+  if (n2) return (de(e, t, t.i, 22), n2.s(p$1(e, r, t.a[1])), o);
   throw new V("Promise");
 }
 function po(e, r, t) {
   let n2 = e.base.refs.get(t.i);
-  if (n2) return de(e, t, t.i, 22), n2.f(p$1(e, r, t.a[1])), o;
+  if (n2) return (de(e, t, t.i, 22), n2.f(p$1(e, r, t.a[1])), o);
   throw new V("Promise");
 }
 function go(e, r, t) {
@@ -1857,30 +2270,31 @@ function yo(e, r, t) {
 function No(e, r, t) {
   let n2 = b(e, t.i, re());
   Yt(e, t.i, 31);
-  let a = t.a, s = a.length;
+  let a = t.a,
+    s = a.length;
   if (s) for (let i = 0; i < s; i++) p$1(e, r, a[i]);
   return n2;
 }
 function bo(e, r, t) {
   let n2 = e.base.refs.get(t.i);
-  if (n2) return de(e, t, t.i, 31), n2.next(p$1(e, r, t.f)), o;
+  if (n2) return (de(e, t, t.i, 31), n2.next(p$1(e, r, t.f)), o);
   throw new V("Stream");
 }
 function vo(e, r, t) {
   let n2 = e.base.refs.get(t.i);
-  if (n2) return de(e, t, t.i, 31), n2.throw(p$1(e, r, t.f)), o;
+  if (n2) return (de(e, t, t.i, 31), n2.throw(p$1(e, r, t.f)), o);
   throw new V("Stream");
 }
 function Co(e, r, t) {
   let n2 = e.base.refs.get(t.i);
-  if (n2) return de(e, t, t.i, 31), n2.return(p$1(e, r, t.f)), o;
+  if (n2) return (de(e, t, t.i, 31), n2.return(p$1(e, r, t.f)), o);
   throw new V("Stream");
 }
 function Ao(e, r, t) {
-  return p$1(e, r, t.f), o;
+  return (p$1(e, r, t.f), o);
 }
 function Eo(e, r, t) {
-  return p$1(e, r, t.a[1]), o;
+  return (p$1(e, r, t.a[1]), o);
 }
 function Io(e, r, t) {
   let n2 = b(e, t.i, wr([], t.s, t.l));
@@ -1889,7 +2303,7 @@ function Io(e, r, t) {
 }
 function p$1(e, r, t) {
   if (r > e.base.depthLimit) throw new Q(e.base.depthLimit);
-  switch (r += 1, t.t) {
+  switch (((r += 1), t.t)) {
     case 2:
       return Br(t, at, t.s);
     case 0:
@@ -1970,23 +2384,35 @@ function sr(e, r) {
     throw new He(t);
   }
 }
-var Ro = () => T, Po = Ro.toString(), Gt = /=>/.test(Po);
+var Ro = () => T,
+  Po = Ro.toString(),
+  Gt = /=>/.test(Po);
 function ir(e, r) {
-  return Gt ? (e.length === 1 ? e[0] : "(" + e.join(",") + ")") + "=>" + (r.startsWith("{") ? "(" + r + ")" : r) : "function(" + e.join(",") + "){return " + r + "}";
+  return Gt
+    ? (e.length === 1 ? e[0] : "(" + e.join(",") + ")") +
+        "=>" +
+        (r.startsWith("{") ? "(" + r + ")" : r)
+    : "function(" + e.join(",") + "){return " + r + "}";
 }
 function Kt(e, r) {
-  return Gt ? (e.length === 1 ? e[0] : "(" + e.join(",") + ")") + "=>{" + r + "}" : "function(" + e.join(",") + "){" + r + "}";
+  return Gt
+    ? (e.length === 1 ? e[0] : "(" + e.join(",") + ")") + "=>{" + r + "}"
+    : "function(" + e.join(",") + "){" + r + "}";
 }
-var Zt = "hjkmoquxzABCDEFGHIJKLNPQRTUVWXYZ$_", Ht = Zt.length, $t = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$_", Jt = $t.length;
+var Zt = "hjkmoquxzABCDEFGHIJKLNPQRTUVWXYZ$_",
+  Ht = Zt.length,
+  $t = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$_",
+  Jt = $t.length;
 function Vr(e) {
-  let r = e % Ht, t = Zt[r];
-  for (e = (e - r) / Ht; e > 0; ) r = e % Jt, t += $t[r], e = (e - r) / Jt;
+  let r = e % Ht,
+    t = Zt[r];
+  for (e = (e - r) / Ht; e > 0; ) ((r = e % Jt), (t += $t[r]), (e = (e - r) / Jt));
   return t;
 }
 var xo = /^[$A-Z_][0-9A-Z_$]*$/i;
 function Mr(e) {
   let r = e[0];
-  return (r === "$" || r === "_" || r >= "A" && r <= "Z" || r >= "a" && r <= "z") && xo.test(e);
+  return (r === "$" || r === "_" || (r >= "A" && r <= "Z") || (r >= "a" && r <= "z")) && xo.test(e);
 }
 function ye(e) {
   switch (e.t) {
@@ -2001,21 +2427,47 @@ function ye(e) {
   }
 }
 function To(e) {
-  let r = [], t = e[0];
-  for (let n2 = 1, a = e.length, s, i = t; n2 < a; n2++) s = e[n2], s.t === 0 && s.v === i.v ? t = { t: 0, s: s.s, k: o, v: ye(t) } : s.t === 2 && s.s === i.s ? t = { t: 2, s: ye(t), k: s.k, v: s.v } : s.t === 1 && s.s === i.s ? t = { t: 1, s: ye(t), k: o, v: s.v } : s.t === 3 && s.s === i.s ? t = { t: 3, s: ye(t), k: s.k, v: o } : (r.push(t), t = s), i = s;
-  return r.push(t), r;
+  let r = [],
+    t = e[0];
+  for (let n2 = 1, a = e.length, s, i = t; n2 < a; n2++)
+    ((s = e[n2]),
+      s.t === 0 && s.v === i.v
+        ? (t = { t: 0, s: s.s, k: o, v: ye(t) })
+        : s.t === 2 && s.s === i.s
+          ? (t = { t: 2, s: ye(t), k: s.k, v: s.v })
+          : s.t === 1 && s.s === i.s
+            ? (t = { t: 1, s: ye(t), k: o, v: s.v })
+            : s.t === 3 && s.s === i.s
+              ? (t = { t: 3, s: ye(t), k: s.k, v: o })
+              : (r.push(t), (t = s)),
+      (i = s));
+  return (r.push(t), r);
 }
 function on(e) {
   if (e.length) {
-    let r = "", t = To(e);
+    let r = "",
+      t = To(e);
     for (let n2 = 0, a = t.length; n2 < a; n2++) r += ye(t[n2]) + ",";
     return r;
   }
   return o;
 }
-var Oo = "Object.create(null)", wo = "new Set", ho = "new Map", zo = "Promise.resolve", _o = "Promise.reject", ko = { 3: "Object.freeze", 2: "Object.seal", 1: "Object.preventExtensions", 0: o };
+var Oo = "Object.create(null)",
+  wo = "new Set",
+  ho = "new Map",
+  zo = "Promise.resolve",
+  _o = "Promise.reject",
+  ko = { 3: "Object.freeze", 2: "Object.seal", 1: "Object.preventExtensions", 0: o };
 function an(e, r) {
-  return { mode: e, plugins: r.plugins, features: r.features, marked: new Set(r.markedRefs), stack: [], flags: [], assignments: [] };
+  return {
+    mode: e,
+    plugins: r.plugins,
+    features: r.features,
+    marked: new Set(r.markedRefs),
+    stack: [],
+    flags: [],
+    assignments: [],
+  };
 }
 function lr(e) {
   return { mode: 2, base: an(2, e), state: e, child: o };
@@ -2030,9 +2482,9 @@ var Lr = class {
 };
 function Fo(e, r) {
   let t = e.valid.get(r);
-  t == null && (t = e.valid.size, e.valid.set(r, t));
+  t == null && ((t = e.valid.size), e.valid.set(r, t));
   let n2 = e.vars[t];
-  return n2 == null && (n2 = Vr(t), e.vars[t] = n2), n2;
+  return (n2 == null && ((n2 = Vr(t)), (e.vars[t] = n2)), n2);
 }
 function Bo(e) {
   return le + "[" + e + "]";
@@ -2058,8 +2510,9 @@ function Vo(e) {
   return r;
 }
 function sn(e) {
-  let r = on(e.assignments), t = Vo(e);
-  return r ? t ? r + t : r : t;
+  let r = on(e.assignments),
+    t = Vo(e);
+  return r ? (t ? r + t : r) : t;
 }
 function qr(e, r, t) {
   e.assignments.push({ t: 0, s: r, k: o, v: t });
@@ -2092,73 +2545,90 @@ function Uo(e) {
   return L + '.get("' + e.s + '")';
 }
 function Qt(e, r, t, n2) {
-  return t ? F(e.base, t) ? (w$1(e.base, r), Ne(e, r, n2, m(e, t.i)), "") : f(e, t) : "";
+  return t ? (F(e.base, t) ? (w$1(e.base, r), Ne(e, r, n2, m(e, t.i)), "") : f(e, t)) : "";
 }
 function jo(e, r) {
-  let t = r.i, n2 = r.a, a = n2.length;
+  let t = r.i,
+    n2 = r.a,
+    a = n2.length;
   if (a > 0) {
     e.base.stack.push(t);
-    let s = Qt(e, t, n2[0], 0), i = s === "";
-    for (let u = 1, l; u < a; u++) l = Qt(e, t, n2[u], u), s += "," + l, i = l === "";
-    return e.base.stack.pop(), Yr(e, r.o, r.i), "[" + s + (i ? ",]" : "]");
+    let s = Qt(e, t, n2[0], 0),
+      i = s === "";
+    for (let u = 1, l; u < a; u++) ((l = Qt(e, t, n2[u], u)), (s += "," + l), (i = l === ""));
+    return (e.base.stack.pop(), Yr(e, r.o, r.i), "[" + s + (i ? ",]" : "]"));
   }
   return "[]";
 }
 function en(e, r, t, n2) {
   if (typeof t == "string") {
-    let a = Number(t), s = a >= 0 && a.toString() === t || Mr(t);
+    let a = Number(t),
+      s = (a >= 0 && a.toString() === t) || Mr(t);
     if (F(e.base, n2)) {
       let i = m(e, n2.i);
-      return w$1(e.base, r.i), s && a !== a ? jr(e, r.i, t, i) : Ne(e, r.i, s ? t : '"' + t + '"', i), "";
+      return (
+        w$1(e.base, r.i),
+        s && a !== a ? jr(e, r.i, t, i) : Ne(e, r.i, s ? t : '"' + t + '"', i),
+        ""
+      );
     }
     return (s ? t : '"' + t + '"') + ":" + f(e, n2);
   }
   return "[" + f(e, t) + "]:" + f(e, n2);
 }
 function un(e, r, t) {
-  let n2 = t.k, a = n2.length;
+  let n2 = t.k,
+    a = n2.length;
   if (a > 0) {
     let s = t.v;
     e.base.stack.push(r.i);
     let i = en(e, r, n2[0], s[0]);
-    for (let u = 1, l = i; u < a; u++) l = en(e, r, n2[u], s[u]), i += (l && i && ",") + l;
-    return e.base.stack.pop(), "{" + i + "}";
+    for (let u = 1, l = i; u < a; u++) ((l = en(e, r, n2[u], s[u])), (i += (l && i && ",") + l));
+    return (e.base.stack.pop(), "{" + i + "}");
   }
   return "{}";
 }
 function Yo(e, r) {
-  return Yr(e, r.o, r.i), un(e, r, r.p);
+  return (Yr(e, r.o, r.i), un(e, r, r.p));
 }
 function qo(e, r, t, n2) {
   let a = un(e, r, t);
   return a !== "{}" ? "Object.assign(" + n2 + "," + a + ")" : n2;
 }
 function Wo(e, r, t, n2, a) {
-  let s = e.base, i = f(e, a), u = Number(n2), l = u >= 0 && u.toString() === n2 || Mr(n2);
+  let s = e.base,
+    i = f(e, a),
+    u = Number(n2),
+    l = (u >= 0 && u.toString() === n2) || Mr(n2);
   if (F(s, a)) l && u !== u ? jr(e, r.i, n2, i) : Ne(e, r.i, l ? n2 : '"' + n2 + '"', i);
   else {
     let g = s.assignments;
-    s.assignments = t, l && u !== u ? jr(e, r.i, n2, i) : Ne(e, r.i, l ? n2 : '"' + n2 + '"', i), s.assignments = g;
+    ((s.assignments = t),
+      l && u !== u ? jr(e, r.i, n2, i) : Ne(e, r.i, l ? n2 : '"' + n2 + '"', i),
+      (s.assignments = g));
   }
 }
 function Go(e, r, t, n2, a) {
   if (typeof n2 == "string") Wo(e, r, t, n2, a);
   else {
-    let s = e.base, i = s.stack;
+    let s = e.base,
+      i = s.stack;
     s.stack = [];
     let u = f(e, a);
     s.stack = i;
     let l = s.assignments;
-    s.assignments = t, Ne(e, r.i, f(e, n2), u), s.assignments = l;
+    ((s.assignments = t), Ne(e, r.i, f(e, n2), u), (s.assignments = l));
   }
 }
 function Ko(e, r, t) {
-  let n2 = t.k, a = n2.length;
+  let n2 = t.k,
+    a = n2.length;
   if (a > 0) {
-    let s = [], i = t.v;
+    let s = [],
+      i = t.v;
     e.base.stack.push(r.i);
     for (let u = 0; u < a; u++) Go(e, r, s, n2[u], i[u]);
-    return e.base.stack.pop(), on(s);
+    return (e.base.stack.pop(), on(s));
   }
   return o;
 }
@@ -2175,7 +2645,7 @@ function Wr(e, r, t) {
   return t;
 }
 function Ho(e, r) {
-  return Yr(e, r.o, r.i), Wr(e, r, Oo);
+  return (Yr(e, r.o, r.i), Wr(e, r, Oo));
 }
 function Jo(e) {
   return 'new Date("' + e.s + '")';
@@ -2189,12 +2659,15 @@ function rn(e, r, t) {
   return F(n2, t) ? (w$1(n2, r), Mo(e, r, m(e, t.i)), "") : f(e, t);
 }
 function $o(e, r) {
-  let t = wo, n2 = r.a, a = n2.length, s = r.i;
+  let t = wo,
+    n2 = r.a,
+    a = n2.length,
+    s = r.i;
   if (a > 0) {
     e.base.stack.push(s);
     let i = rn(e, s, n2[0]);
-    for (let u = 1, l = i; u < a; u++) l = rn(e, s, n2[u]), i += (l && i && ",") + l;
-    e.base.stack.pop(), i && (t += "([" + i + "])");
+    for (let u = 1, l = i; u < a; u++) ((l = rn(e, s, n2[u])), (i += (l && i && ",") + l));
+    (e.base.stack.pop(), i && (t += "([" + i + "])"));
   }
   return t;
 }
@@ -2202,38 +2675,44 @@ function tn(e, r, t, n2, a) {
   let s = e.base;
   if (F(s, t)) {
     let i = m(e, t.i);
-    if (w$1(s, r), F(s, n2)) {
+    if ((w$1(s, r), F(s, n2))) {
       let l = m(e, n2.i);
-      return ge(e, r, i, l), "";
+      return (ge(e, r, i, l), "");
     }
     if (n2.t !== 4 && n2.i != null && Ur(s, n2.i)) {
       let l = "(" + f(e, n2) + ",[" + a + "," + a + "])";
-      return ge(e, r, i, m(e, n2.i)), Xt(e, r, a), l;
+      return (ge(e, r, i, m(e, n2.i)), Xt(e, r, a), l);
     }
     let u = s.stack;
-    return s.stack = [], ge(e, r, i, f(e, n2)), s.stack = u, "";
+    return ((s.stack = []), ge(e, r, i, f(e, n2)), (s.stack = u), "");
   }
   if (F(s, n2)) {
     let i = m(e, n2.i);
-    if (w$1(s, r), t.t !== 4 && t.i != null && Ur(s, t.i)) {
+    if ((w$1(s, r), t.t !== 4 && t.i != null && Ur(s, t.i))) {
       let l = "(" + f(e, t) + ",[" + a + "," + a + "])";
-      return ge(e, r, m(e, t.i), i), Xt(e, r, a), l;
+      return (ge(e, r, m(e, t.i), i), Xt(e, r, a), l);
     }
     let u = s.stack;
-    return s.stack = [], ge(e, r, f(e, t), i), s.stack = u, "";
+    return ((s.stack = []), ge(e, r, f(e, t), i), (s.stack = u), "");
   }
   return "[" + f(e, t) + "," + f(e, n2) + "]";
 }
 function Xo(e, r) {
-  let t = ho, n2 = r.e.k, a = n2.length, s = r.i, i = r.f, u = m(e, i.i), l = e.base;
+  let t = ho,
+    n2 = r.e.k,
+    a = n2.length,
+    s = r.i,
+    i = r.f,
+    u = m(e, i.i),
+    l = e.base;
   if (a > 0) {
     let g = r.e.v;
     l.stack.push(s);
     let S = tn(e, s, n2[0], g[0], u);
-    for (let d = 1, G = S; d < a; d++) G = tn(e, s, n2[d], g[d], u), S += (G && S && ",") + G;
-    l.stack.pop(), S && (t += "([" + S + "])");
+    for (let d = 1, G = S; d < a; d++) ((G = tn(e, s, n2[d], g[d], u)), (S += (G && S && ",") + G));
+    (l.stack.pop(), S && (t += "([" + S + "])"));
   }
-  return i.t === 26 && (w$1(l, i.i), t = "(" + f(e, i) + "," + t + ")"), t;
+  return (i.t === 26 && (w$1(l, i.i), (t = "(" + f(e, i) + "," + t + ")")), t);
 }
 function Qo(e, r) {
   return q(e, r.f) + '("' + r.s + '")';
@@ -2248,20 +2727,24 @@ function ta(e, r) {
   let t = r.i;
   e.base.stack.push(t);
   let n2 = Wr(e, r, 'new AggregateError([],"' + r.m + '")');
-  return e.base.stack.pop(), n2;
+  return (e.base.stack.pop(), n2);
 }
 function na(e, r) {
   return Wr(e, r, "new " + Ce[r.s] + '("' + r.m + '")');
 }
 function oa(e, r) {
-  let t, n2 = r.f, a = r.i, s = r.s ? zo : _o, i = e.base;
+  let t,
+    n2 = r.f,
+    a = r.i,
+    s = r.s ? zo : _o,
+    i = e.base;
   if (F(i, n2)) {
     let u = m(e, n2.i);
     t = s + (r.s ? "().then(" + ir([], u) + ")" : "().catch(" + Kt([], "throw " + u) + ")");
   } else {
     i.stack.push(a);
     let u = f(e, n2);
-    i.stack.pop(), t = s + "(" + u + ")";
+    (i.stack.pop(), (t = s + "(" + u + ")"));
   }
   return t;
 }
@@ -2286,22 +2769,35 @@ function ua(e, r) {
 }
 function la(e, r) {
   let t = e.base.plugins;
-  if (t) for (let n2 = 0, a = t.length; n2 < a; n2++) {
-    let s = t[n2];
-    if (s.tag === r.c) return e.child == null && (e.child = new Lr(e)), s.serialize(r.s, e.child, { id: r.i });
-  }
+  if (t)
+    for (let n2 = 0, a = t.length; n2 < a; n2++) {
+      let s = t[n2];
+      if (s.tag === r.c)
+        return (e.child == null && (e.child = new Lr(e)), s.serialize(r.s, e.child, { id: r.i }));
+    }
   throw new X(r.c);
 }
 function ca(e, r) {
-  let t = "", n2 = false;
-  return r.f.t !== 4 && (w$1(e.base, r.f.i), t = "(" + f(e, r.f) + ",", n2 = true), t += ae(e, r.i, "(" + At + ")(" + m(e, r.f.i) + ")"), n2 && (t += ")"), t;
+  let t = "",
+    n2 = false;
+  return (
+    r.f.t !== 4 && (w$1(e.base, r.f.i), (t = "(" + f(e, r.f) + ","), (n2 = true)),
+    (t += ae(e, r.i, "(" + At + ")(" + m(e, r.f.i) + ")")),
+    n2 && (t += ")"),
+    t
+  );
 }
 function fa(e, r) {
   return q(e, r.a[0]) + "(" + f(e, r.a[1]) + ")";
 }
 function Sa(e, r) {
-  let t = r.a[0], n2 = r.a[1], a = e.base, s = "";
-  t.t !== 4 && (w$1(a, t.i), s += "(" + f(e, t)), n2.t !== 4 && (w$1(a, n2.i), s += (s ? "," : "(") + f(e, n2)), s && (s += ",");
+  let t = r.a[0],
+    n2 = r.a[1],
+    a = e.base,
+    s = "";
+  (t.t !== 4 && (w$1(a, t.i), (s += "(" + f(e, t))),
+    n2.t !== 4 && (w$1(a, n2.i), (s += (s ? "," : "(") + f(e, n2))),
+    s && (s += ","));
   let i = ae(e, r.i, "(" + Et + ")(" + m(e, n2.i) + "," + m(e, t.i) + ")");
   return s ? s + i + ")" : i;
 }
@@ -2309,7 +2805,8 @@ function ma(e, r) {
   return q(e, r.a[0]) + "(" + f(e, r.a[1]) + ")";
 }
 function pa(e, r) {
-  let t = ae(e, r.i, q(e, r.f) + "()"), n2 = r.a.length;
+  let t = ae(e, r.i, q(e, r.f) + "()"),
+    n2 = r.a.length;
   if (n2) {
     let a = f(e, r.a[0]);
     for (let s = 1; s < n2; s++) a += "," + f(e, r.a[s]);
@@ -2331,12 +2828,15 @@ function nn(e, r, t, n2) {
   return F(a, n2) ? (w$1(a, r), Lo(e, r, t, m(e, n2.i)), "") : f(e, n2);
 }
 function Na(e, r) {
-  let t = r.a, n2 = t.length, a = r.i;
+  let t = r.a,
+    n2 = t.length,
+    a = r.i;
   if (n2 > 0) {
     e.base.stack.push(a);
     let s = nn(e, a, 0, t[0]);
-    for (let i = 1, u = s; i < n2; i++) u = nn(e, a, i, t[i]), s += (u && s && ",") + u;
-    if (e.base.stack.pop(), s) return "{__SEROVAL_SEQUENCE__:!0,v:[" + s + "],t:" + r.s + ",d:" + r.l + "}";
+    for (let i = 1, u = s; i < n2; i++) ((u = nn(e, a, i, t[i])), (s += (u && s && ",") + u));
+    if ((e.base.stack.pop(), s))
+      return "{__SEROVAL_SEQUENCE__:!0,v:[" + s + "],t:" + r.s + ",d:" + r.l + "}";
   }
   return "{__SEROVAL_SEQUENCE__:!0,v:[],t:-1,d:0}";
 }
@@ -2424,66 +2924,88 @@ function f(e, r) {
   }
 }
 function fr(e, r) {
-  let t = f(e, r), n2 = r.i;
+  let t = f(e, r),
+    n2 = r.i;
   if (n2 == null) return t;
-  let a = sn(e.base), s = m(e, n2), i = e.state.scopeId, u = i == null ? "" : le, l = a ? "(" + t + "," + a + s + ")" : t;
+  let a = sn(e.base),
+    s = m(e, n2),
+    i = e.state.scopeId,
+    u = i == null ? "" : le,
+    l = a ? "(" + t + "," + a + s + ")" : t;
   if (u === "") return r.t === 10 && !a ? "(" + l + ")" : l;
   let g = i == null ? "()" : "(" + le + '["' + y(i) + '"])';
   return "(" + ir([u], l) + ")" + g;
 }
 var Kr = class {
-  constructor(r, t) {
-    this._p = r;
-    this.depth = t;
-  }
-  parse(r) {
-    return E(this._p, this.depth, r);
-  }
-}, Hr = class {
-  constructor(r, t) {
-    this._p = r;
-    this.depth = t;
-  }
-  parse(r) {
-    return E(this._p, this.depth, r);
-  }
-  parseWithError(r) {
-    return W(this._p, this.depth, r);
-  }
-  isAlive() {
-    return this._p.state.alive;
-  }
-  pushPendingState() {
-    Qr(this._p);
-  }
-  popPendingState() {
-    be(this._p);
-  }
-  onParse(r) {
-    se(this._p, r);
-  }
-  onError(r) {
-    $r(this._p, r);
-  }
-};
+    constructor(r, t) {
+      this._p = r;
+      this.depth = t;
+    }
+    parse(r) {
+      return E(this._p, this.depth, r);
+    }
+  },
+  Hr = class {
+    constructor(r, t) {
+      this._p = r;
+      this.depth = t;
+    }
+    parse(r) {
+      return E(this._p, this.depth, r);
+    }
+    parseWithError(r) {
+      return W(this._p, this.depth, r);
+    }
+    isAlive() {
+      return this._p.state.alive;
+    }
+    pushPendingState() {
+      Qr(this._p);
+    }
+    popPendingState() {
+      be(this._p);
+    }
+    onParse(r) {
+      se(this._p, r);
+    }
+    onError(r) {
+      $r(this._p, r);
+    }
+  };
 function va(e) {
-  return { alive: true, pending: 0, initial: true, buffer: [], onParse: e.onParse, onError: e.onError, onDone: e.onDone };
+  return {
+    alive: true,
+    pending: 0,
+    initial: true,
+    buffer: [],
+    onParse: e.onParse,
+    onError: e.onError,
+    onDone: e.onDone,
+  };
 }
 function Jr(e) {
   return { type: 2, base: me(2, e), state: va(e) };
 }
 function Ca(e, r, t) {
   let n2 = [];
-  for (let a = 0, s = t.length; a < s; a++) a in t ? n2[a] = E(e, r, t[a]) : n2[a] = 0;
+  for (let a = 0, s = t.length; a < s; a++) a in t ? (n2[a] = E(e, r, t[a])) : (n2[a] = 0);
   return n2;
 }
 function Aa(e, r, t, n2) {
   return _e(t, n2, Ca(e, r, n2));
 }
 function Zr(e, r, t) {
-  let n2 = Object.entries(t), a = [], s = [];
-  for (let i = 0, u = n2.length; i < u; i++) a.push(y(n2[i][0])), s.push(E(e, r, n2[i][1]));
-  return C in t && (a.push(I(e.base, C)), s.push(Ue(rr(e.base), E(e, r, $e(t))))), v in t && (a.push(I(e.base, v)), s.push(je(tr(e.base), E(e, r, e.type === 1 ? re() : Qe(t))))), P$1 in t && (a.push(I(e.base, P$1)), s.push($(t[P$1]))), R in t && (a.push(I(e.base, R)), s.push(t[R] ? H : J)), { k: a, v: s };
+  let n2 = Object.entries(t),
+    a = [],
+    s = [];
+  for (let i = 0, u = n2.length; i < u; i++) (a.push(y(n2[i][0])), s.push(E(e, r, n2[i][1])));
+  return (
+    C in t && (a.push(I(e.base, C)), s.push(Ue(rr(e.base), E(e, r, $e(t))))),
+    v in t && (a.push(I(e.base, v)), s.push(je(tr(e.base), E(e, r, e.type === 1 ? re() : Qe(t))))),
+    P$1 in t && (a.push(I(e.base, P$1)), s.push($(t[P$1]))),
+    R in t && (a.push(I(e.base, R)), s.push(t[R] ? H : J)),
+    { k: a, v: s }
+  );
 }
 function Gr(e, r, t, n2, a) {
   return nr(t, n2, a, Zr(e, r, n2));
@@ -2509,8 +3031,9 @@ function xa(e, r, t, n2) {
   return Me(t, n2, a ? Zr(e, r, a) : o);
 }
 function Ta(e, r, t, n2) {
-  let a = [], s = [];
-  for (let [i, u] of n2.entries()) a.push(E(e, r, i)), s.push(E(e, r, u));
+  let a = [],
+    s = [];
+  for (let [i, u] of n2.entries()) (a.push(E(e, r, i)), s.push(E(e, r, u)));
   return or(e.base, t, a, s);
 }
 function Oa(e, r, t, n2) {
@@ -2520,29 +3043,38 @@ function Oa(e, r, t, n2) {
 }
 function wa(e, r, t, n2) {
   let a = Ye(t, k(e.base, 4), []);
-  return e.type === 1 || (Qr(e), n2.on({ next: (s) => {
-    if (e.state.alive) {
-      let i = W(e, r, s);
-      i && se(e, qe(t, i));
-    }
-  }, throw: (s) => {
-    if (e.state.alive) {
-      let i = W(e, r, s);
-      i && se(e, We(t, i));
-    }
-    be(e);
-  }, return: (s) => {
-    if (e.state.alive) {
-      let i = W(e, r, s);
-      i && se(e, Ge(t, i));
-    }
-    be(e);
-  } })), a;
+  return (
+    e.type === 1 ||
+      (Qr(e),
+      n2.on({
+        next: (s) => {
+          if (e.state.alive) {
+            let i = W(e, r, s);
+            i && se(e, qe(t, i));
+          }
+        },
+        throw: (s) => {
+          if (e.state.alive) {
+            let i = W(e, r, s);
+            i && se(e, We(t, i));
+          }
+          be(e);
+        },
+        return: (s) => {
+          if (e.state.alive) {
+            let i = W(e, r, s);
+            i && se(e, Ge(t, i));
+          }
+          be(e);
+        },
+      })),
+    a
+  );
 }
 function ha(e, r, t) {
   if (this.state.alive) {
     let n2 = W(this, r, t);
-    n2 && se(this, c(23, e, o, o, o, o, o, [k(this.base, 2), n2], o, o, o, o)), be(this);
+    (n2 && se(this, c(23, e, o, o, o, o, o, [k(this.base, 2), n2], o, o, o, o)), be(this));
   }
 }
 function za(e, r, t) {
@@ -2554,7 +3086,7 @@ function za(e, r, t) {
 }
 function _a(e, r, t, n2) {
   let a = zr(e.base, {});
-  return e.type === 2 && (Qr(e), n2.then(ha.bind(e, a, r), za.bind(e, a, r))), zt(e.base, t, a);
+  return (e.type === 2 && (Qr(e), n2.then(ha.bind(e, a, r), za.bind(e, a, r))), zt(e.base, t, a));
 }
 function ka(e, r, t, n2, a) {
   for (let s = 0, i = a.length; s < i; s++) {
@@ -2566,13 +3098,14 @@ function ka(e, r, t, n2, a) {
 function Da(e, r, t, n2, a) {
   for (let s = 0, i = a.length; s < i; s++) {
     let u = a[s];
-    if (u.parse.stream && u.test(n2)) return ce(t, u.tag, u.parse.stream(n2, new Hr(e, r), { id: t }));
+    if (u.parse.stream && u.test(n2))
+      return ce(t, u.tag, u.parse.stream(n2, new Hr(e, r), { id: t }));
   }
   return o;
 }
 function cn(e, r, t, n2) {
   let a = e.base.plugins;
-  return a ? e.type === 1 ? ka(e, r, t, n2, a) : Da(e, r, t, n2, a) : o;
+  return a ? (e.type === 1 ? ka(e, r, t, n2, a) : Da(e, r, t, n2, a)) : o;
 }
 function Fa(e, r, t, n2) {
   let a = [];
@@ -2622,12 +3155,18 @@ function Ba(e, r, t, n2, a) {
   if (a === Promise || n2 instanceof Promise) return _a(e, r, t, n2);
   let s = e.base.features;
   if (s & 32 && a === RegExp) return ze(t, n2);
-  if (s & 16) switch (a) {
-    case BigInt64Array:
-    case BigUint64Array:
-      return Ra(e, r, t, n2);
-  }
-  if (s & 1 && typeof AggregateError != "undefined" && (a === AggregateError || n2 instanceof AggregateError)) return xa(e, r, t, n2);
+  if (s & 16)
+    switch (a) {
+      case BigInt64Array:
+      case BigUint64Array:
+        return Ra(e, r, t, n2);
+    }
+  if (
+    s & 1 &&
+    typeof AggregateError != "undefined" &&
+    (a === AggregateError || n2 instanceof AggregateError)
+  )
+    return xa(e, r, t, n2);
   if (n2 instanceof Error) return ln(e, r, t, n2);
   if (C in n2 || v in n2) return Gr(e, r, t, n2, !!a);
   throw new x$1(n2);
@@ -2703,43 +3242,70 @@ function W(e, r, t) {
   try {
     return E(e, r, t);
   } catch (n2) {
-    return $r(e, n2), o;
+    return ($r(e, n2), o);
   }
 }
 function et(e, r) {
   let t = W(e, 0, r);
-  t && (Xr(e, t, true), e.state.initial = false, La(e, e.state), e.state.pending <= 0 && Sr(e));
+  t && (Xr(e, t, true), (e.state.initial = false), La(e, e.state), e.state.pending <= 0 && Sr(e));
 }
 function La(e, r) {
   for (let t = 0, n2 = r.buffer.length; t < n2; t++) Xr(e, r.buffer[t], false);
 }
 function Sr(e) {
-  e.state.alive && (fn(e), e.state.alive = false);
+  e.state.alive && (fn(e), (e.state.alive = false));
 }
 async function su(e, r = {}) {
-  let t = A(r.plugins), n2 = te(2, { plugins: t, disabledFeatures: r.disabledFeatures, refs: r.refs });
+  let t = A(r.plugins),
+    n2 = te(2, { plugins: t, disabledFeatures: r.disabledFeatures, refs: r.refs });
   return await ne(n2, e);
 }
 function Sn(e, r) {
-  let t = A(r.plugins), n2 = Jr({ plugins: t, refs: r.refs, disabledFeatures: r.disabledFeatures, onParse(a, s) {
-    let i = lr({ plugins: t, features: n2.base.features, scopeId: r.scopeId, markedRefs: n2.base.marked }), u;
-    try {
-      u = fr(i, a);
-    } catch (l) {
-      r.onError && r.onError(l);
-      return;
-    }
-    r.onSerialize(u, s);
-  }, onError: r.onError, onDone: r.onDone });
-  return et(n2, e), Sr.bind(null, n2);
+  let t = A(r.plugins),
+    n2 = Jr({
+      plugins: t,
+      refs: r.refs,
+      disabledFeatures: r.disabledFeatures,
+      onParse(a, s) {
+        let i = lr({
+            plugins: t,
+            features: n2.base.features,
+            scopeId: r.scopeId,
+            markedRefs: n2.base.marked,
+          }),
+          u;
+        try {
+          u = fr(i, a);
+        } catch (l) {
+          r.onError && r.onError(l);
+          return;
+        }
+        r.onSerialize(u, s);
+      },
+      onError: r.onError,
+      onDone: r.onDone,
+    });
+  return (et(n2, e), Sr.bind(null, n2));
 }
 function iu(e, r) {
-  let t = A(r.plugins), n2 = Jr({ plugins: t, refs: r.refs, disabledFeatures: r.disabledFeatures, depthLimit: r.depthLimit, onParse: r.onParse, onError: r.onError, onDone: r.onDone });
-  return et(n2, e), Sr.bind(null, n2);
+  let t = A(r.plugins),
+    n2 = Jr({
+      plugins: t,
+      refs: r.refs,
+      disabledFeatures: r.disabledFeatures,
+      depthLimit: r.depthLimit,
+      onParse: r.onParse,
+      onError: r.onError,
+      onDone: r.onDone,
+    });
+  return (et(n2, e), Sr.bind(null, n2));
 }
 function Pu(e, r = {}) {
   var i;
-  let t = A(r.plugins), n2 = r.disabledFeatures || 0, a = (i = e.f) != null ? i : 63, s = Lt({ plugins: t, markedRefs: e.m, features: a & ~n2, disabledFeatures: n2 });
+  let t = A(r.plugins),
+    n2 = r.disabledFeatures || 0,
+    a = (i = e.f) != null ? i : 63,
+    s = Lt({ plugins: t, markedRefs: e.m, features: a & ~n2, disabledFeatures: n2 });
   return sr(s, e.t);
 }
 function createSerializationAdapter(opts) {
@@ -2750,14 +3316,18 @@ function makeSsrSerovalPlugin(serializationAdapter, options) {
   return /* @__PURE__ */ ai({
     tag: "$TSR/t/" + serializationAdapter.key,
     test: serializationAdapter.test,
-    parse: { stream(value, ctx, _data) {
-      return { v: ctx.parse(serializationAdapter.toSerializable(value)) };
-    } },
+    parse: {
+      stream(value, ctx, _data) {
+        return { v: ctx.parse(serializationAdapter.toSerializable(value)) };
+      },
+    },
     serialize(node, ctx, _data) {
       options.didRun = true;
-      return GLOBAL_TSR + '.t.get("' + serializationAdapter.key + '")(' + ctx.serialize(node.v) + ")";
+      return (
+        GLOBAL_TSR + '.t.get("' + serializationAdapter.key + '")(' + ctx.serialize(node.v) + ")"
+      );
     },
-    deserialize: void 0
+    deserialize: void 0,
   });
 }
 // @__NO_SIDE_EFFECTS__
@@ -2774,12 +3344,12 @@ function makeSerovalPlugin(serializationAdapter) {
       },
       stream(value, ctx, _data) {
         return { v: ctx.parse(serializationAdapter.toSerializable(value)) };
-      }
+      },
     },
     serialize: void 0,
     deserialize(node, ctx, _data) {
       return serializationAdapter.fromSerializable(ctx.deserialize(node.v));
-    }
+    },
   });
 }
 var RawStream = class {
@@ -2814,47 +3384,48 @@ function base64ToUint8Array(base64) {
 }
 const RAW_STREAM_FACTORY_BINARY = /* @__PURE__ */ Object.create(null);
 const RAW_STREAM_FACTORY_TEXT = /* @__PURE__ */ Object.create(null);
-const RAW_STREAM_FACTORY_CONSTRUCTOR_BINARY = (stream) => new ReadableStream({ start(controller) {
-  stream.on({
-    next(base64) {
-      try {
-        controller.enqueue(base64ToUint8Array(base64));
-      } catch {
-      }
+const RAW_STREAM_FACTORY_CONSTRUCTOR_BINARY = (stream) =>
+  new ReadableStream({
+    start(controller) {
+      stream.on({
+        next(base64) {
+          try {
+            controller.enqueue(base64ToUint8Array(base64));
+          } catch {}
+        },
+        throw(error) {
+          controller.error(error);
+        },
+        return() {
+          try {
+            controller.close();
+          } catch {}
+        },
+      });
     },
-    throw(error) {
-      controller.error(error);
-    },
-    return() {
-      try {
-        controller.close();
-      } catch {
-      }
-    }
   });
-} });
 const textEncoderForFactory = new TextEncoder();
 const RAW_STREAM_FACTORY_CONSTRUCTOR_TEXT = (stream) => {
-  return new ReadableStream({ start(controller) {
-    stream.on({
-      next(value) {
-        try {
-          if (typeof value === "string") controller.enqueue(textEncoderForFactory.encode(value));
-          else controller.enqueue(base64ToUint8Array(value.$b64));
-        } catch {
-        }
-      },
-      throw(error) {
-        controller.error(error);
-      },
-      return() {
-        try {
-          controller.close();
-        } catch {
-        }
-      }
-    });
-  } });
+  return new ReadableStream({
+    start(controller) {
+      stream.on({
+        next(value) {
+          try {
+            if (typeof value === "string") controller.enqueue(textEncoderForFactory.encode(value));
+            else controller.enqueue(base64ToUint8Array(value.$b64));
+          } catch {}
+        },
+        throw(error) {
+          controller.error(error);
+        },
+        return() {
+          try {
+            controller.close();
+          } catch {}
+        },
+      });
+    },
+  });
 };
 const FACTORY_BINARY = `(s=>new ReadableStream({start(c){s.on({next(b){try{const d=atob(b),a=new Uint8Array(d.length);for(let i=0;i<d.length;i++)a[i]=d.charCodeAt(i);c.enqueue(a)}catch(_){}},throw(e){c.error(e)},return(){try{c.close()}catch(_){}}})}}))`;
 const FACTORY_TEXT = `(s=>{const e=new TextEncoder();return new ReadableStream({start(c){s.on({next(v){try{if(typeof v==='string'){c.enqueue(e.encode(v))}else{const d=atob(v.$b64),a=new Uint8Array(d.length);for(let i=0;i<d.length;i++)a[i]=d.charCodeAt(i);c.enqueue(a)}}catch(_){}},throw(x){c.error(x)},return(){try{c.close()}catch(_){}}})}})})`;
@@ -2891,8 +3462,7 @@ function toTextStream(readable) {
           try {
             const remaining = decoder.decode();
             if (remaining.length > 0) stream.next(remaining);
-          } catch {
-          }
+          } catch {}
           stream.return(void 0);
           break;
         }
@@ -2913,51 +3483,54 @@ function toTextStream(readable) {
 }
 const RawStreamSSRPlugin = /* @__PURE__ */ ai({
   tag: "tss/RawStream",
-  extends: [/* @__PURE__ */ ai({
-    tag: "tss/RawStreamFactory",
-    test(value) {
-      return value === RAW_STREAM_FACTORY_BINARY;
-    },
-    parse: {
-      sync(_value, _ctx, _data) {
-        return {};
+  extends: [
+    /* @__PURE__ */ ai({
+      tag: "tss/RawStreamFactory",
+      test(value) {
+        return value === RAW_STREAM_FACTORY_BINARY;
       },
-      async async(_value, _ctx, _data) {
-        return {};
+      parse: {
+        sync(_value, _ctx, _data) {
+          return {};
+        },
+        async async(_value, _ctx, _data) {
+          return {};
+        },
+        stream(_value, _ctx, _data) {
+          return {};
+        },
       },
-      stream(_value, _ctx, _data) {
-        return {};
-      }
-    },
-    serialize(_node, _ctx, _data) {
-      return FACTORY_BINARY;
-    },
-    deserialize(_node, _ctx, _data) {
-      return RAW_STREAM_FACTORY_BINARY;
-    }
-  }), /* @__PURE__ */ ai({
-    tag: "tss/RawStreamFactoryText",
-    test(value) {
-      return value === RAW_STREAM_FACTORY_TEXT;
-    },
-    parse: {
-      sync(_value, _ctx, _data) {
-        return {};
+      serialize(_node, _ctx, _data) {
+        return FACTORY_BINARY;
       },
-      async async(_value, _ctx, _data) {
-        return {};
+      deserialize(_node, _ctx, _data) {
+        return RAW_STREAM_FACTORY_BINARY;
       },
-      stream(_value, _ctx, _data) {
-        return {};
-      }
-    },
-    serialize(_node, _ctx, _data) {
-      return FACTORY_TEXT;
-    },
-    deserialize(_node, _ctx, _data) {
-      return RAW_STREAM_FACTORY_TEXT;
-    }
-  })],
+    }),
+    /* @__PURE__ */ ai({
+      tag: "tss/RawStreamFactoryText",
+      test(value) {
+        return value === RAW_STREAM_FACTORY_TEXT;
+      },
+      parse: {
+        sync(_value, _ctx, _data) {
+          return {};
+        },
+        async async(_value, _ctx, _data) {
+          return {};
+        },
+        stream(_value, _ctx, _data) {
+          return {};
+        },
+      },
+      serialize(_node, _ctx, _data) {
+        return FACTORY_TEXT;
+      },
+      deserialize(_node, _ctx, _data) {
+        return RAW_STREAM_FACTORY_TEXT;
+      },
+    }),
+  ],
   test(value) {
     return value instanceof RawStream;
   },
@@ -2967,35 +3540,39 @@ const RawStreamSSRPlugin = /* @__PURE__ */ ai({
       return {
         hint: ctx.parse(value.hint),
         factory: ctx.parse(factory),
-        stream: ctx.parse(re())
+        stream: ctx.parse(re()),
       };
     },
     async async(value, ctx, _data) {
       const factory = value.hint === "text" ? RAW_STREAM_FACTORY_TEXT : RAW_STREAM_FACTORY_BINARY;
-      const encodedStream = value.hint === "text" ? toTextStream(value.stream) : toBinaryStream(value.stream);
+      const encodedStream =
+        value.hint === "text" ? toTextStream(value.stream) : toBinaryStream(value.stream);
       return {
         hint: await ctx.parse(value.hint),
         factory: await ctx.parse(factory),
-        stream: await ctx.parse(encodedStream)
+        stream: await ctx.parse(encodedStream),
       };
     },
     stream(value, ctx, _data) {
       const factory = value.hint === "text" ? RAW_STREAM_FACTORY_TEXT : RAW_STREAM_FACTORY_BINARY;
-      const encodedStream = value.hint === "text" ? toTextStream(value.stream) : toBinaryStream(value.stream);
+      const encodedStream =
+        value.hint === "text" ? toTextStream(value.stream) : toBinaryStream(value.stream);
       return {
         hint: ctx.parse(value.hint),
         factory: ctx.parse(factory),
-        stream: ctx.parse(encodedStream)
+        stream: ctx.parse(encodedStream),
       };
-    }
+    },
   },
   serialize(node, ctx, _data) {
     return "(" + ctx.serialize(node.factory) + ")(" + ctx.serialize(node.stream) + ")";
   },
   deserialize(node, ctx, _data) {
     const stream = ctx.deserialize(node.stream);
-    return ctx.deserialize(node.hint) === "text" ? RAW_STREAM_FACTORY_CONSTRUCTOR_TEXT(stream) : RAW_STREAM_FACTORY_CONSTRUCTOR_BINARY(stream);
-  }
+    return ctx.deserialize(node.hint) === "text"
+      ? RAW_STREAM_FACTORY_CONSTRUCTOR_TEXT(stream)
+      : RAW_STREAM_FACTORY_CONSTRUCTOR_BINARY(stream);
+  },
 });
 // @__NO_SIDE_EFFECTS__
 function createRawStreamRPCPlugin(onRawStream) {
@@ -3015,14 +3592,18 @@ function createRawStreamRPCPlugin(onRawStream) {
         const streamId = nextStreamId++;
         onRawStream(streamId, value.stream);
         return { streamId: ctx.parse(streamId) };
-      }
+      },
     },
     serialize() {
-      throw new Error("RawStreamRPCPlugin.serialize should not be called. RPC uses JSON serialization, not JS code generation.");
+      throw new Error(
+        "RawStreamRPCPlugin.serialize should not be called. RPC uses JSON serialization, not JS code generation.",
+      );
     },
     deserialize() {
-      throw new Error("RawStreamRPCPlugin.deserialize should not be called. Use createRawStreamDeserializePlugin on client.");
-    }
+      throw new Error(
+        "RawStreamRPCPlugin.deserialize should not be called. Use createRawStreamDeserializePlugin on client.",
+      );
+    },
   });
 }
 const ShallowErrorPlugin = /* @__PURE__ */ ai({
@@ -3039,44 +3620,62 @@ const ShallowErrorPlugin = /* @__PURE__ */ ai({
     },
     stream(value, ctx) {
       return { message: ctx.parse(value.message) };
-    }
+    },
   },
   serialize(node, ctx) {
     return "new Error(" + ctx.serialize(node.message) + ")";
   },
   deserialize(node, ctx) {
     return new Error(ctx.deserialize(node.message));
-  }
+  },
 });
-var n = {}, P = (e) => new ReadableStream({ start: (r) => {
-  e.on({ next: (a) => {
-    try {
-      r.enqueue(a);
-    } catch (t) {
-    }
-  }, throw: (a) => {
-    r.error(a);
-  }, return: () => {
-    try {
-      r.close();
-    } catch (a) {
-    }
-  } });
-} }), x2 = ai({ tag: "seroval-plugins/web/ReadableStreamFactory", test(e) {
-  return e === n;
-}, parse: { sync() {
-  return n;
-}, async async() {
-  return await Promise.resolve(n);
-}, stream() {
-  return n;
-} }, serialize() {
-  return P.toString();
-}, deserialize() {
-  return n;
-} });
+var n = {},
+  P = (e) =>
+    new ReadableStream({
+      start: (r) => {
+        e.on({
+          next: (a) => {
+            try {
+              r.enqueue(a);
+            } catch (t) {}
+          },
+          throw: (a) => {
+            r.error(a);
+          },
+          return: () => {
+            try {
+              r.close();
+            } catch (a) {}
+          },
+        });
+      },
+    }),
+  x2 = ai({
+    tag: "seroval-plugins/web/ReadableStreamFactory",
+    test(e) {
+      return e === n;
+    },
+    parse: {
+      sync() {
+        return n;
+      },
+      async async() {
+        return await Promise.resolve(n);
+      },
+      stream() {
+        return n;
+      },
+    },
+    serialize() {
+      return P.toString();
+    },
+    deserialize() {
+      return n;
+    },
+  });
 function w(e) {
-  let r = re(), a = e.getReader();
+  let r = re(),
+    a = e.getReader();
   async function t() {
     try {
       let s = await a.read();
@@ -3085,30 +3684,37 @@ function w(e) {
       r.throw(s);
     }
   }
-  return t().catch(() => {
-  }), r;
+  return (t().catch(() => {}), r);
 }
-var ee = ai({ tag: "seroval/plugins/web/ReadableStream", extends: [x2], test(e) {
-  return typeof ReadableStream == "undefined" ? false : e instanceof ReadableStream;
-}, parse: { sync(e, r) {
-  return { factory: r.parse(n), stream: r.parse(re()) };
-}, async async(e, r) {
-  return { factory: await r.parse(n), stream: await r.parse(w(e)) };
-}, stream(e, r) {
-  return { factory: r.parse(n), stream: r.parse(w(e)) };
-} }, serialize(e, r) {
-  return "(" + r.serialize(e.factory) + ")(" + r.serialize(e.stream) + ")";
-}, deserialize(e, r) {
-  let a = r.deserialize(e.stream);
-  return P(a);
-} }), p = ee;
-const defaultSerovalPlugins = [
-  ShallowErrorPlugin,
-  RawStreamSSRPlugin,
-  p
-];
+var ee = ai({
+    tag: "seroval/plugins/web/ReadableStream",
+    extends: [x2],
+    test(e) {
+      return typeof ReadableStream == "undefined" ? false : e instanceof ReadableStream;
+    },
+    parse: {
+      sync(e, r) {
+        return { factory: r.parse(n), stream: r.parse(re()) };
+      },
+      async async(e, r) {
+        return { factory: await r.parse(n), stream: await r.parse(w(e)) };
+      },
+      stream(e, r) {
+        return { factory: r.parse(n), stream: r.parse(w(e)) };
+      },
+    },
+    serialize(e, r) {
+      return "(" + r.serialize(e.factory) + ")(" + r.serialize(e.stream) + ")";
+    },
+    deserialize(e, r) {
+      let a = r.deserialize(e.stream);
+      return P(a);
+    },
+  }),
+  p = ee;
+const defaultSerovalPlugins = [ShallowErrorPlugin, RawStreamSSRPlugin, p];
 async function getStartManifest(matchedRoutes) {
-  const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-BDG379Uf.mjs");
+  const { tsrStartManifest } = await import("../_tanstack-start-manifest_v-CyIsw2NL.mjs");
   const startManifest = tsrStartManifest();
   let routes = startManifest.routes;
   routes[rootRouteId];
@@ -3123,11 +3729,11 @@ async function getStartManifest(matchedRoutes) {
   }
   return {
     manifest: {
-      ...startManifest.scriptFormat ? { scriptFormat: startManifest.scriptFormat } : {},
-      ...startManifest.inlineCss ? { inlineCss: startManifest.inlineCss } : {},
-      routes: manifestRoutes
+      ...(startManifest.scriptFormat ? { scriptFormat: startManifest.scriptFormat } : {}),
+      ...(startManifest.inlineCss ? { inlineCss: startManifest.inlineCss } : {}),
+      routes: manifestRoutes,
     },
-    clientEntry: startManifest.clientEntry
+    clientEntry: startManifest.clientEntry,
   };
 }
 const manifest = {};
@@ -3136,7 +3742,7 @@ async function getServerFnById(id, access) {
   if (!serverFnInfo) {
     throw new Error("Server function info not found for " + id);
   }
-  const fnModule = serverFnInfo.module ?? await serverFnInfo.importer();
+  const fnModule = serverFnInfo.module ?? (await serverFnInfo.importer());
   if (!fnModule) {
     throw new Error("Server function module not resolved for " + id);
   }
@@ -3159,7 +3765,7 @@ var FrameType = {
   /** Raw stream end (EOF) */
   END: 2,
   /** Raw stream error */
-  ERROR: 3
+  ERROR: 3,
 };
 var FRAME_HEADER_SIZE = 9;
 var TSS_CONTENT_TYPE_FRAMED_VERSIONED = `${TSS_CONTENT_TYPE_FRAMED}; v=1`;
@@ -3191,7 +3797,10 @@ async function runWithStartContext(context, fn2) {
 }
 function getStartContext(opts) {
   const context = startStorage.getStore();
-  if (!context && opts?.throwIfNotFound !== false) throw new Error(`No Start context found in AsyncLocalStorage. Make sure you are using the function within the server runtime.`);
+  if (!context && opts?.throwIfNotFound !== false)
+    throw new Error(
+      `No Start context found in AsyncLocalStorage. Make sure you are using the function within the server runtime.`,
+    );
   return context;
 }
 var getStartOptions = () => getStartContext().startOptions;
@@ -3232,7 +3841,8 @@ function splitSetCookieString(cookiesString) {
         } else pos = lastComma + 1;
       } else pos += 1;
     }
-    if (!cookiesSeparatorFound || pos >= cookiesString.length) cookiesStrings.push(cookiesString.slice(start));
+    if (!cookiesSeparatorFound || pos >= cookiesString.length)
+      cookiesStrings.push(cookiesString.slice(start));
   }
   return cookiesStrings;
 }
@@ -3246,8 +3856,10 @@ function mergeHeaders(...headers) {
   return headers.reduce((acc, header) => {
     const headersInstance = toHeadersInstance(header);
     if (!headersInstance) return acc;
-    for (const [key, value] of headersInstance.entries()) if (key === "set-cookie") splitSetCookieString(value).forEach((cookie) => acc.append("set-cookie", cookie));
-    else acc.set(key, value);
+    for (const [key, value] of headersInstance.entries())
+      if (key === "set-cookie")
+        splitSetCookieString(value).forEach((cookie) => acc.append("set-cookie", cookie));
+      else acc.set(key, value);
     return acc;
   }, new Headers());
 }
@@ -3258,7 +3870,10 @@ function flattenMiddlewares(middlewares, maxDepth = 100) {
   const seen = /* @__PURE__ */ new Set();
   const flattened = [];
   const recurse = (middleware, depth) => {
-    if (depth > maxDepth) throw new Error(`Middleware nesting depth exceeded maximum of ${maxDepth}. Check for circular references.`);
+    if (depth > maxDepth)
+      throw new Error(
+        `Middleware nesting depth exceeded maximum of ${maxDepth}. Check for circular references.`,
+      );
     middleware.forEach((m2) => {
       if (m2.options.middleware) recurse(m2.options.middleware, depth + 1);
       if (!seen.has(m2)) {
@@ -3273,7 +3888,7 @@ function flattenMiddlewares(middlewares, maxDepth = 100) {
 var createMiddleware = (options, __opts) => {
   const resolvedOptions = {
     type: "request",
-    ...__opts || options
+    ...(__opts || options),
   };
   return {
     options: resolvedOptions,
@@ -3288,13 +3903,13 @@ var createMiddleware = (options, __opts) => {
     },
     server: (server2) => {
       return createMiddleware({}, Object.assign(resolvedOptions, { server: server2 }));
-    }
+    },
   };
 };
 var innerCreateCsrfMiddleware = (opts = {}) => {
   const middleware = createMiddleware().server(async (ctx) => {
     const csrfCtx = ctx;
-    if (opts.filter && !await opts.filter(csrfCtx)) return ctx.next();
+    if (opts.filter && !(await opts.filter(csrfCtx))) return ctx.next();
     if (await isCsrfRequestAllowed(opts, csrfCtx)) return ctx.next();
     return getFailureResponse(opts, csrfCtx);
   });
@@ -3303,7 +3918,7 @@ var innerCreateCsrfMiddleware = (opts = {}) => {
 var createCsrfMiddleware = innerCreateCsrfMiddleware;
 async function isCsrfRequestAllowed(opts, ctx) {
   const result = await getCsrfRequestValidationResult(opts, ctx);
-  return result === true || result === void 0 && opts.allowRequestsWithoutOriginCheck === true;
+  return result === true || (result === void 0 && opts.allowRequestsWithoutOriginCheck === true);
 }
 async function getCsrfRequestValidationResult(opts, ctx) {
   const fetchSite = ctx.request.headers.get("Sec-Fetch-Site");
@@ -3343,25 +3958,31 @@ function isRefererSameOrigin(referer, requestOrigin) {
 }
 async function getFailureResponse(opts, ctx) {
   if (typeof opts.failureResponse === "function") return opts.failureResponse(ctx);
-  return opts.failureResponse?.clone() ?? new Response("Forbidden", {
-    status: 403
-  });
+  return (
+    opts.failureResponse?.clone() ??
+    new Response("Forbidden", {
+      status: 403,
+    })
+  );
 }
 function getDefaultSerovalPlugins() {
-  return [...getStartOptions()?.serializationAdapters?.map(makeSerovalPlugin) ?? [], ...defaultSerovalPlugins];
+  return [
+    ...(getStartOptions()?.serializationAdapters?.map(makeSerovalPlugin) ?? []),
+    ...defaultSerovalPlugins,
+  ];
 }
 var textEncoder = new TextEncoder();
 var EMPTY_PAYLOAD = new Uint8Array(0);
 function encodeFrame(type, streamId, payload) {
   const frame = new Uint8Array(FRAME_HEADER_SIZE + payload.length);
   frame[0] = type;
-  frame[1] = streamId >>> 24 & 255;
-  frame[2] = streamId >>> 16 & 255;
-  frame[3] = streamId >>> 8 & 255;
+  frame[1] = (streamId >>> 24) & 255;
+  frame[2] = (streamId >>> 16) & 255;
+  frame[3] = (streamId >>> 8) & 255;
   frame[4] = streamId & 255;
-  frame[5] = payload.length >>> 24 & 255;
-  frame[6] = payload.length >>> 16 & 255;
-  frame[7] = payload.length >>> 8 & 255;
+  frame[5] = (payload.length >>> 24) & 255;
+  frame[6] = (payload.length >>> 16) & 255;
+  frame[7] = (payload.length >>> 8) & 255;
   frame[8] = payload.length & 255;
   frame.set(payload, FRAME_HEADER_SIZE);
   return frame;
@@ -3397,10 +4018,8 @@ function createMultiplexedStream(jsonStream, rawStreams, lateStreamSource) {
     cancelled = true;
     try {
       controller.error(error);
-    } catch {
-    }
-    for (const reader of readers) reader.cancel().catch(() => {
-    });
+    } catch {}
+    for (const reader of readers) reader.cancel().catch(() => {});
   };
   async function pumpRawStream(streamId, stream) {
     const reader = stream.getReader();
@@ -3461,19 +4080,17 @@ function createMultiplexedStream(jsonStream, rawStreams, lateStreamSource) {
       try {
         const latePumps = (await Promise.all(pumps)).find(Array.isArray);
         if (latePumps && latePumps.length > 0) await Promise.all(latePumps);
-        if (!cancelled) try {
-          controller.close();
-        } catch {
-        }
-      } catch {
-      }
+        if (!cancelled)
+          try {
+            controller.close();
+          } catch {}
+      } catch {}
     },
     cancel() {
       cancelled = true;
-      for (const reader of readers) reader.cancel().catch(() => {
-      });
+      for (const reader of readers) reader.cancel().catch(() => {});
       readers.length = 0;
-    }
+    },
   });
 }
 var serovalPlugins = void 0;
@@ -3483,10 +4100,11 @@ var handleServerAction = async ({ request, context, serverFnId }) => {
   const methodUpper = request.method.toUpperCase();
   const url = new URL(request.url);
   const action = await getServerFnById(serverFnId);
-  if (action.method && methodUpper !== action.method) return new Response(`expected ${action.method} method. Got ${methodUpper}`, {
-    status: 405,
-    headers: { Allow: action.method }
-  });
+  if (action.method && methodUpper !== action.method)
+    return new Response(`expected ${action.method} method. Got ${methodUpper}`, {
+      status: 405,
+      headers: { Allow: action.method },
+    });
   const isServerFn = request.headers.get("x-tsr-serverFn") === "true";
   if (!serovalPlugins) serovalPlugins = getDefaultSerovalPlugins();
   const contentType = request.headers.get("Content-Type");
@@ -3495,7 +4113,7 @@ var handleServerAction = async ({ request, context, serverFnId }) => {
   }
   return await (async () => {
     try {
-      let serializeResult = function(res2) {
+      let serializeResult = function (res2) {
         let nonStreamingBody = void 0;
         const alsResponse = getResponse();
         if (res2 !== void 0) {
@@ -3504,24 +4122,28 @@ var handleServerAction = async ({ request, context, serverFnId }) => {
           let lateStreamWriter;
           let lateStreamReadable = void 0;
           const pendingLateStreams = [];
-          const plugins = [/* @__PURE__ */ createRawStreamRPCPlugin((id, stream) => {
-            if (initialPhase) {
-              rawStreams.set(id, stream);
-              return;
-            }
-            if (lateStreamWriter) {
-              lateStreamWriter.write({
+          const plugins = [
+            /* @__PURE__ */ createRawStreamRPCPlugin((id, stream) => {
+              if (initialPhase) {
+                rawStreams.set(id, stream);
+                return;
+              }
+              if (lateStreamWriter) {
+                lateStreamWriter
+                  .write({
+                    id,
+                    stream,
+                  })
+                  .catch(() => {});
+                return;
+              }
+              pendingLateStreams.push({
                 id,
-                stream
-              }).catch(() => {
+                stream,
               });
-              return;
-            }
-            pendingLateStreams.push({
-              id,
-              stream
-            });
-          }), ...serovalPlugins || []];
+            }),
+            ...(serovalPlugins || []),
+          ];
           let done = false;
           const callbacks = {
             onParse: (value) => {
@@ -3532,7 +4154,7 @@ var handleServerAction = async ({ request, context, serverFnId }) => {
             },
             onError: (error) => {
               throw error;
-            }
+            },
           };
           iu(res2, {
             refs: /* @__PURE__ */ new Map(),
@@ -3545,72 +4167,79 @@ var handleServerAction = async ({ request, context, serverFnId }) => {
             },
             onError: (error) => {
               callbacks.onError(error);
-            }
+            },
           });
           initialPhase = false;
-          if (done && rawStreams.size === 0) return new Response(nonStreamingBody ? JSON.stringify(nonStreamingBody) : void 0, {
-            status: alsResponse.status,
-            statusText: alsResponse.statusText,
-            headers: {
-              "Content-Type": "application/json",
-              [X_TSS_SERIALIZED]: "true"
-            }
-          });
+          if (done && rawStreams.size === 0)
+            return new Response(nonStreamingBody ? JSON.stringify(nonStreamingBody) : void 0, {
+              status: alsResponse.status,
+              statusText: alsResponse.statusText,
+              headers: {
+                "Content-Type": "application/json",
+                [X_TSS_SERIALIZED]: "true",
+              },
+            });
           const { readable, writable } = new TransformStream();
           lateStreamReadable = readable;
           lateStreamWriter = writable.getWriter();
-          for (const registration of pendingLateStreams) lateStreamWriter.write(registration).catch(() => {
-          });
+          for (const registration of pendingLateStreams)
+            lateStreamWriter.write(registration).catch(() => {});
           pendingLateStreams.length = 0;
-          const multiplexedStream = createMultiplexedStream(new ReadableStream({
-            start(controller) {
-              callbacks.onParse = (value) => {
-                controller.enqueue(JSON.stringify(value) + "\n");
-              };
-              callbacks.onDone = () => {
-                try {
-                  controller.close();
-                } catch {
-                }
-                lateStreamWriter?.close().catch(() => {
-                }).finally(() => {
-                  lateStreamWriter = void 0;
-                });
-              };
-              callbacks.onError = (error) => {
-                controller.error(error);
-                lateStreamWriter?.abort(error).catch(() => {
-                }).finally(() => {
-                  lateStreamWriter = void 0;
-                });
-              };
-              if (nonStreamingBody !== void 0) callbacks.onParse(nonStreamingBody);
-              if (done) callbacks.onDone();
-            },
-            cancel() {
-              lateStreamWriter?.abort().catch(() => {
-              });
-              lateStreamWriter = void 0;
-            }
-          }), rawStreams, lateStreamReadable);
+          const multiplexedStream = createMultiplexedStream(
+            new ReadableStream({
+              start(controller) {
+                callbacks.onParse = (value) => {
+                  controller.enqueue(JSON.stringify(value) + "\n");
+                };
+                callbacks.onDone = () => {
+                  try {
+                    controller.close();
+                  } catch {}
+                  lateStreamWriter
+                    ?.close()
+                    .catch(() => {})
+                    .finally(() => {
+                      lateStreamWriter = void 0;
+                    });
+                };
+                callbacks.onError = (error) => {
+                  controller.error(error);
+                  lateStreamWriter
+                    ?.abort(error)
+                    .catch(() => {})
+                    .finally(() => {
+                      lateStreamWriter = void 0;
+                    });
+                };
+                if (nonStreamingBody !== void 0) callbacks.onParse(nonStreamingBody);
+                if (done) callbacks.onDone();
+              },
+              cancel() {
+                lateStreamWriter?.abort().catch(() => {});
+                lateStreamWriter = void 0;
+              },
+            }),
+            rawStreams,
+            lateStreamReadable,
+          );
           return new Response(multiplexedStream, {
             status: alsResponse.status,
             statusText: alsResponse.statusText,
             headers: {
               "Content-Type": TSS_CONTENT_TYPE_FRAMED_VERSIONED,
-              [X_TSS_SERIALIZED]: "true"
-            }
+              [X_TSS_SERIALIZED]: "true",
+            },
           });
         }
         return new Response(void 0, {
           status: alsResponse.status,
-          statusText: alsResponse.statusText
+          statusText: alsResponse.statusText,
         });
       };
       let res = await (async () => {
         if (FORM_DATA_CONTENT_TYPES.some((type) => contentType && contentType.includes(type))) {
           if (methodUpper === "GET") {
-            if (false) ;
+            if (false);
             invariant();
           }
           const formData = await request.formData();
@@ -3619,19 +4248,24 @@ var handleServerAction = async ({ request, context, serverFnId }) => {
           const params = {
             context,
             data: formData,
-            method: methodUpper
+            method: methodUpper,
           };
-          if (typeof serializedContext === "string") try {
-            const deserializedContext = Pu(JSON.parse(serializedContext), { plugins: serovalPlugins });
-            if (typeof deserializedContext === "object" && deserializedContext) params.context = safeObjectMerge(deserializedContext, context);
-          } catch (e) {
-            if (false) ;
-          }
+          if (typeof serializedContext === "string")
+            try {
+              const deserializedContext = Pu(JSON.parse(serializedContext), {
+                plugins: serovalPlugins,
+              });
+              if (typeof deserializedContext === "object" && deserializedContext)
+                params.context = safeObjectMerge(deserializedContext, context);
+            } catch (e) {
+              if (false);
+            }
           return await action(params);
         }
         if (methodUpper === "GET") {
           const payloadParam = url.searchParams.get("payload");
-          if (payloadParam && payloadParam.length > MAX_PAYLOAD_SIZE) throw new Error("Payload too large");
+          if (payloadParam && payloadParam.length > MAX_PAYLOAD_SIZE)
+            throw new Error("Payload too large");
           const payload2 = payloadParam ? parsePayload(JSON.parse(payloadParam)) : {};
           payload2.context = safeObjectMerge(payload2.context, context);
           payload2.method = methodUpper;
@@ -3661,18 +4295,22 @@ var handleServerAction = async ({ request, context, serverFnId }) => {
       console.info();
       console.error(error);
       console.info();
-      const serializedError = JSON.stringify(await Promise.resolve(su(error, {
-        refs: /* @__PURE__ */ new Map(),
-        plugins: serovalPlugins
-      })));
+      const serializedError = JSON.stringify(
+        await Promise.resolve(
+          su(error, {
+            refs: /* @__PURE__ */ new Map(),
+            plugins: serovalPlugins,
+          }),
+        ),
+      );
       const response = getResponse();
       return new Response(serializedError, {
         status: response.status ?? 500,
         statusText: response.statusText,
         headers: {
           "Content-Type": "application/json",
-          [X_TSS_SERIALIZED]: "true"
-        }
+          [X_TSS_SERIALIZED]: "true",
+        },
       });
     }
   })();
@@ -3683,8 +4321,8 @@ function isNotFoundResponse(error) {
     status: 404,
     headers: {
       "Content-Type": "application/json",
-      ...headers || {}
-    }
+      ...(headers || {}),
+    },
   });
 }
 var LINK_PARAM_TOKEN_RE = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/;
@@ -3694,7 +4332,7 @@ var PRELOAD_AS_VALUES = /* @__PURE__ */ new Set([
   "image",
   "script",
   "style",
-  "track"
+  "track",
 ]);
 function buildLinkParam(name, value) {
   if (value === void 0) return name;
@@ -3704,7 +4342,8 @@ function buildLinkParam(name, value) {
 function serializeEarlyHint(hint) {
   const parts = [`<${hint.href}>`, buildLinkParam("rel", hint.rel)];
   if (hint.as) parts.push(buildLinkParam("as", hint.as));
-  if (hint.crossOrigin !== void 0) parts.push(buildLinkParam("crossorigin", hint.crossOrigin || void 0));
+  if (hint.crossOrigin !== void 0)
+    parts.push(buildLinkParam("crossorigin", hint.crossOrigin || void 0));
   if (hint.type) parts.push(buildLinkParam("type", hint.type));
   if (hint.integrity) parts.push(buildLinkParam("integrity", hint.integrity));
   if (hint.referrerPolicy) parts.push(buildLinkParam("referrerpolicy", hint.referrerPolicy));
@@ -3758,7 +4397,7 @@ function linkAttrsToEarlyHint(attrs) {
   if (!hintRel) return void 0;
   const hint = {
     href,
-    rel: hintRel
+    rel: hintRel,
   };
   if (hintAs) hint.as = hintAs;
   addEarlyHintFetchAttrs(hint, attrs);
@@ -3774,7 +4413,7 @@ function collectStaticHintsFromManifest(manifest2, matchedRoutes) {
       const hint = {
         href: attrs.href,
         rel: attrs.rel,
-        as: "script"
+        as: "script",
       };
       if (attrs.crossOrigin !== void 0) hint.crossOrigin = attrs.crossOrigin;
       hints.push(hint);
@@ -3786,7 +4425,7 @@ function collectStaticHintsFromManifest(manifest2, matchedRoutes) {
       const hint = {
         href: stylesheetHref,
         rel: "preload",
-        as: "style"
+        as: "style",
       };
       if (resolvedLink.crossOrigin !== void 0) hint.crossOrigin = resolvedLink.crossOrigin;
       hints.push(hint);
@@ -3823,7 +4462,7 @@ function createEarlyHintsEvent(opts) {
     hints: nextHints,
     links: nextLinks,
     allHints: opts.sentHints.slice(),
-    allLinks: Array.from(opts.sentLinks)
+    allLinks: Array.from(opts.sentLinks),
   };
 }
 function createResponseLinkHeaderEntries(opts) {
@@ -3834,7 +4473,7 @@ function createResponseLinkHeaderEntries(opts) {
     opts.entries.push({
       phase: opts.phase,
       hint,
-      link
+      link,
     });
   }
 }
@@ -3852,9 +4491,10 @@ function getResponseLinkHeaderEntries(opts) {
 function notifyEarlyHints(phase, event, onEarlyHints) {
   try {
     const result = onEarlyHints(event);
-    if (result) Promise.resolve(result).catch((err) => {
-      console.error(`Error sending ${phase} early hints:`, err);
-    });
+    if (result)
+      Promise.resolve(result).catch((err) => {
+        console.error(`Error sending ${phase} early hints:`, err);
+      });
   } catch (err) {
     console.error(`Error sending ${phase} early hints:`, err);
   }
@@ -3867,26 +4507,29 @@ function appendResponseLinkHeaders(opts) {
   for (const link of getResponseLinkHeaderEntries(opts)) opts.responseHeaders.append("Link", link);
 }
 function collectResponseLinkHeaderEntries(opts) {
-  for (let index = 0; index < opts.event.hints.length; index++) opts.entries.push({
-    phase: opts.phase,
-    hint: opts.event.hints[index],
-    link: opts.event.links[index]
-  });
+  for (let index = 0; index < opts.event.hints.length; index++)
+    opts.entries.push({
+      phase: opts.phase,
+      hint: opts.event.hints[index],
+      link: opts.event.links[index],
+    });
 }
 function collectEarlyHintsPhase(opts) {
-  const event = opts.onEarlyHints ? createEarlyHintsEvent({
-    phase: opts.phase,
-    hints: opts.hints,
-    sentLinks: opts.sentLinks,
-    sentHints: opts.sentHints
-  }) : void 0;
+  const event = opts.onEarlyHints
+    ? createEarlyHintsEvent({
+        phase: opts.phase,
+        hints: opts.hints,
+        sentLinks: opts.sentLinks,
+        sentHints: opts.sentHints,
+      })
+    : void 0;
   if (event) notifyEarlyHints(opts.phase, event, opts.onEarlyHints);
   if (!opts.responseLinkHeaderEntries) return;
   if (event) {
     collectResponseLinkHeaderEntries({
       phase: opts.phase,
       event,
-      entries: opts.responseLinkHeaderEntries
+      entries: opts.responseLinkHeaderEntries,
     });
     return;
   }
@@ -3894,7 +4537,7 @@ function collectEarlyHintsPhase(opts) {
     phase: opts.phase,
     hints: opts.hints,
     sentLinks: opts.sentLinks,
-    entries: opts.responseLinkHeaderEntries
+    entries: opts.responseLinkHeaderEntries,
   });
 }
 function createEarlyHintsCollector(opts) {
@@ -3912,7 +4555,7 @@ function createEarlyHintsCollector(opts) {
         sentLinks,
         sentHints,
         onEarlyHints: opts.onEarlyHints,
-        responseLinkHeaderEntries
+        responseLinkHeaderEntries,
       });
     },
     collectDynamic: (matches) => {
@@ -3922,7 +4565,7 @@ function createEarlyHintsCollector(opts) {
         sentLinks,
         sentHints,
         onEarlyHints: opts.onEarlyHints,
-        responseLinkHeaderEntries
+        responseLinkHeaderEntries,
       });
     },
     appendResponseHeaders: (headers) => {
@@ -3930,9 +4573,9 @@ function createEarlyHintsCollector(opts) {
       appendResponseLinkHeaders({
         responseHeaders: headers,
         entries: responseLinkHeaderEntries,
-        filter: responseLinkHeaderFilter
+        filter: responseLinkHeaderFilter,
       });
-    }
+    },
   };
 }
 function normalizeTransformAssetResult(result) {
@@ -3940,36 +4583,51 @@ function normalizeTransformAssetResult(result) {
   return result;
 }
 function escapeCssString(value) {
-  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\a ").replace(/\r/g, "\\d ").replace(/\f/g, "\\c ");
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, "\\a ")
+    .replace(/\r/g, "\\d ")
+    .replace(/\f/g, "\\c ");
 }
 async function transformInlineCssTemplate(options) {
   const { strings, urls } = options.template;
-  if (strings.length !== urls.length + 1) throw new Error(`TanStack Start inlineCss template for ${options.stylesheetHref} is invalid`);
+  if (strings.length !== urls.length + 1)
+    throw new Error(`TanStack Start inlineCss template for ${options.stylesheetHref} is invalid`);
   let css = strings[0];
   for (let index = 0; index < urls.length; index++) {
-    const transformed = normalizeTransformAssetResult(await options.transformFn({
-      kind: "css-url",
-      url: urls[index],
-      stylesheetHref: options.stylesheetHref
-    }));
+    const transformed = normalizeTransformAssetResult(
+      await options.transformFn({
+        kind: "css-url",
+        url: urls[index],
+        stylesheetHref: options.stylesheetHref,
+      }),
+    );
     css += escapeCssString(transformed.href) + strings[index + 1];
   }
   return css;
 }
 async function transformInlineCssStyles(inlineCss, transformFn) {
   const transformedStyles = {};
-  const transformedEntries = await Promise.all(Object.entries(inlineCss.styles).map(async ([stylesheetHref, css]) => {
-    const template = inlineCss.templates?.[stylesheetHref];
-    return [stylesheetHref, template ? await transformInlineCssTemplate({
-      stylesheetHref,
-      template,
-      transformFn
-    }) : css];
-  }));
+  const transformedEntries = await Promise.all(
+    Object.entries(inlineCss.styles).map(async ([stylesheetHref, css]) => {
+      const template = inlineCss.templates?.[stylesheetHref];
+      return [
+        stylesheetHref,
+        template
+          ? await transformInlineCssTemplate({
+              stylesheetHref,
+              template,
+              transformFn,
+            })
+          : css,
+      ];
+    }),
+  );
   for (const [stylesheetHref, css] of transformedEntries) transformedStyles[stylesheetHref] = css;
   return {
     styles: transformedStyles,
-    ...inlineCss.templates ? { templates: inlineCss.templates } : {}
+    ...(inlineCss.templates ? { templates: inlineCss.templates } : {}),
   };
 }
 function resolveTransformAssetsCrossOrigin(config, kind) {
@@ -3986,14 +4644,15 @@ function resolveTransformAssetsConfig(transform) {
     return {
       type: "transform",
       transformFn: ({ url }) => ({ href: `${prefix}${url}` }),
-      cache: true
+      cache: true,
     };
   }
-  if (typeof transform === "function") return {
-    type: "transform",
-    transformFn: transform,
-    cache: true
-  };
+  if (typeof transform === "function")
+    return {
+      type: "transform",
+      transformFn: transform,
+      cache: true,
+    };
   if (isObjectShorthand(transform)) {
     const { prefix, crossOrigin } = transform;
     return {
@@ -4002,38 +4661,46 @@ function resolveTransformAssetsConfig(transform) {
         const href = `${prefix}${url}`;
         if (kind === "css-url") return { href };
         const co2 = resolveTransformAssetsCrossOrigin(crossOrigin, kind);
-        return co2 ? {
-          href,
-          crossOrigin: co2
-        } : { href };
+        return co2
+          ? {
+              href,
+              crossOrigin: co2,
+            }
+          : { href };
       },
-      cache: true
+      cache: true,
     };
   }
-  if ("createTransform" in transform && transform.createTransform) return {
-    type: "createTransform",
-    createTransform: transform.createTransform,
-    cache: transform.cache !== false
-  };
+  if ("createTransform" in transform && transform.createTransform)
+    return {
+      type: "createTransform",
+      createTransform: transform.createTransform,
+      cache: transform.cache !== false,
+    };
   return {
     type: "transform",
-    transformFn: typeof transform.transform === "string" ? (({ url }) => ({ href: `${transform.transform}${url}` })) : transform.transform,
-    cache: transform.cache !== false
+    transformFn:
+      typeof transform.transform === "string"
+        ? ({ url }) => ({ href: `${transform.transform}${url}` })
+        : transform.transform,
+    cache: transform.cache !== false,
   };
 }
 function buildClientEntryScriptTag(clientEntry, scriptFormat = "module", crossOrigin) {
-  return { attrs: {
-    ...scriptFormat === "module" ? { type: "module" } : {},
-    async: true,
-    src: clientEntry,
-    ...{}
-  } };
+  return {
+    attrs: {
+      ...(scriptFormat === "module" ? { type: "module" } : {}),
+      async: true,
+      src: clientEntry,
+      ...{},
+    },
+  };
 }
 function assignManifestLink(link, next) {
   if (typeof link === "string") return next.crossOrigin ? next : next.href;
   const nextLink = {
     ...link,
-    href: next.href
+    href: next.href,
   };
   if (next.crossOrigin) nextLink.crossOrigin = next.crossOrigin;
   else delete nextLink.crossOrigin;
@@ -4042,21 +4709,24 @@ function assignManifestLink(link, next) {
 function appendUniqueManifestAssetLink(target, link) {
   const href = typeof link === "string" ? link : link.href;
   if (target) {
-    for (const item of target) if ((typeof item === "string" ? item : item.href) === href) return target;
+    for (const item of target)
+      if ((typeof item === "string" ? item : item.href) === href) return target;
   }
-  return [...target ?? [], link];
+  return [...(target ?? []), link];
 }
 function addClientEntryToManifest(manifest2, clientEntry) {
   const rootRoute = manifest2.routes.__root__ ?? {};
   const rootScripts = rootRoute.scripts ?? [];
-  const scripts = rootScripts.some((script) => script.attrs?.src === clientEntry) ? rootScripts : [...rootScripts, buildClientEntryScriptTag(clientEntry, getManifestScriptFormat(manifest2))];
+  const scripts = rootScripts.some((script) => script.attrs?.src === clientEntry)
+    ? rootScripts
+    : [...rootScripts, buildClientEntryScriptTag(clientEntry, getManifestScriptFormat(manifest2))];
   manifest2.routes = {
     ...manifest2.routes,
     __root__: {
       ...rootRoute,
       preloads: appendUniqueManifestAssetLink(rootRoute.preloads, clientEntry),
-      scripts
-    }
+      scripts,
+    },
   };
 }
 async function transformManifestAssets(source, transformFn, _opts) {
@@ -4066,53 +4736,67 @@ async function transformManifestAssets(source, transformFn, _opts) {
   const transformScript = (url) => {
     const cached = scriptTransforms.get(url);
     if (cached) return cached;
-    const transformed = Promise.resolve(transformFn({
-      url,
-      kind: "script"
-    })).then(normalizeTransformAssetResult);
+    const transformed = Promise.resolve(
+      transformFn({
+        url,
+        kind: "script",
+      }),
+    ).then(normalizeTransformAssetResult);
     scriptTransforms.set(url, transformed);
     return transformed;
   };
   if (!inlineCssEnabled) delete manifest2.inlineCss;
-  else if (manifest2.inlineCss) manifest2.inlineCss = await transformInlineCssStyles(manifest2.inlineCss, transformFn);
+  else if (manifest2.inlineCss)
+    manifest2.inlineCss = await transformInlineCssStyles(manifest2.inlineCss, transformFn);
   addClientEntryToManifest(manifest2, source.clientEntry);
   for (const route of Object.values(manifest2.routes)) {
-    if (route.preloads?.length) route.preloads = await Promise.all(route.preloads.map(async (link) => {
-      const result = await transformScript(resolveManifestAssetLink(link).href);
-      return assignManifestLink(link, {
-        href: result.href,
-        crossOrigin: result.crossOrigin
-      });
-    }));
-    if (route.css?.length && !manifest2.inlineCss) route.css = await Promise.all(route.css.map(async (link) => {
-      const result = normalizeTransformAssetResult(await transformFn({
-        url: resolveManifestCssLink(link).href,
-        kind: "stylesheet"
-      }));
-      return assignManifestLink(link, {
-        href: result.href,
-        crossOrigin: result.crossOrigin
-      });
-    }));
-    if (route.scripts?.length) for (const script of route.scripts) {
-      const src = script.attrs?.src;
-      if (typeof src !== "string") continue;
-      const result = await transformScript(src);
-      script.attrs = {
-        ...script.attrs,
-        src: result.href
-      };
-      if (result.crossOrigin) script.attrs.crossOrigin = result.crossOrigin;
-      else delete script.attrs.crossOrigin;
-    }
+    if (route.preloads?.length)
+      route.preloads = await Promise.all(
+        route.preloads.map(async (link) => {
+          const result = await transformScript(resolveManifestAssetLink(link).href);
+          return assignManifestLink(link, {
+            href: result.href,
+            crossOrigin: result.crossOrigin,
+          });
+        }),
+      );
+    if (route.css?.length && !manifest2.inlineCss)
+      route.css = await Promise.all(
+        route.css.map(async (link) => {
+          const result = normalizeTransformAssetResult(
+            await transformFn({
+              url: resolveManifestCssLink(link).href,
+              kind: "stylesheet",
+            }),
+          );
+          return assignManifestLink(link, {
+            href: result.href,
+            crossOrigin: result.crossOrigin,
+          });
+        }),
+      );
+    if (route.scripts?.length)
+      for (const script of route.scripts) {
+        const src = script.attrs?.src;
+        if (typeof src !== "string") continue;
+        const result = await transformScript(src);
+        script.attrs = {
+          ...script.attrs,
+          src: result.href,
+        };
+        if (result.crossOrigin) script.attrs.crossOrigin = result.crossOrigin;
+        else delete script.attrs.crossOrigin;
+      }
   }
   return manifest2;
 }
 function buildManifestWithClientEntry(source, opts) {
   const manifest2 = {
-    ...source.manifest.scriptFormat ? { scriptFormat: source.manifest.scriptFormat } : {},
-    ...opts?.inlineCss !== false && source.manifest.inlineCss ? { inlineCss: structuredClone(source.manifest.inlineCss) } : {},
-    routes: { ...source.manifest.routes }
+    ...(source.manifest.scriptFormat ? { scriptFormat: source.manifest.scriptFormat } : {}),
+    ...(opts?.inlineCss !== false && source.manifest.inlineCss
+      ? { inlineCss: structuredClone(source.manifest.inlineCss) }
+      : {}),
+    routes: { ...source.manifest.routes },
   };
   addClientEntryToManifest(manifest2, source.clientEntry);
   return manifest2;
@@ -4123,23 +4807,30 @@ function getStaticHandlerInlineCssDefault(handlerInlineCss) {
 }
 async function resolveInlineCssForRequest(opts) {
   if (opts.requestInlineCss !== void 0) return opts.requestInlineCss;
-  if (typeof opts.handlerInlineCss === "function") return await opts.handlerInlineCss({ request: opts.request });
+  if (typeof opts.handlerInlineCss === "function")
+    return await opts.handlerInlineCss({ request: opts.request });
   return opts.handlerInlineCss ?? true;
 }
 function createCachedBaseManifestLoader(loadBaseManifest) {
   let baseManifestPromise;
   return () => {
-    if (!baseManifestPromise) baseManifestPromise = loadBaseManifest().catch((error) => {
-      baseManifestPromise = void 0;
-      throw error;
-    });
+    if (!baseManifestPromise)
+      baseManifestPromise = loadBaseManifest().catch((error) => {
+        baseManifestPromise = void 0;
+        throw error;
+      });
     return baseManifestPromise;
   };
 }
 function createFinalManifestTransformResolver(transformAssets, opts) {
-  const transformConfig = transformAssets !== void 0 ? resolveTransformAssetsConfig(transformAssets) : void 0;
+  const transformConfig =
+    transformAssets !== void 0 ? resolveTransformAssetsConfig(transformAssets) : void 0;
   const cache = transformConfig ? transformConfig.cache : true;
-  const warmup = !!transformAssets && typeof transformAssets === "object" && "warmup" in transformAssets && transformAssets.warmup === true;
+  const warmup =
+    !!transformAssets &&
+    typeof transformAssets === "object" &&
+    "warmup" in transformAssets &&
+    transformAssets.warmup === true;
   let cachedCreateTransformPromise;
   const clearCachedCreateTransform = () => {
     cachedCreateTransformPromise = void 0;
@@ -4152,12 +4843,15 @@ function createFinalManifestTransformResolver(transformAssets, opts) {
       if (!transformConfig) return void 0;
       if (transformConfig.type !== "createTransform") return transformConfig.transformFn;
       if (!cache || false) return transformConfig.createTransform(ctx);
-      if (!cachedCreateTransformPromise) cachedCreateTransformPromise = Promise.resolve(transformConfig.createTransform(ctx)).catch((error) => {
-        clearCachedCreateTransform();
-        throw error;
-      });
+      if (!cachedCreateTransformPromise)
+        cachedCreateTransformPromise = Promise.resolve(transformConfig.createTransform(ctx)).catch(
+          (error) => {
+            clearCachedCreateTransform();
+            throw error;
+          },
+        );
       return cachedCreateTransformPromise;
-    }
+    },
   };
 }
 function createFinalManifestResolver(opts) {
@@ -4167,38 +4861,39 @@ function createFinalManifestResolver(opts) {
   const getRequestManifestOptions = async (requestOpts) => {
     const transformFn = await transformResolver.getTransformFn({
       warmup: false,
-      request: requestOpts.request
+      request: requestOpts.request,
     });
     const inlineCss = await resolveInlineCssForRequest({
       request: requestOpts.request,
       handlerInlineCss: opts.inlineCss,
-      requestInlineCss: requestOpts.requestInlineCss
+      requestInlineCss: requestOpts.requestInlineCss,
     });
     return {
       getBaseManifest: requestOpts.getBaseManifest,
       transformFn,
       cache: transformResolver.cache,
-      inlineCss
+      inlineCss,
     };
   };
   const resolveRequest = async (requestOpts, cache) => {
     return resolveFinalManifest({
-      ...await getRequestManifestOptions(requestOpts),
-      finalManifestCache: cache
+      ...(await getRequestManifestOptions(requestOpts)),
+      finalManifestCache: cache,
     });
   };
   return {
-    warmup: ({ getBaseManifest: getBaseManifest2 }) => warmupFinalManifest({
-      enabled: transformResolver.warmup,
-      handlerDefaultInlineCss,
-      cache: transformResolver.cache,
-      finalManifestCache,
-      getBaseManifest: getBaseManifest2,
-      getTransformFn: () => transformResolver.getTransformFn({ warmup: true }),
-      onError: transformResolver.clearCachedCreateTransform
-    }),
+    warmup: ({ getBaseManifest: getBaseManifest2 }) =>
+      warmupFinalManifest({
+        enabled: transformResolver.warmup,
+        handlerDefaultInlineCss,
+        cache: transformResolver.cache,
+        finalManifestCache,
+        getBaseManifest: getBaseManifest2,
+        getTransformFn: () => transformResolver.getTransformFn({ warmup: true }),
+        onError: transformResolver.clearCachedCreateTransform,
+      }),
     resolveCached: (requestOpts) => resolveRequest(requestOpts, finalManifestCache),
-    resolveUncached: (requestOpts) => resolveRequest(requestOpts, void 0)
+    resolveUncached: (requestOpts) => resolveRequest(requestOpts, void 0),
   };
 }
 function getFinalManifestCacheKey(inlineCss) {
@@ -4206,42 +4901,65 @@ function getFinalManifestCacheKey(inlineCss) {
 }
 function cacheFinalManifestPromise(cachedFinalManifestPromises, cacheKey, promise) {
   const cachedFinalManifestPromise = promise.catch((error) => {
-    if (cachedFinalManifestPromises.get(cacheKey) === cachedFinalManifestPromise) cachedFinalManifestPromises.delete(cacheKey);
+    if (cachedFinalManifestPromises.get(cacheKey) === cachedFinalManifestPromise)
+      cachedFinalManifestPromises.delete(cacheKey);
     throw error;
   });
   cachedFinalManifestPromises.set(cacheKey, cachedFinalManifestPromise);
   return cachedFinalManifestPromise;
 }
-function getOrCreateCachedFinalManifestPromise(cachedFinalManifestPromises, cacheKey, computeFinalManifest) {
+function getOrCreateCachedFinalManifestPromise(
+  cachedFinalManifestPromises,
+  cacheKey,
+  computeFinalManifest,
+) {
   const cachedFinalManifestPromise = cachedFinalManifestPromises.get(cacheKey);
   if (cachedFinalManifestPromise) return cachedFinalManifestPromise;
-  return cacheFinalManifestPromise(cachedFinalManifestPromises, cacheKey, Promise.resolve().then(computeFinalManifest));
+  return cacheFinalManifestPromise(
+    cachedFinalManifestPromises,
+    cacheKey,
+    Promise.resolve().then(computeFinalManifest),
+  );
 }
 async function buildFinalManifest(opts) {
-  return opts.transformFn ? await transformManifestAssets(opts.base, opts.transformFn, { inlineCss: opts.inlineCss }) : buildManifestWithClientEntry(opts.base, { inlineCss: opts.inlineCss });
+  return opts.transformFn
+    ? await transformManifestAssets(opts.base, opts.transformFn, { inlineCss: opts.inlineCss })
+    : buildManifestWithClientEntry(opts.base, { inlineCss: opts.inlineCss });
 }
 async function resolveFinalManifest(opts) {
   const computeFinalManifest = async () => {
     return buildFinalManifest({
       base: await opts.getBaseManifest(),
       transformFn: opts.transformFn,
-      inlineCss: opts.inlineCss
+      inlineCss: opts.inlineCss,
     });
   };
-  if (opts.finalManifestCache && (!opts.transformFn || opts.cache)) return getOrCreateCachedFinalManifestPromise(opts.finalManifestCache, getFinalManifestCacheKey(opts.inlineCss), computeFinalManifest);
+  if (opts.finalManifestCache && (!opts.transformFn || opts.cache))
+    return getOrCreateCachedFinalManifestPromise(
+      opts.finalManifestCache,
+      getFinalManifestCacheKey(opts.inlineCss),
+      computeFinalManifest,
+    );
   return computeFinalManifest();
 }
 function warmupFinalManifest(opts) {
   if (!opts.enabled || opts.handlerDefaultInlineCss === void 0 || !opts.cache) return;
   const inlineCss = opts.handlerDefaultInlineCss;
-  const warmupPromise = getOrCreateCachedFinalManifestPromise(opts.finalManifestCache, getFinalManifestCacheKey(inlineCss), async () => {
-    const [base, transformFn] = await Promise.all([opts.getBaseManifest(), opts.getTransformFn()]);
-    return buildFinalManifest({
-      base,
-      transformFn,
-      inlineCss
-    });
-  });
+  const warmupPromise = getOrCreateCachedFinalManifestPromise(
+    opts.finalManifestCache,
+    getFinalManifestCacheKey(inlineCss),
+    async () => {
+      const [base, transformFn] = await Promise.all([
+        opts.getBaseManifest(),
+        opts.getTransformFn(),
+      ]);
+      return buildFinalManifest({
+        base,
+        transformFn,
+        inlineCss,
+      });
+    },
+  );
   if (opts.onError) warmupPromise.catch(opts.onError);
   return warmupPromise;
 }
@@ -4258,9 +4976,10 @@ var ServerFunctionSerializationAdapter = createSerializationAdapter({
       return (await (await getServerFnById(functionId))(opts ?? {}, signal)).result;
     };
     return fn2;
-  }
+  },
 });
-var tsrScript_default = "self.$_TSR={h(){this.hydrated=!0,this.c()},e(){this.streamEnded=!0,this.c()},c(){this.hydrated&&this.streamEnded&&(delete self.$_TSR,delete self.$R.tsr)},p(e){this.initialized?e():this.buffer.push(e)},buffer:[]}";
+var tsrScript_default =
+  "self.$_TSR={h(){this.hydrated=!0,this.c()},e(){this.streamEnded=!0,this.c()},c(){this.hydrated&&this.streamEnded&&(delete self.$_TSR,delete self.$R.tsr)},p(e){this.initialized?e():this.buffer.push(e)},buffer:[]}";
 const SCOPE_ID = "tsr";
 const TSR_PREFIX = GLOBAL_TSR + ".router=";
 const P_PREFIX = GLOBAL_TSR + ".p(()=>";
@@ -4269,14 +4988,15 @@ function dehydrateMatch(match) {
   const dehydratedMatch = {
     i: dehydrateSsrMatchId(match.id),
     u: match.updatedAt,
-    s: match.status
+    s: match.status,
   };
   for (const [key, shorthand] of [
     ["__beforeLoadContext", "b"],
     ["loaderData", "l"],
     ["error", "e"],
-    ["ssr", "ssr"]
-  ]) if (match[key] !== void 0) dehydratedMatch[shorthand] = match[key];
+    ["ssr", "ssr"],
+  ])
+    if (match[key] !== void 0) dehydratedMatch[shorthand] = match[key];
   if (match.globalNotFound) dehydratedMatch.g = true;
   return dehydratedMatch;
 }
@@ -4312,31 +5032,34 @@ var ScriptBuffer = class {
     }
   }
   /**
-  * Flushes any pending scripts synchronously.
-  * Call this before emitting onSerializationFinished to ensure all scripts are injected.
-  *
-  * IMPORTANT: Only injects if the barrier has been lifted. Before the barrier is lifted,
-  * scripts should remain in the queue so takeBufferedScripts() can retrieve them
-  */
+   * Flushes any pending scripts synchronously.
+   * Call this before emitting onSerializationFinished to ensure all scripts are injected.
+   *
+   * IMPORTANT: Only injects if the barrier has been lifted. Before the barrier is lifted,
+   * scripts should remain in the queue so takeBufferedScripts() can retrieve them
+   */
   flush() {
     if (!this._scriptBarrierLifted) return;
     if (this._cleanedUp) return;
     this._pendingMicrotask = false;
     const scriptsToInject = this.takeAll();
-    if (scriptsToInject && this.router?.serverSsr) this.router.serverSsr.injectScript(scriptsToInject);
+    if (scriptsToInject && this.router?.serverSsr)
+      this.router.serverSsr.injectScript(scriptsToInject);
   }
   takeAll() {
     const bufferedScripts = this._queue;
     this._queue = [];
     if (bufferedScripts.length === 0) return;
-    if (bufferedScripts.length === 1) return bufferedScripts[0] + ";document.currentScript.remove()";
+    if (bufferedScripts.length === 1)
+      return bufferedScripts[0] + ";document.currentScript.remove()";
     return bufferedScripts.join(";") + ";document.currentScript.remove()";
   }
   injectBufferedScripts() {
     if (this._cleanedUp) return;
     if (this._queue.length === 0) return;
     const scriptsToInject = this.takeAll();
-    if (scriptsToInject && this.router?.serverSsr) this.router.serverSsr.injectScript(scriptsToInject);
+    if (scriptsToInject && this.router?.serverSsr)
+      this.router.serverSsr.injectScript(scriptsToInject);
   }
   cleanup() {
     this._cleanedUp = true;
@@ -4391,7 +5114,7 @@ function prepareMatchedManifestRoutes(manifest2, matches) {
     }
     return {
       routes,
-      hasStrippedRoutes: false
+      hasStrippedRoutes: false,
     };
   }
   const inlineCssHrefs = [];
@@ -4401,17 +5124,27 @@ function prepareMatchedManifestRoutes(manifest2, matches) {
     const routeId = match.routeId;
     const route = manifest2.routes[routeId];
     if (!route) continue;
-    const nextRoute = stripInlinedStylesheetAssetsFromRoute(inlineStyles, route, inlineCssHrefs, seenInlineCssHrefs);
+    const nextRoute = stripInlinedStylesheetAssetsFromRoute(
+      inlineStyles,
+      route,
+      inlineCssHrefs,
+      seenInlineCssHrefs,
+    );
     if (nextRoute !== route) hasStrippedRoutes = true;
     routes[routeId] = nextRoute;
   }
   return {
     routes,
     hasStrippedRoutes,
-    ...inlineCssHrefs.length ? { inlineCssHrefs } : {}
+    ...(inlineCssHrefs.length ? { inlineCssHrefs } : {}),
   };
 }
-function stripInlinedStylesheetAssetsFromRoute(inlineStyles, route, inlineCssHrefs, seenInlineCssHrefs) {
+function stripInlinedStylesheetAssetsFromRoute(
+  inlineStyles,
+  route,
+  inlineCssHrefs,
+  seenInlineCssHrefs,
+) {
   const css = route.css;
   if (!css) return route;
   if (css.length === 0) {
@@ -4434,10 +5167,11 @@ function stripInlinedStylesheetAssetsFromRoute(inlineStyles, route, inlineCssHre
     if (!cssLinks) cssLinks = css.slice(0, i);
   }
   if (!cssLinks) return route;
-  if (cssLinks.length > 0) return {
-    ...route,
-    css: cssLinks
-  };
+  if (cssLinks.length > 0)
+    return {
+      ...route,
+      css: cssLinks,
+    };
   const nextRoute = { ...route };
   delete nextRoute.css;
   return nextRoute;
@@ -4449,48 +5183,62 @@ function hasRequestAssets(assets) {
   return !!assets && (!!assets.preloads?.length || hasRouteAssets(assets));
 }
 function mergeRequestAssetsIntoRootRoute(rootRoute, requestAssets) {
-  const preloads = requestAssets?.preloads?.length ? [...requestAssets.preloads, ...rootRoute?.preloads ?? []] : rootRoute?.preloads;
-  const scripts = requestAssets?.scripts?.length ? [...requestAssets.scripts, ...rootRoute?.scripts ?? []] : rootRoute?.scripts;
-  const cssLinks = requestAssets?.css?.length ? [...requestAssets.css, ...rootRoute?.css ?? []] : rootRoute?.css;
+  const preloads = requestAssets?.preloads?.length
+    ? [...requestAssets.preloads, ...(rootRoute?.preloads ?? [])]
+    : rootRoute?.preloads;
+  const scripts = requestAssets?.scripts?.length
+    ? [...requestAssets.scripts, ...(rootRoute?.scripts ?? [])]
+    : rootRoute?.scripts;
+  const cssLinks = requestAssets?.css?.length
+    ? [...requestAssets.css, ...(rootRoute?.css ?? [])]
+    : rootRoute?.css;
   return {
-    ...rootRoute ?? {},
-    ...preloads?.length ? { preloads } : {},
-    ...scripts?.length ? { scripts } : {},
-    ...cssLinks?.length ? { css: cssLinks } : {}
+    ...(rootRoute ?? {}),
+    ...(preloads?.length ? { preloads } : {}),
+    ...(scripts?.length ? { scripts } : {}),
+    ...(cssLinks?.length ? { css: cssLinks } : {}),
   };
 }
 function attachRouterServerSsrUtils({ router, manifest: manifest2, getRequestAssets }) {
-  router.ssr = { get manifest() {
-    if (!manifest2) return manifest2;
-    const requestAssets = getRequestAssets?.();
-    const matches = router.stores.matches.get();
-    const hasAssets = hasRequestAssets(requestAssets);
-    if (!hasAssets && !manifest2.inlineCss) return manifest2;
-    let inlineCssAsset;
-    let routes = manifest2.routes;
-    if (manifest2.inlineCss) {
-      const preparedManifest = getPreparedMatchedManifestRoutes(manifest2, matches, getMatchedRoutesCacheKey(matches));
-      inlineCssAsset = getInlineCssAssetForPreparedRoutes(manifest2, preparedManifest);
-      if (preparedManifest.hasStrippedRoutes) routes = {
-        ...manifest2.routes,
-        ...preparedManifest.routes
-      };
-    }
-    if (!hasAssets) return {
-      ...manifest2.scriptFormat ? { scriptFormat: manifest2.scriptFormat } : {},
-      ...inlineCssAsset ? { inlineStyle: inlineCssAsset } : {},
-      routes
-    };
-    const rootRoute = routes[rootRouteId];
-    return {
-      ...manifest2.scriptFormat ? { scriptFormat: manifest2.scriptFormat } : {},
-      ...inlineCssAsset ? { inlineStyle: inlineCssAsset } : {},
-      routes: {
-        ...routes,
-        [rootRouteId]: mergeRequestAssetsIntoRootRoute(rootRoute, requestAssets)
+  router.ssr = {
+    get manifest() {
+      if (!manifest2) return manifest2;
+      const requestAssets = getRequestAssets?.();
+      const matches = router.stores.matches.get();
+      const hasAssets = hasRequestAssets(requestAssets);
+      if (!hasAssets && !manifest2.inlineCss) return manifest2;
+      let inlineCssAsset;
+      let routes = manifest2.routes;
+      if (manifest2.inlineCss) {
+        const preparedManifest = getPreparedMatchedManifestRoutes(
+          manifest2,
+          matches,
+          getMatchedRoutesCacheKey(matches),
+        );
+        inlineCssAsset = getInlineCssAssetForPreparedRoutes(manifest2, preparedManifest);
+        if (preparedManifest.hasStrippedRoutes)
+          routes = {
+            ...manifest2.routes,
+            ...preparedManifest.routes,
+          };
       }
-    };
-  } };
+      if (!hasAssets)
+        return {
+          ...(manifest2.scriptFormat ? { scriptFormat: manifest2.scriptFormat } : {}),
+          ...(inlineCssAsset ? { inlineStyle: inlineCssAsset } : {}),
+          routes,
+        };
+      const rootRoute = routes[rootRouteId];
+      return {
+        ...(manifest2.scriptFormat ? { scriptFormat: manifest2.scriptFormat } : {}),
+        ...(inlineCssAsset ? { inlineStyle: inlineCssAsset } : {}),
+        routes: {
+          ...routes,
+          [rootRouteId]: mergeRequestAssetsIntoRootRoute(rootRoute, requestAssets),
+        },
+      };
+    },
+  };
   let _dehydrated = false;
   let _serializationFinished = false;
   const renderFinishedListeners = [];
@@ -4518,24 +5266,30 @@ function attachRouterServerSsrUtils({ router, manifest: manifest2, getRequestAss
       let manifestToDehydrate = void 0;
       if (manifest2) {
         const cacheKey = getMatchedRoutesCacheKey(matchesToDehydrate);
-        const preparedManifest = getPreparedMatchedManifestRoutes(manifest2, matchesToDehydrate, cacheKey);
+        const preparedManifest = getPreparedMatchedManifestRoutes(
+          manifest2,
+          matchesToDehydrate,
+          cacheKey,
+        );
         manifestToDehydrate = {
-          ...manifest2.scriptFormat ? { scriptFormat: manifest2.scriptFormat } : {},
-          ...preparedManifest.inlineCssHrefs ? { inlineStyle: createInlineCssPlaceholderAsset() } : {},
-          routes: preparedManifest.routes
+          ...(manifest2.scriptFormat ? { scriptFormat: manifest2.scriptFormat } : {}),
+          ...(preparedManifest.inlineCssHrefs
+            ? { inlineStyle: createInlineCssPlaceholderAsset() }
+            : {}),
+          routes: preparedManifest.routes,
         };
         const requestAssets = opts?.requestAssets;
         if (hasRequestAssets(requestAssets)) {
           const existingRoot = manifestToDehydrate.routes[rootRouteId];
           manifestToDehydrate.routes = {
             ...manifestToDehydrate.routes,
-            [rootRouteId]: mergeRequestAssetsIntoRootRoute(existingRoot, requestAssets)
+            [rootRouteId]: mergeRequestAssetsIntoRootRoute(existingRoot, requestAssets),
           };
         }
       }
       const dehydratedRouter = {
         manifest: manifestToDehydrate,
-        matches
+        matches,
       };
       const lastMatchId = matchesToDehydrate[matchesToDehydrate.length - 1]?.id;
       if (lastMatchId) dehydratedRouter.lastMatchId = dehydrateSsrMatchId(lastMatchId);
@@ -4544,7 +5298,11 @@ function attachRouterServerSsrUtils({ router, manifest: manifest2, getRequestAss
       _dehydrated = true;
       const trackPlugins = { didRun: false };
       const serializationAdapters = router.options.serializationAdapters;
-      const plugins = serializationAdapters ? serializationAdapters.map((t) => /* @__PURE__ */ makeSsrSerovalPlugin(t, trackPlugins)).concat(defaultSerovalPlugins) : defaultSerovalPlugins;
+      const plugins = serializationAdapters
+        ? serializationAdapters
+            .map((t) => /* @__PURE__ */ makeSsrSerovalPlugin(t, trackPlugins))
+            .concat(defaultSerovalPlugins)
+        : defaultSerovalPlugins;
       const signalSerializationComplete = () => {
         _serializationFinished = true;
         try {
@@ -4575,7 +5333,7 @@ function attachRouterServerSsrUtils({ router, manifest: manifest2, getRequestAss
           scriptBuffer.enqueue(GLOBAL_TSR + ".e()");
           scriptBuffer.flush();
           signalSerializationComplete();
-        }
+        },
       });
     },
     isDehydrated() {
@@ -4603,9 +5361,9 @@ function attachRouterServerSsrUtils({ router, manifest: manifest2, getRequestAss
         attrs: {
           nonce: router.options.ssr?.nonce,
           className: "$tsr",
-          id: TSR_SCRIPT_BARRIER_ID
+          id: TSR_SCRIPT_BARRIER_ID,
         },
-        children: scripts
+        children: scripts,
       };
     },
     liftScriptBarrier() {
@@ -4624,14 +5382,13 @@ function attachRouterServerSsrUtils({ router, manifest: manifest2, getRequestAss
       injectedHtmlBuffer = "";
       scriptBuffer.cleanup();
       router.serverSsr = void 0;
-    }
+    },
   };
 }
 function getOrigin(request) {
   try {
     return new URL(request.url).origin;
-  } catch {
-  }
+  } catch {}
   return "http://localhost";
 }
 function getNormalizedURL(url, base) {
@@ -4639,33 +5396,39 @@ function getNormalizedURL(url, base) {
   const rawUrl = new URL(url, base);
   const { path: decodedPathname, handledProtocolRelativeURL } = decodePath(rawUrl.pathname);
   const searchParams = new URLSearchParams(rawUrl.search);
-  const normalizedHref = decodedPathname + (searchParams.size > 0 ? "?" : "") + searchParams.toString() + rawUrl.hash;
+  const normalizedHref =
+    decodedPathname + (searchParams.size > 0 ? "?" : "") + searchParams.toString() + rawUrl.hash;
   return {
     url: new URL(normalizedHref, rawUrl.origin),
-    handledProtocolRelativeURL
+    handledProtocolRelativeURL,
   };
 }
 function getStartResponseHeaders(opts) {
-  return mergeHeaders({ "Content-Type": "text/html; charset=utf-8" }, ...opts.router.stores.matches.get().map((match) => {
-    return match.headers;
-  }));
+  return mergeHeaders(
+    { "Content-Type": "text/html; charset=utf-8" },
+    ...opts.router.stores.matches.get().map((match) => {
+      return match.headers;
+    }),
+  );
 }
 var entriesPromise;
-var defaultCsrfMiddleware = createCsrfMiddleware({ filter: (ctx) => ctx.handlerType === "serverFn" });
+var defaultCsrfMiddleware = createCsrfMiddleware({
+  filter: (ctx) => ctx.handlerType === "serverFn",
+});
 var getCachedBaseManifest = createCachedBaseManifestLoader(() => getStartManifest());
 var getProdBaseManifest = () => getCachedBaseManifest();
 var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
   const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-    import("./router-56Y4IDAv.mjs").then((n2) => n2.r),
-    import("./start-DWe7Tbe5.mjs"),
-    import("./empty-plugin-adapters-BFgPZ6_d.mjs")
+    import("./router-D7yE5Qrn.mjs").then((n2) => n2.r),
+    import("./start-B1J0NX3-.mjs"),
+    import("./empty-plugin-adapters-BFgPZ6_d.mjs"),
   ]);
   return {
     routerEntry,
     startEntry,
-    pluginAdapters
+    pluginAdapters,
   };
 }
 function getEntries() {
@@ -4705,7 +5468,7 @@ function executeMiddleware(middlewares, ctx) {
     try {
       result = await middleware({
         ...ctx,
-        next
+        next,
       });
     } catch (err) {
       if (isSpecialResponse(err)) {
@@ -4728,7 +5491,7 @@ function handlerToMiddleware(handler, mayDefer = false) {
   return async (ctx) => {
     const response = await handler({
       ...ctx,
-      next: throwIfMayNotDefer
+      next: throwIfMayNotDefer,
     });
     if (!response) throwRouteHandlerError();
     return response;
@@ -4738,7 +5501,7 @@ function createStartHandler(cbOrOptions) {
   const handlerOptions = typeof cbOrOptions === "function" ? {} : cbOrOptions;
   const cb = typeof cbOrOptions === "function" ? cbOrOptions : cbOrOptions.handler;
   const finalManifestResolver = createFinalManifestResolver({
-    ...handlerOptions
+    ...handlerOptions,
   });
   const resolveManifestForRequest = finalManifestResolver.resolveCached;
   finalManifestResolver.warmup({ getBaseManifest: () => getBaseManifest() });
@@ -4752,25 +5515,30 @@ function createStartHandler(cbOrOptions) {
       if (handledProtocolRelativeURL) return Response.redirect(url, 308);
       const entries = await getEntries();
       const hasStartInstance = !!entries.startEntry.startInstance;
-      const startOptions = await entries.startEntry.startInstance?.getOptions() || {};
+      const startOptions = (await entries.startEntry.startInstance?.getOptions()) || {};
       const { hasPluginAdapters, pluginSerializationAdapters } = entries.pluginAdapters;
       const serializationAdapters = [
-        ...startOptions.serializationAdapters || [],
-        ...hasPluginAdapters ? pluginSerializationAdapters : [],
-        ServerFunctionSerializationAdapter
+        ...(startOptions.serializationAdapters || []),
+        ...(hasPluginAdapters ? pluginSerializationAdapters : []),
+        ServerFunctionSerializationAdapter,
       ];
       const requestStartOptions = {
         ...startOptions,
-        requestMiddleware: hasStartInstance ? startOptions.requestMiddleware : [defaultCsrfMiddleware],
-        serializationAdapters
+        requestMiddleware: hasStartInstance
+          ? startOptions.requestMiddleware
+          : [defaultCsrfMiddleware],
+        serializationAdapters,
       };
-      const flattenedRequestMiddlewares = requestStartOptions.requestMiddleware ? flattenMiddlewares(requestStartOptions.requestMiddleware) : [];
+      const flattenedRequestMiddlewares = requestStartOptions.requestMiddleware
+        ? flattenMiddlewares(requestStartOptions.requestMiddleware)
+        : [];
       const executedRequestMiddlewares = new Set(flattenedRequestMiddlewares);
       const getRouter = async () => {
         if (router) return router;
         router = await entries.routerEntry.getRouter();
         let isShell = IS_SHELL_ENV;
-        if (IS_PRERENDERING && !isShell) isShell = request.headers.get(HEADERS.TSS_SHELL) === "true";
+        if (IS_PRERENDERING && !isShell)
+          isShell = request.headers.get(HEADERS.TSS_SHELL) === "true";
         const history = createMemoryHistory({ initialEntries: [href] });
         router.update({
           history,
@@ -4778,57 +5546,78 @@ function createStartHandler(cbOrOptions) {
           isPrerendering: IS_PRERENDERING,
           origin: router.options.origin ?? origin,
           defaultSsr: requestStartOptions.defaultSsr,
-          serializationAdapters: [...requestStartOptions.serializationAdapters, ...router.options.serializationAdapters || []],
-          basepath: ROUTER_BASEPATH
+          serializationAdapters: [
+            ...requestStartOptions.serializationAdapters,
+            ...(router.options.serializationAdapters || []),
+          ],
+          basepath: ROUTER_BASEPATH,
         });
         return router;
       };
       if (SERVER_FN_BASE && url.pathname.startsWith(SERVER_FN_BASE)) {
-        if (false) ;
+        if (false);
         const serverFnId = url.pathname.slice(SERVER_FN_BASE.length).split("/")[0];
         if (!serverFnId) throw new Error("Invalid server action param for serverFnId");
         const serverFnHandler = async ({ context }) => {
-          return runWithStartContext({
-            getRouter,
-            startOptions: requestStartOptions,
-            contextAfterGlobalMiddlewares: context,
-            request,
-            executedRequestMiddlewares,
-            handlerType: "serverFn"
-          }, () => handleServerAction({
-            request,
-            context: requestOpts?.context,
-            serverFnId
-          }));
+          return runWithStartContext(
+            {
+              getRouter,
+              startOptions: requestStartOptions,
+              contextAfterGlobalMiddlewares: context,
+              request,
+              executedRequestMiddlewares,
+              handlerType: "serverFn",
+            },
+            () =>
+              handleServerAction({
+                request,
+                context: requestOpts?.context,
+                serverFnId,
+              }),
+          );
         };
-        return handleRedirectResponse((await executeMiddleware([...flattenedRequestMiddlewares.map((d) => d.options.server), serverFnHandler], {
+        return handleRedirectResponse(
+          (
+            await executeMiddleware(
+              [...flattenedRequestMiddlewares.map((d) => d.options.server), serverFnHandler],
+              {
+                request,
+                pathname: url.pathname,
+                handlerType: "serverFn",
+                context: createNullProtoObject(requestOpts?.context),
+              },
+            )
+          ).response,
           request,
-          pathname: url.pathname,
-          handlerType: "serverFn",
-          context: createNullProtoObject(requestOpts?.context)
-        })).response, request, getRouter);
+          getRouter,
+        );
       }
       const executeRouter = async (serverContext, matchedRoutes) => {
         const acceptParts = (request.headers.get("Accept") || "*/*").split(",");
-        if (!["*/*", "text/html"].some((mimeType) => acceptParts.some((part) => part.trim().startsWith(mimeType)))) return Response.json({ error: "Only HTML requests are supported here" }, { status: 500 });
+        if (
+          !["*/*", "text/html"].some((mimeType) =>
+            acceptParts.some((part) => part.trim().startsWith(mimeType)),
+          )
+        )
+          return Response.json({ error: "Only HTML requests are supported here" }, { status: 500 });
         const manifest2 = await resolveManifestForRequest({
           request,
           requestInlineCss: requestOpts?.inlineCss,
-          getBaseManifest: () => getBaseManifest(matchedRoutes)
+          getBaseManifest: () => getBaseManifest(matchedRoutes),
         });
         const earlyHints = createEarlyHintsForRequest({
           onEarlyHints: requestOpts?.onEarlyHints,
-          responseLinkHeader: requestOpts?.responseLinkHeader
+          responseLinkHeader: requestOpts?.responseLinkHeader,
         });
         earlyHints?.collectStatic({
           manifest: manifest2,
-          matchedRoutes
+          matchedRoutes,
         });
         const routerInstance = await getRouter();
         attachRouterServerSsrUtils({
           router: routerInstance,
           manifest: manifest2,
-          getRequestAssets: () => getStartContext({ throwIfNotFound: false })?.requestAssets
+          getRequestAssets: () => getStartContext({ throwIfNotFound: false })?.requestAssets,
         });
         routerInstance.update({ additionalContext: { serverContext } });
         await routerInstance.load();
@@ -4842,39 +5631,51 @@ function createStartHandler(cbOrOptions) {
         return cb({
           request,
           router: routerInstance,
-          responseHeaders
+          responseHeaders,
         });
       };
       const requestHandlerMiddleware = async ({ context }) => {
-        return runWithStartContext({
-          getRouter,
-          startOptions: requestStartOptions,
-          contextAfterGlobalMiddlewares: context,
-          request,
-          executedRequestMiddlewares,
-          handlerType: "router"
-        }, async () => {
-          try {
-            return await handleServerRoutes({
-              getRouter,
-              request,
-              url,
-              executeRouter,
-              context,
-              executedRequestMiddlewares
-            });
-          } catch (err) {
-            if (err instanceof Response) return err;
-            throw err;
-          }
-        });
+        return runWithStartContext(
+          {
+            getRouter,
+            startOptions: requestStartOptions,
+            contextAfterGlobalMiddlewares: context,
+            request,
+            executedRequestMiddlewares,
+            handlerType: "router",
+          },
+          async () => {
+            try {
+              return await handleServerRoutes({
+                getRouter,
+                request,
+                url,
+                executeRouter,
+                context,
+                executedRequestMiddlewares,
+              });
+            } catch (err) {
+              if (err instanceof Response) return err;
+              throw err;
+            }
+          },
+        );
       };
-      return handleRedirectResponse((await executeMiddleware([...flattenedRequestMiddlewares.map((d) => d.options.server), requestHandlerMiddleware], {
+      return handleRedirectResponse(
+        (
+          await executeMiddleware(
+            [...flattenedRequestMiddlewares.map((d) => d.options.server), requestHandlerMiddleware],
+            {
+              request,
+              pathname: url.pathname,
+              handlerType: "router",
+              context: createNullProtoObject(requestOpts?.context),
+            },
+          )
+        ).response,
         request,
-        pathname: url.pathname,
-        handlerType: "router",
-        context: createNullProtoObject(requestOpts?.context)
-      })).response, request, getRouter);
+        getRouter,
+      );
     } finally {
       if (router && !cbWillCleanup) router.serverSsr?.cleanup();
       router = null;
@@ -4885,27 +5686,49 @@ function createStartHandler(cbOrOptions) {
 async function handleRedirectResponse(response, request, getRouter) {
   if (!isRedirect(response)) return response;
   if (isResolvedRedirect(response)) {
-    if (request.headers.get("x-tsr-serverFn") === "true") return Response.json({
-      ...response.options,
-      isSerializedRedirect: true
-    }, { headers: response.headers });
+    if (request.headers.get("x-tsr-serverFn") === "true")
+      return Response.json(
+        {
+          ...response.options,
+          isSerializedRedirect: true,
+        },
+        { headers: response.headers },
+      );
     return response;
   }
   const opts = response.options;
-  if (opts.to && typeof opts.to === "string" && !opts.to.startsWith("/")) throw new Error(`Server side redirects must use absolute paths via the 'href' or 'to' options. The redirect() method's "to" property accepts an internal path only. Use the "href" property to provide an external URL. Received: ${JSON.stringify(opts)}`);
-  if ([
-    "params",
-    "search",
-    "hash"
-  ].some((d) => typeof opts[d] === "function")) throw new Error(`Server side redirects must use static search, params, and hash values and do not support functional values. Received functional values for: ${Object.keys(opts).filter((d) => typeof opts[d] === "function").map((d) => `"${d}"`).join(", ")}`);
+  if (opts.to && typeof opts.to === "string" && !opts.to.startsWith("/"))
+    throw new Error(
+      `Server side redirects must use absolute paths via the 'href' or 'to' options. The redirect() method's "to" property accepts an internal path only. Use the "href" property to provide an external URL. Received: ${JSON.stringify(opts)}`,
+    );
+  if (["params", "search", "hash"].some((d) => typeof opts[d] === "function"))
+    throw new Error(
+      `Server side redirects must use static search, params, and hash values and do not support functional values. Received functional values for: ${Object.keys(
+        opts,
+      )
+        .filter((d) => typeof opts[d] === "function")
+        .map((d) => `"${d}"`)
+        .join(", ")}`,
+    );
   const redirect = (await getRouter()).resolveRedirect(response);
-  if (request.headers.get("x-tsr-serverFn") === "true") return Response.json({
-    ...response.options,
-    isSerializedRedirect: true
-  }, { headers: response.headers });
+  if (request.headers.get("x-tsr-serverFn") === "true")
+    return Response.json(
+      {
+        ...response.options,
+        isSerializedRedirect: true,
+      },
+      { headers: response.headers },
+    );
   return redirect;
 }
-async function handleServerRoutes({ getRouter, request, url, executeRouter, context, executedRequestMiddlewares }) {
+async function handleServerRoutes({
+  getRouter,
+  request,
+  url,
+  executeRouter,
+  context,
+  executedRequestMiddlewares,
+}) {
   const router = await getRouter();
   const pathname = executeRewriteInput(router.rewrite, url).pathname;
   const { matchedRoutes, foundRoute, routeParams } = router.getMatchedRoutes(pathname);
@@ -4915,19 +5738,27 @@ async function handleServerRoutes({ getRouter, request, url, executeRouter, cont
     const serverMiddleware = route.options.server?.middleware;
     if (serverMiddleware) {
       const flattened = flattenMiddlewares(serverMiddleware);
-      for (const m2 of flattened) if (!executedRequestMiddlewares.has(m2)) routeMiddlewares.push(m2.options.server);
+      for (const m2 of flattened)
+        if (!executedRequestMiddlewares.has(m2)) routeMiddlewares.push(m2.options.server);
     }
   }
   const server2 = foundRoute?.options.server;
   let isHeadFallback = false;
   if (server2?.handlers && isExactMatch) {
-    const handlers = typeof server2.handlers === "function" ? server2.handlers({ createHandlers: (d) => d }) : server2.handlers;
+    const handlers =
+      typeof server2.handlers === "function"
+        ? server2.handlers({ createHandlers: (d) => d })
+        : server2.handlers;
     const requestMethod = request.method.toUpperCase();
-    const handler = requestMethod === "HEAD" ? handlers["HEAD"] ?? handlers["GET"] ?? handlers["ANY"] : handlers[requestMethod] ?? handlers["ANY"];
+    const handler =
+      requestMethod === "HEAD"
+        ? (handlers["HEAD"] ?? handlers["GET"] ?? handlers["ANY"])
+        : (handlers[requestMethod] ?? handlers["ANY"]);
     isHeadFallback = requestMethod === "HEAD" && handler !== void 0 && !handlers["HEAD"];
     if (handler) {
       const mayDefer = !!foundRoute.options.component;
-      if (typeof handler === "function") routeMiddlewares.push(handlerToMiddleware(handler, mayDefer));
+      if (typeof handler === "function")
+        routeMiddlewares.push(handlerToMiddleware(handler, mayDefer));
       else {
         if (handler.middleware?.length) {
           const handlerMiddlewares = flattenMiddlewares(handler.middleware);
@@ -4943,7 +5774,7 @@ async function handleServerRoutes({ getRouter, request, url, executeRouter, cont
     context,
     params: routeParams,
     pathname,
-    handlerType: "router"
+    handlerType: "router",
   });
   if (isHeadFallback) {
     if (!ctx.response) throwRouteHandlerError();
@@ -4954,17 +5785,22 @@ async function handleServerRoutes({ getRouter, request, url, executeRouter, cont
 }
 var fetch = createStartHandler(defaultStreamHandler);
 function createServerEntry(entry) {
-  return { async fetch(...args) {
-    return await entry.fetch(...args);
-  } };
+  return {
+    async fetch(...args) {
+      return await entry.fetch(...args);
+    },
+  };
 }
 var server_default = createServerEntry({ fetch });
-const server = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  createServerEntry,
-  default: server_default
-}, Symbol.toStringTag, { value: "Module" }));
-export {
-  createMiddleware as c,
-  server as s
-};
+const server = /* @__PURE__ */ Object.freeze(
+  /* @__PURE__ */ Object.defineProperty(
+    {
+      __proto__: null,
+      createServerEntry,
+      default: server_default,
+    },
+    Symbol.toStringTag,
+    { value: "Module" },
+  ),
+);
+export { createMiddleware as c, server as s };

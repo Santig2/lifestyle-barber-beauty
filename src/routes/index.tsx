@@ -469,34 +469,21 @@ function Team() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full max-w-sm mt-10 lg:mt-0 relative"
+            className="w-full max-w-sm mt-10 lg:mt-0 p-8 md:p-10 bg-espresso/30 border border-white/5 hover:border-gold/20 transition-all"
           >
-            <div className="aspect-[4/5] bg-espresso/30 border border-white/5 hover:border-gold/20 transition-all overflow-hidden relative group">
-              <Media
-                src={team1}
-                alt={t.team.name}
-                className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 hover:scale-105"
-                loading="lazy"
-              />
-              <div className="absolute -bottom-3 -left-3 z-10">
-                <span className="inline-block font-mono text-[10px] uppercase tracking-widest text-gold bg-charcoal/80 px-3 py-1.5 border border-gold/20 shadow-xl">
-                  {t.team.badge}
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-8 ml-0">
-              <h4 className="font-display text-5xl md:text-6xl text-champagne italic mb-6">
-                {t.team.name}
-              </h4>
-              <div className="flex justify-between items-center border-t border-white/10 pt-6 mt-2">
-                <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold font-bold">
-                  {t.team.role}
-                </p>
-                <p className="font-mono text-[10px] uppercase tracking-widest text-champagne/40">
-                  {t.team.founder}
-                </p>
-              </div>
+            <span className="inline-block font-mono text-[10px] uppercase tracking-widest text-gold bg-charcoal/80 px-3 py-1.5 border border-gold/20 mb-8">
+              {t.team.badge}
+            </span>
+            <h4 className="font-display text-5xl md:text-6xl text-champagne italic mb-6">
+              {t.team.name}
+            </h4>
+            <div className="flex justify-between items-center border-t border-white/10 pt-6 mt-2">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-gold font-bold">
+                {t.team.role}
+              </p>
+              <p className="font-mono text-[10px] uppercase tracking-widest text-champagne/40">
+                {t.team.founder}
+              </p>
             </div>
           </motion.div>
         </div>

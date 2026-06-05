@@ -54,26 +54,65 @@ export const translations = {
     },
     services: {
       barberSubtitle: "— For Him",
-      barberTitle: "Master Barbering",
+      barberTitle: "Barber Services",
       barberMenu: "The Barber Menu →",
-      barberList: [
-        { name: "Modern Cuts & Fades", price: "$45+" },
-        { name: "Professional Barbering", price: "$40+" },
-        { name: "Razor Line Up", price: "$35+" },
-        { name: "Beard Sculpting", price: "$30+" },
-        { name: "Kids Cuts", price: "$25+" },
-        { name: "Hot Towel Shave", price: "$50+" },
+      barberCategories: [
+        {
+          title: "Barber Services",
+          items: [
+            { name: "Regular Cut", price: "$30" },
+            { name: "Skin Fade", price: "$35" },
+            { name: "Cut & Beard", price: "$50" },
+            { name: "Beard", price: "$20" },
+          ],
+        },
+        {
+          title: "Premium Services",
+          items: [
+            { name: "Custom Design", price: "from $5+" },
+            { name: "Razor Eyebrows", price: "$10" },
+            { name: "Hair Wash", price: "$10" },
+            { name: "Wax", price: "$15" },
+            { name: "Facial Mask", price: "$15" },
+          ],
+        },
+        {
+          title: "Color & Style",
+          items: [
+            { name: "Men's Hair Dye", price: "from $40" },
+            { name: "Bleaching", price: "from $80" },
+            { name: "Perms", price: "from $80" },
+          ],
+        },
       ],
       beautySubtitle: "— For Her",
-      beautyTitle: "Artisan Beauty",
+      beautyTitle: "Beauty Services",
       beautyMenu: "The Beauty Menu →",
-      beautyList: [
-        { name: "Color & Balayage", price: "$150+" },
-        { name: "Highlights", price: "$120+" },
-        { name: "Hair Treatments", price: "$85+" },
-        { name: "Custom Facials", price: "$95+" },
-        { name: "Men's & Women's Beauty", price: "$65+" },
-        { name: "Lash & Brow Artistry", price: "$45+" },
+      beautyCategories: [
+        {
+          title: "Ladies Services",
+          items: [
+            { name: "Ladies Cut", price: "from $35" },
+            { name: "Brushing", price: "from $30" },
+            { name: "Makeup", price: "from $65" },
+            { name: "Hairstyling", price: "from $50" },
+          ],
+        },
+        {
+          title: "Facials",
+          items: [
+            { name: "Express Facial", price: "$30" },
+            { name: "Deep Facial", price: "$40" },
+            { name: "Premium Facial (Galvanic Tech)", price: "$60" },
+          ],
+        },
+        {
+          title: "Color & Style",
+          items: [
+            { name: "Highlights", price: "from $120" },
+            { name: "Balayage", price: "from $150" },
+          ],
+        },
       ],
     },
     team: {
@@ -222,26 +261,65 @@ export const translations = {
     },
     services: {
       barberSubtitle: "— Para Él",
-      barberTitle: "Barbería Máster",
+      barberTitle: "Barbería y Estilo",
       barberMenu: "Menú de Barbería →",
-      barberList: [
-        { name: "Cortes Modernos & Fades", price: "$45+" },
-        { name: "Barbería Profesional", price: "$40+" },
-        { name: "Alineación a Navaja", price: "$35+" },
-        { name: "Esculpido de Barba", price: "$30+" },
-        { name: "Cortes para Niños", price: "$25+" },
-        { name: "Afeitado con Toalla Caliente", price: "$50+" },
+      barberCategories: [
+        {
+          title: "Barber Services",
+          items: [
+            { name: "Corte Regular", price: "$30" },
+            { name: "Skin Fade", price: "$35" },
+            { name: "Corte y Barba", price: "$50" },
+            { name: "Barba", price: "$20" },
+          ],
+        },
+        {
+          title: "Premium Services",
+          items: [
+            { name: "Diseño Personalizado", price: "desde $5+" },
+            { name: "Cejas con Navaja", price: "$10" },
+            { name: "Lavado Capilar", price: "$10" },
+            { name: "Wax", price: "$15" },
+            { name: "Mascarilla Facial", price: "$15" },
+          ],
+        },
+        {
+          title: "Color & Style",
+          items: [
+            { name: "Tinte para Caballero", price: "desde $40" },
+            { name: "Decoloración", price: "desde $80" },
+            { name: "Permanentes", price: "desde $80" },
+          ],
+        },
       ],
       beautySubtitle: "— Para Ella",
       beautyTitle: "Belleza Artesanal",
       beautyMenu: "Menú de Belleza →",
-      beautyList: [
-        { name: "Coloración & Balayage", price: "$150+" },
-        { name: "Highlights", price: "$120+" },
-        { name: "Tratamientos Capilares", price: "$85+" },
-        { name: "Faciales a la Medida", price: "$95+" },
-        { name: "Belleza para Él y Ella", price: "$65+" },
-        { name: "Arte en Pestañas y Cejas", price: "$45+" },
+      beautyCategories: [
+        {
+          title: "Servicios para Dama",
+          items: [
+            { name: "Corte de Dama", price: "desde $35" },
+            { name: "Brushing", price: "desde $30" },
+            { name: "Maquillaje", price: "desde $65" },
+            { name: "Peinados", price: "desde $50" },
+          ],
+        },
+        {
+          title: "Faciales",
+          items: [
+            { name: "Facial Express", price: "$30" },
+            { name: "Facial Profundo", price: "$40" },
+            { name: "Facial Premium (Tecnología Galvánica)", price: "$60" },
+          ],
+        },
+        {
+          title: "Color & Style",
+          items: [
+            { name: "Highlights", price: "desde $120" },
+            { name: "Balayage", price: "desde $150" },
+          ],
+        },
       ],
     },
     team: {

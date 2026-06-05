@@ -347,14 +347,12 @@ function Philosophy() {
 
 function ServiceSplit() {
   const { t } = useLanguage();
-  const barberServices = t.services.barberList;
-  const beautyServices = t.services.beautyList;
   return (
     <section id="services" className="grid md:grid-cols-2 min-h-screen">
       {/* Barber */}
       <motion.div
         {...fadeUp}
-        className="bg-charcoal text-champagne p-10 md:p-20 flex flex-col justify-between min-h-[600px] relative overflow-hidden group"
+        className="bg-charcoal text-champagne p-10 md:p-16 lg:p-20 flex flex-col justify-between min-h-[600px] relative overflow-hidden group"
       >
         <div className="absolute -bottom-32 -right-32 size-96 bg-gold/10 blur-3xl rounded-full pointer-events-none" />
         <div className="relative z-10">
@@ -364,23 +362,35 @@ function ServiceSplit() {
           <h3 className="font-display italic text-gold text-5xl md:text-6xl mb-12">
             {t.services.barberTitle}
           </h3>
-          <ul className="space-y-5">
-            {barberServices.map((s, i) => (
-              <li
-                key={s.name}
-                className={`flex justify-between items-end pt-5 group/item cursor-pointer ${i > 0 ? "border-t border-white/5" : ""}`}
-              >
-                <span className="font-sans font-extrabold uppercase text-lg md:text-2xl text-champagne group-hover/item:text-gold group-hover/item:translate-x-1 transition-all">
-                  {s.name}
-                </span>
-                <span className="font-mono text-gold text-xs pb-1.5 whitespace-nowrap ml-4">
-                  {s.price}
-                </span>
-              </li>
+          <div className="space-y-10">
+            {t.services.barberCategories.map((category) => (
+              <div key={category.title}>
+                <div className="flex items-center gap-4 mb-5">
+                  <h4 className="font-mono text-champagne/50 text-[10px] uppercase tracking-widest">
+                    {category.title}
+                  </h4>
+                  <div className="flex-1 h-px bg-white/5"></div>
+                </div>
+                <ul className="space-y-4">
+                  {category.items.map((s) => (
+                    <li
+                      key={s.name}
+                      className="flex justify-between items-end group/item cursor-pointer"
+                    >
+                      <span className="font-sans font-bold uppercase text-sm md:text-lg text-champagne group-hover/item:text-gold group-hover/item:translate-x-1 transition-all">
+                        {s.name}
+                      </span>
+                      <span className="font-mono text-gold text-[10px] md:text-xs pb-1 whitespace-nowrap ml-4">
+                        {s.price}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
-        <button className="mt-12 self-start border border-gold text-gold px-8 py-3.5 font-mono text-[10px] uppercase tracking-[0.25em] hover:bg-gold hover:text-charcoal transition-all">
+        <button className="mt-16 self-start border border-gold text-gold px-8 py-3.5 font-mono text-[10px] uppercase tracking-[0.25em] hover:bg-gold hover:text-charcoal transition-all">
           {t.services.barberMenu}
         </button>
       </motion.div>
@@ -388,7 +398,7 @@ function ServiceSplit() {
       {/* Beauty */}
       <motion.div
         {...fadeUp}
-        className="bg-rose text-ink p-10 md:p-20 flex flex-col justify-between min-h-[600px] relative overflow-hidden group"
+        className="bg-rose text-ink p-10 md:p-16 lg:p-20 flex flex-col justify-between min-h-[600px] relative overflow-hidden group"
       >
         <div className="absolute -top-32 -left-32 size-96 bg-gold/20 blur-3xl rounded-full pointer-events-none" />
         <div className="relative z-10">
@@ -398,23 +408,35 @@ function ServiceSplit() {
           <h3 className="font-display italic text-espresso text-5xl md:text-6xl mb-12">
             {t.services.beautyTitle}
           </h3>
-          <ul className="space-y-5">
-            {beautyServices.map((s, i) => (
-              <li
-                key={s.name}
-                className={`flex justify-between items-end pt-5 group/item cursor-pointer ${i > 0 ? "border-t border-ink/10" : ""}`}
-              >
-                <span className="font-sans font-extrabold uppercase text-lg md:text-2xl text-ink group-hover/item:text-espresso group-hover/item:translate-x-1 transition-all">
-                  {s.name}
-                </span>
-                <span className="font-mono text-espresso text-xs pb-1.5 whitespace-nowrap ml-4">
-                  {s.price}
-                </span>
-              </li>
+          <div className="space-y-10">
+            {t.services.beautyCategories.map((category) => (
+              <div key={category.title}>
+                <div className="flex items-center gap-4 mb-5">
+                  <h4 className="font-mono text-ink/50 text-[10px] uppercase tracking-widest">
+                    {category.title}
+                  </h4>
+                  <div className="flex-1 h-px bg-ink/10"></div>
+                </div>
+                <ul className="space-y-4">
+                  {category.items.map((s) => (
+                    <li
+                      key={s.name}
+                      className="flex justify-between items-end group/item cursor-pointer"
+                    >
+                      <span className="font-sans font-bold uppercase text-sm md:text-lg text-ink group-hover/item:text-espresso group-hover/item:translate-x-1 transition-all">
+                        {s.name}
+                      </span>
+                      <span className="font-mono text-espresso text-[10px] md:text-xs pb-1 whitespace-nowrap ml-4">
+                        {s.price}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
-        <button className="mt-12 self-start border border-espresso text-espresso px-8 py-3.5 font-mono text-[10px] uppercase tracking-[0.25em] hover:bg-espresso hover:text-rose transition-all">
+        <button className="mt-16 self-start border border-espresso text-espresso px-8 py-3.5 font-mono text-[10px] uppercase tracking-[0.25em] hover:bg-espresso hover:text-rose transition-all">
           {t.services.beautyMenu}
         </button>
       </motion.div>

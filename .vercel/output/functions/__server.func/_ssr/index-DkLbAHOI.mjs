@@ -1,5 +1,5 @@
 import { j as jsxRuntimeExports, r as reactExports } from "../_libs/react.mjs";
-import { u as useLanguage } from "./router-7vt4wEng.mjs";
+import { u as useLanguage } from "./router-DDq2cRNl.mjs";
 import { u as useScroll, a as useTransform, m as motion } from "../_libs/framer-motion.mjs";
 import "../_libs/tanstack__query-core.mjs";
 import "../_libs/tanstack__react-query.mjs";
@@ -595,11 +595,13 @@ function Contact() {
           /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "https://wa.me/18303302172", className: "block text-ink/70 hover:text-gold mt-1", children: "WhatsApp" })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-gold uppercase tracking-widest text-[9px] mb-2", children: "Hours" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-gold uppercase tracking-widest text-[9px] mb-2", children: t.footer.hours }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-ink/70 leading-relaxed", children: [
-            "Mon–Sat: 9–8",
+            t.footer.monFri,
             /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-            "Sunday: 10–6"
+            t.footer.sat,
+            /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+            t.footer.sun
           ] })
         ] }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
@@ -632,7 +634,9 @@ function Footer() {
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-champagne", children: t.footer.hours }),
         /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "leading-relaxed", children: [
-          t.footer.monSat,
+          t.footer.monFri,
+          /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+          t.footer.sat,
           /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
           t.footer.sun
         ] })

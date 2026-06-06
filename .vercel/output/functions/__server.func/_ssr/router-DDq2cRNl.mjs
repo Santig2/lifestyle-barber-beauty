@@ -208,8 +208,9 @@ const translations = {
       visit: "Visit",
       hours: "Hours",
       connect: "Connect",
-      monSat: "Mon–Sat: 9AM – 8PM",
-      sun: "Sun: 10AM – 6PM",
+      monFri: "Mon–Fri: 10AM – 8PM",
+      sat: "Sat: 9AM – 8PM",
+      sun: "Sun: 10AM – 4PM",
       copy: "© 2026 Lifestyle Barber & Beauty Salon",
       crafted: "Crafted with precision in Leander, TX"
     },
@@ -412,8 +413,9 @@ const translations = {
       visit: "Visítanos",
       hours: "Horarios",
       connect: "Conectar",
-      monSat: "Lun–Sáb: 9AM – 8PM",
-      sun: "Dom: 10AM – 6PM",
+      monFri: "Lun–Vie: 10AM – 8PM",
+      sat: "Sáb: 9AM – 8PM",
+      sun: "Dom: 10AM – 4PM",
       copy: "© 2026 Lifestyle Barber & Beauty Salon",
       crafted: "Creado con precisión en Leander, TX"
     },
@@ -554,7 +556,7 @@ function RootComponent() {
   const { queryClient } = Route$1.useRouteContext();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(LanguageProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(QueryClientProvider, { client: queryClient, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }) });
 }
-const $$splitComponentImporter = () => import("./index-BxwdTZWz.mjs");
+const $$splitComponentImporter = () => import("./index-DkLbAHOI.mjs");
 const Route = createFileRoute("/")({
   head: () => ({
     meta: [{

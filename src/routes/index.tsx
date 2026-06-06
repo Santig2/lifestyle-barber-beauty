@@ -798,11 +798,13 @@ function Contact() {
                 </a>
               </div>
               <div>
-                <div className="text-gold uppercase tracking-widest text-[9px] mb-2">Hours</div>
+                <div className="text-gold uppercase tracking-widest text-[9px] mb-2">{t.footer.hours}</div>
                 <p className="text-ink/70 leading-relaxed">
-                  Mon–Sat: 9–8
+                  {t.footer.monFri}
                   <br />
-                  Sunday: 10–6
+                  {t.footer.sat}
+                  <br />
+                  {t.footer.sun}
                 </p>
               </div>
               <div>
@@ -846,7 +848,9 @@ function Footer() {
           <div className="space-y-3">
             <div className="text-champagne">{t.footer.hours}</div>
             <p className="leading-relaxed">
-              {t.footer.monSat}
+              {t.footer.monFri}
+              <br />
+              {t.footer.sat}
               <br />
               {t.footer.sun}
             </p>

@@ -1,69 +1,6 @@
 import { r as reactExports, j as jsxRuntimeExports } from "./react.mjs";
-import {
-  s as getFeatureDefinitions,
-  Y as setFeatureDefinitions,
-  B as isMotionValue,
-  x as isControllingVariants,
-  E as isVariantLabel,
-  z as isForcedMotionValue,
-  e as buildHTMLStyles,
-  f as buildSVGAttrs,
-  D as isSVGTag,
-  R as resolveMotionValue,
-  G as isVariantNode,
-  w as isAnimationControls,
-  U as resolveVariantFromProps,
-  V as scrapeMotionValuesFromProps,
-  W as scrapeMotionValuesFromProps$1,
-  N as optimizedAppearDataAttribute,
-  S as SVGVisualElement,
-  a as HTMLVisualElement,
-  F as Feature,
-  m as createAnimationState,
-  T as resolveVariant,
-  C as isPrimaryPointer,
-  b as addDomEvent,
-  r as frameData,
-  q as frame,
-  h as cancelFrame,
-  K as mixNumber,
-  g as calcLength,
-  n as createBox,
-  p as eachAxis,
-  I as measurePageBox,
-  l as convertBoxToBoundingBox,
-  k as convertBoundingBoxToBox,
-  c as addValueToWillChange,
-  d as animateMotionValue,
-  X as setDragLock,
-  Q as resize,
-  O as percent,
-  y as isElementTextInput,
-  J as microtask,
-  t as globalProjectionState,
-  H as HTMLProjectionNode,
-  u as hover,
-  P as press,
-  _ as supportsViewTimeline,
-  Z as supportsScrollTimeline,
-  A as isHTMLElement,
-  v as interpolate,
-  o as defaultOffset$1,
-  M as observeTimeline,
-  i as cancelMicrotask,
-  L as motionValue,
-  j as collectMotionValues,
-  $ as transform,
-} from "./motion-dom.mjs";
-import {
-  r as pipe,
-  u as secondsToMilliseconds,
-  p as millisecondsToSeconds,
-  s as progress,
-  f as clamp,
-  q as noop,
-  v as velocityPerSecond,
-} from "./motion-utils.mjs";
+import { s as getFeatureDefinitions, Y as setFeatureDefinitions, B as isMotionValue, x as isControllingVariants, E as isVariantLabel, z as isForcedMotionValue, e as buildHTMLStyles, f as buildSVGAttrs, D as isSVGTag, R as resolveMotionValue, G as isVariantNode, w as isAnimationControls, U as resolveVariantFromProps, V as scrapeMotionValuesFromProps, W as scrapeMotionValuesFromProps$1, N as optimizedAppearDataAttribute, S as SVGVisualElement, a as HTMLVisualElement, F as Feature, m as createAnimationState, T as resolveVariant, C as isPrimaryPointer, b as addDomEvent, r as frameData, q as frame, h as cancelFrame, K as mixNumber, g as calcLength, n as createBox, p as eachAxis, I as measurePageBox, l as convertBoxToBoundingBox, k as convertBoundingBoxToBox, c as addValueToWillChange, d as animateMotionValue, X as setDragLock, Q as resize, O as percent, y as isElementTextInput, J as microtask, t as globalProjectionState, H as HTMLProjectionNode, u as hover, P as press, _ as supportsViewTimeline, Z as supportsScrollTimeline, A as isHTMLElement, v as interpolate, o as defaultOffset$1, M as observeTimeline, i as cancelMicrotask, L as motionValue, j as collectMotionValues, $ as transform } from "./motion-dom.mjs";
+import { r as pipe, u as secondsToMilliseconds, p as millisecondsToSeconds, s as progress, f as clamp, q as noop, v as velocityPerSecond } from "./motion-utils.mjs";
 const LayoutGroupContext = reactExports.createContext({});
 function useConstant(init) {
   const ref = reactExports.useRef(null);
@@ -78,11 +15,12 @@ const PresenceContext = /* @__PURE__ */ reactExports.createContext(null);
 const MotionConfigContext = reactExports.createContext({
   transformPagePoint: (p) => p,
   isStatic: false,
-  reducedMotion: "never",
+  reducedMotion: "never"
 });
 function usePresence(subscribe = true) {
   const context = reactExports.useContext(PresenceContext);
-  if (context === null) return [true, null];
+  if (context === null)
+    return [true, null];
   const { isPresent, onExitComplete, register } = context;
   const id2 = reactExports.useId();
   reactExports.useEffect(() => {
@@ -90,10 +28,7 @@ function usePresence(subscribe = true) {
       return register(id2);
     }
   }, [subscribe]);
-  const safeToRemove = reactExports.useCallback(
-    () => subscribe && onExitComplete && onExitComplete(id2),
-    [id2, onExitComplete, subscribe],
-  );
+  const safeToRemove = reactExports.useCallback(() => subscribe && onExitComplete && onExitComplete(id2), [id2, onExitComplete, subscribe]);
   return !isPresent && onExitComplete ? [false, safeToRemove] : [true];
 }
 const LazyContext = reactExports.createContext({ strict: false });
@@ -106,7 +41,7 @@ const featureProps = {
     "exit",
     "whileInView",
     "whileFocus",
-    "whileDrag",
+    "whileDrag"
   ],
   exit: ["exit"],
   drag: ["drag", "dragControls"],
@@ -115,15 +50,16 @@ const featureProps = {
   tap: ["whileTap", "onTap", "onTapStart", "onTapCancel"],
   pan: ["onPan", "onPanStart", "onPanSessionStart", "onPanEnd"],
   inView: ["whileInView", "onViewportEnter", "onViewportLeave"],
-  layout: ["layout", "layoutId"],
+  layout: ["layout", "layoutId"]
 };
 let isInitialized = false;
 function initFeatureDefinitions() {
-  if (isInitialized) return;
+  if (isInitialized)
+    return;
   const initialFeatureDefinitions = {};
   for (const key in featureProps) {
     initialFeatureDefinitions[key] = {
-      isEnabled: (props) => featureProps[key].some((name) => !!props[name]),
+      isEnabled: (props) => featureProps[key].some((name) => !!props[name])
     };
   }
   setFeatureDefinitions(initialFeatureDefinitions);
@@ -138,7 +74,7 @@ function loadFeatures(features) {
   for (const key in features) {
     featureDefinitions[key] = {
       ...featureDefinitions[key],
-      ...features[key],
+      ...features[key]
     };
   }
   setFeatureDefinitions(featureDefinitions);
@@ -174,39 +110,31 @@ const validMotionProps = /* @__PURE__ */ new Set([
   "globalTapTarget",
   "propagate",
   "ignoreStrict",
-  "viewport",
+  "viewport"
 ]);
 function isValidMotionProp(key) {
-  return (
-    key.startsWith("while") ||
-    (key.startsWith("drag") && key !== "draggable") ||
-    key.startsWith("layout") ||
-    key.startsWith("onTap") ||
-    key.startsWith("onPan") ||
-    key.startsWith("onLayout") ||
-    validMotionProps.has(key)
-  );
+  return key.startsWith("while") || key.startsWith("drag") && key !== "draggable" || key.startsWith("layout") || key.startsWith("onTap") || key.startsWith("onPan") || key.startsWith("onLayout") || validMotionProps.has(key);
 }
 let shouldForward = (key) => !isValidMotionProp(key);
 function loadExternalIsValidProp(isValidProp) {
-  if (typeof isValidProp !== "function") return;
-  shouldForward = (key) => (key.startsWith("on") ? !isValidMotionProp(key) : isValidProp(key));
+  if (typeof isValidProp !== "function")
+    return;
+  shouldForward = (key) => key.startsWith("on") ? !isValidMotionProp(key) : isValidProp(key);
 }
 try {
   const emotionPkg = "@emotion/is-prop-valid";
   loadExternalIsValidProp(require(emotionPkg).default);
-} catch {}
+} catch {
+}
 function filterProps(props, isDom, forwardMotionProps) {
   const filteredProps = {};
   for (const key in props) {
-    if (key === "values" && typeof props.values === "object") continue;
-    if (isMotionValue(props[key])) continue;
-    if (
-      shouldForward(key) ||
-      (forwardMotionProps === true && isValidMotionProp(key)) ||
-      (!isDom && !isValidMotionProp(key)) || // If trying to use native HTML drag events, forward drag listeners
-      (props["draggable"] && key.startsWith("onDrag"))
-    ) {
+    if (key === "values" && typeof props.values === "object")
+      continue;
+    if (isMotionValue(props[key]))
+      continue;
+    if (shouldForward(key) || forwardMotionProps === true && isValidMotionProp(key) || !isDom && !isValidMotionProp(key) || // If trying to use native HTML drag events, forward drag listeners
+    props["draggable"] && key.startsWith("onDrag")) {
       filteredProps[key] = props[key];
     }
   }
@@ -218,20 +146,14 @@ function getCurrentTreeVariants(props, context) {
     const { initial, animate } = props;
     return {
       initial: initial === false || isVariantLabel(initial) ? initial : void 0,
-      animate: isVariantLabel(animate) ? animate : void 0,
+      animate: isVariantLabel(animate) ? animate : void 0
     };
   }
   return props.inherit !== false ? context : {};
 }
 function useCreateMotionContext(props) {
-  const { initial, animate } = getCurrentTreeVariants(
-    props,
-    reactExports.useContext(MotionContext),
-  );
-  return reactExports.useMemo(
-    () => ({ initial, animate }),
-    [variantLabelsAsDependency(initial), variantLabelsAsDependency(animate)],
-  );
+  const { initial, animate } = getCurrentTreeVariants(props, reactExports.useContext(MotionContext));
+  return reactExports.useMemo(() => ({ initial, animate }), [variantLabelsAsDependency(initial), variantLabelsAsDependency(animate)]);
 }
 function variantLabelsAsDependency(prop) {
   return Array.isArray(prop) ? prop.join(" ") : prop;
@@ -240,7 +162,7 @@ const createHtmlRenderState = () => ({
   style: {},
   transform: {},
   transformOrigin: {},
-  vars: {},
+  vars: {}
 });
 function copyRawValuesOnly(target, source, props) {
   for (const key in source) {
@@ -279,7 +201,7 @@ function useHTMLProps(props, visualState) {
 }
 const createSvgRenderState = () => ({
   ...createHtmlRenderState(),
-  attrs: {},
+  attrs: {}
 });
 function useSVGProps(props, visualState, _isStatic, Component) {
   const visualProps = reactExports.useMemo(() => {
@@ -287,7 +209,7 @@ function useSVGProps(props, visualState, _isStatic, Component) {
     buildSVGAttrs(state, visualState, isSVGTag(Component), props.transformTemplate, props.style);
     return {
       ...state.attrs,
-      style: { ...state.style },
+      style: { ...state.style }
     };
   }, [visualState]);
   if (props.style) {
@@ -322,7 +244,7 @@ const lowercaseSVGElements = [
   "text",
   "tspan",
   "use",
-  "view",
+  "view"
 ];
 function isSVGComponent(Component) {
   if (
@@ -330,9 +252,9 @@ function isSVGComponent(Component) {
      * If it's not a string, it's a custom React component. Currently we only support
      * HTML custom React components.
      */
-    typeof Component !== "string" /**
+    typeof Component !== "string" || /**
      * If it contains a dash, the element is a custom HTML webcomponent.
-     */ ||
+     */
     Component.includes("-")
   ) {
     return false;
@@ -340,48 +262,31 @@ function isSVGComponent(Component) {
     /**
      * If it's in our list of lowercase SVG tags, it's an SVG component
      */
-    lowercaseSVGElements.indexOf(Component) > -1 /**
+    lowercaseSVGElements.indexOf(Component) > -1 || /**
      * If it contains a capital letter, it's an SVG component
-     */ ||
+     */
     /[A-Z]/u.test(Component)
   ) {
     return true;
   }
   return false;
 }
-function useRender(
-  Component,
-  props,
-  ref,
-  { latestValues },
-  isStatic,
-  forwardMotionProps = false,
-  isSVG,
-) {
-  const useVisualProps = (isSVG ?? isSVGComponent(Component)) ? useSVGProps : useHTMLProps;
+function useRender(Component, props, ref, { latestValues }, isStatic, forwardMotionProps = false, isSVG) {
+  const useVisualProps = isSVG ?? isSVGComponent(Component) ? useSVGProps : useHTMLProps;
   const visualProps = useVisualProps(props, latestValues, isStatic, Component);
   const filteredProps = filterProps(props, typeof Component === "string", forwardMotionProps);
-  const elementProps =
-    Component !== reactExports.Fragment ? { ...filteredProps, ...visualProps, ref } : {};
+  const elementProps = Component !== reactExports.Fragment ? { ...filteredProps, ...visualProps, ref } : {};
   const { children } = props;
-  const renderedChildren = reactExports.useMemo(
-    () => (isMotionValue(children) ? children.get() : children),
-    [children],
-  );
+  const renderedChildren = reactExports.useMemo(() => isMotionValue(children) ? children.get() : children, [children]);
   return reactExports.createElement(Component, {
     ...elementProps,
-    children: renderedChildren,
+    children: renderedChildren
   });
 }
-function makeState(
-  { scrapeMotionValuesFromProps: scrapeMotionValuesFromProps2, createRenderState },
-  props,
-  context,
-  presenceContext,
-) {
+function makeState({ scrapeMotionValuesFromProps: scrapeMotionValuesFromProps2, createRenderState }, props, context, presenceContext) {
   const state = {
     latestValues: makeLatestValues(props, context, presenceContext, scrapeMotionValuesFromProps2),
-    renderState: createRenderState(),
+    renderState: createRenderState()
   };
   return state;
 }
@@ -395,8 +300,10 @@ function makeLatestValues(props, context, presenceContext, scrapeMotionValues) {
   const isControllingVariants$1 = isControllingVariants(props);
   const isVariantNode$1 = isVariantNode(props);
   if (context && isVariantNode$1 && !isControllingVariants$1 && props.inherit !== false) {
-    if (initial === void 0) initial = context.initial;
-    if (animate === void 0) animate = context.animate;
+    if (initial === void 0)
+      initial = context.initial;
+    if (animate === void 0)
+      animate = context.animate;
   }
   let isInitialAnimationBlocked = presenceContext ? presenceContext.initial === false : false;
   isInitialAnimationBlocked = isInitialAnimationBlocked || initial === false;
@@ -433,11 +340,11 @@ const makeUseVisualState = (config) => (props, isStatic) => {
 };
 const useHTMLVisualState = /* @__PURE__ */ makeUseVisualState({
   scrapeMotionValuesFromProps,
-  createRenderState: createHtmlRenderState,
+  createRenderState: createHtmlRenderState
 });
 const useSVGVisualState = /* @__PURE__ */ makeUseVisualState({
   scrapeMotionValuesFromProps: scrapeMotionValuesFromProps$1,
-  createRenderState: createSvgRenderState,
+  createRenderState: createSvgRenderState
 });
 const motionComponentSymbol = /* @__PURE__ */ Symbol.for("motionComponentSymbol");
 function useMotionRef(visualState, visualElement, externalRef) {
@@ -446,46 +353,36 @@ function useMotionRef(visualState, visualElement, externalRef) {
     externalRefContainer.current = externalRef;
   });
   const refCleanup = reactExports.useRef(null);
-  return reactExports.useCallback(
-    (instance) => {
+  return reactExports.useCallback((instance) => {
+    if (instance) {
+      visualState.onMount?.(instance);
+    }
+    if (visualElement) {
+      instance ? visualElement.mount(instance) : visualElement.unmount();
+    }
+    const ref = externalRefContainer.current;
+    if (typeof ref === "function") {
       if (instance) {
-        visualState.onMount?.(instance);
-      }
-      if (visualElement) {
-        instance ? visualElement.mount(instance) : visualElement.unmount();
-      }
-      const ref = externalRefContainer.current;
-      if (typeof ref === "function") {
-        if (instance) {
-          const cleanup = ref(instance);
-          if (typeof cleanup === "function") {
-            refCleanup.current = cleanup;
-          }
-        } else if (refCleanup.current) {
-          refCleanup.current();
-          refCleanup.current = null;
-        } else {
-          ref(instance);
+        const cleanup = ref(instance);
+        if (typeof cleanup === "function") {
+          refCleanup.current = cleanup;
         }
-      } else if (ref) {
-        ref.current = instance;
+      } else if (refCleanup.current) {
+        refCleanup.current();
+        refCleanup.current = null;
+      } else {
+        ref(instance);
       }
-    },
-    [visualElement],
-  );
+    } else if (ref) {
+      ref.current = instance;
+    }
+  }, [visualElement]);
 }
 const SwitchLayoutGroupContext = reactExports.createContext({});
 function isRefObject(ref) {
   return ref && typeof ref === "object" && Object.prototype.hasOwnProperty.call(ref, "current");
 }
-function useVisualElement(
-  Component,
-  visualState,
-  props,
-  createVisualElement,
-  ProjectionNodeConstructor,
-  isSVG,
-) {
+function useVisualElement(Component, visualState, props, createVisualElement, ProjectionNodeConstructor, isSVG) {
   const { visualElement: parent } = reactExports.useContext(MotionContext);
   const lazyContext = reactExports.useContext(LazyContext);
   const presenceContext = reactExports.useContext(PresenceContext);
@@ -504,7 +401,7 @@ function useVisualElement(
       blockInitialAnimation: presenceContext ? presenceContext.initial === false : false,
       reducedMotionConfig,
       skipAnimations,
-      isSVG,
+      isSVG
     });
     if (hasMountedOnce.current && visualElementRef.current) {
       visualElementRef.current.manuallyAnimateOnMount = true;
@@ -512,18 +409,8 @@ function useVisualElement(
   }
   const visualElement = visualElementRef.current;
   const initialLayoutGroupConfig = reactExports.useContext(SwitchLayoutGroupContext);
-  if (
-    visualElement &&
-    !visualElement.projection &&
-    ProjectionNodeConstructor &&
-    (visualElement.type === "html" || visualElement.type === "svg")
-  ) {
-    createProjectionNode(
-      visualElementRef.current,
-      props,
-      ProjectionNodeConstructor,
-      initialLayoutGroupConfig,
-    );
+  if (visualElement && !visualElement.projection && ProjectionNodeConstructor && (visualElement.type === "html" || visualElement.type === "svg")) {
+    createProjectionNode(visualElementRef.current, props, ProjectionNodeConstructor, initialLayoutGroupConfig);
   }
   const isMounted = reactExports.useRef(false);
   reactExports.useInsertionEffect(() => {
@@ -532,15 +419,11 @@ function useVisualElement(
     }
   });
   const optimisedAppearId = props[optimizedAppearDataAttribute];
-  const wantsHandoff = reactExports.useRef(
-    Boolean(optimisedAppearId) &&
-      typeof window !== "undefined" &&
-      !window.MotionHandoffIsComplete?.(optimisedAppearId) &&
-      window.MotionHasOptimisedAnimation?.(optimisedAppearId),
-  );
+  const wantsHandoff = reactExports.useRef(Boolean(optimisedAppearId) && typeof window !== "undefined" && !window.MotionHandoffIsComplete?.(optimisedAppearId) && window.MotionHasOptimisedAnimation?.(optimisedAppearId));
   useIsomorphicLayoutEffect(() => {
     hasMountedOnce.current = true;
-    if (!visualElement) return;
+    if (!visualElement)
+      return;
     isMounted.current = true;
     window.MotionIsMounted = true;
     visualElement.updateFeatures();
@@ -550,7 +433,8 @@ function useVisualElement(
     }
   });
   reactExports.useEffect(() => {
-    if (!visualElement) return;
+    if (!visualElement)
+      return;
     if (!wantsHandoff.current && visualElement.animationState) {
       visualElement.animationState.animateChanges();
     }
@@ -564,30 +448,13 @@ function useVisualElement(
   });
   return visualElement;
 }
-function createProjectionNode(
-  visualElement,
-  props,
-  ProjectionNodeConstructor,
-  initialPromotionConfig,
-) {
-  const {
-    layoutId,
-    layout: layout2,
-    drag: drag2,
-    dragConstraints,
-    layoutScroll,
-    layoutRoot,
-    layoutAnchor,
-    layoutCrossfade,
-  } = props;
-  visualElement.projection = new ProjectionNodeConstructor(
-    visualElement.latestValues,
-    props["data-framer-portal-id"] ? void 0 : getClosestProjectingNode(visualElement.parent),
-  );
+function createProjectionNode(visualElement, props, ProjectionNodeConstructor, initialPromotionConfig) {
+  const { layoutId, layout: layout2, drag: drag2, dragConstraints, layoutScroll, layoutRoot, layoutAnchor, layoutCrossfade } = props;
+  visualElement.projection = new ProjectionNodeConstructor(visualElement.latestValues, props["data-framer-portal-id"] ? void 0 : getClosestProjectingNode(visualElement.parent));
   visualElement.projection.setOptions({
     layoutId,
     layout: layout2,
-    alwaysMeasureLayout: Boolean(drag2) || (dragConstraints && isRefObject(dragConstraints)),
+    alwaysMeasureLayout: Boolean(drag2) || dragConstraints && isRefObject(dragConstraints),
     visualElement,
     /**
      * TODO: Update options in an effect. This could be tricky as it'll be too late
@@ -601,21 +468,15 @@ function createProjectionNode(
     crossfade: layoutCrossfade,
     layoutScroll,
     layoutRoot,
-    layoutAnchor,
+    layoutAnchor
   });
 }
 function getClosestProjectingNode(visualElement) {
-  if (!visualElement) return void 0;
-  return visualElement.options.allowProjection !== false
-    ? visualElement.projection
-    : getClosestProjectingNode(visualElement.parent);
+  if (!visualElement)
+    return void 0;
+  return visualElement.options.allowProjection !== false ? visualElement.projection : getClosestProjectingNode(visualElement.parent);
 }
-function createMotionComponent(
-  Component,
-  { forwardMotionProps = false, type } = {},
-  preloadedFeatures,
-  createVisualElement,
-) {
+function createMotionComponent(Component, { forwardMotionProps = false, type } = {}, preloadedFeatures, createVisualElement) {
   preloadedFeatures && loadFeatures(preloadedFeatures);
   const isSVG = type ? type === "svg" : isSVGComponent(Component);
   const useVisualState = isSVG ? useSVGVisualState : useHTMLVisualState;
@@ -624,7 +485,7 @@ function createMotionComponent(
     const configAndProps = {
       ...reactExports.useContext(MotionConfigContext),
       ...props,
-      layoutId: useLayoutId(props),
+      layoutId: useLayoutId(props)
     };
     const { isStatic } = configAndProps;
     const context = useCreateMotionContext(props);
@@ -633,35 +494,9 @@ function createMotionComponent(
       useStrictMode();
       const layoutProjection = getProjectionFunctionality(configAndProps);
       MeasureLayout2 = layoutProjection.MeasureLayout;
-      context.visualElement = useVisualElement(
-        Component,
-        visualState,
-        configAndProps,
-        createVisualElement,
-        layoutProjection.ProjectionNode,
-        isSVG,
-      );
+      context.visualElement = useVisualElement(Component, visualState, configAndProps, createVisualElement, layoutProjection.ProjectionNode, isSVG);
     }
-    return jsxRuntimeExports.jsxs(MotionContext.Provider, {
-      value: context,
-      children: [
-        MeasureLayout2 && context.visualElement
-          ? jsxRuntimeExports.jsx(MeasureLayout2, {
-              visualElement: context.visualElement,
-              ...configAndProps,
-            })
-          : null,
-        useRender(
-          Component,
-          props,
-          useMotionRef(visualState, context.visualElement, externalRef),
-          visualState,
-          isStatic,
-          forwardMotionProps,
-          isSVG,
-        ),
-      ],
-    });
+    return jsxRuntimeExports.jsxs(MotionContext.Provider, { value: context, children: [MeasureLayout2 && context.visualElement ? jsxRuntimeExports.jsx(MeasureLayout2, { visualElement: context.visualElement, ...configAndProps }) : null, useRender(Component, props, useMotionRef(visualState, context.visualElement, externalRef), visualState, isStatic, forwardMotionProps, isSVG)] });
   }
   MotionDOMComponent.displayName = `motion.${typeof Component === "string" ? Component : `create(${Component.displayName ?? Component.name ?? ""})`}`;
   const ForwardRefMotionComponent = reactExports.forwardRef(MotionDOMComponent);
@@ -678,12 +513,12 @@ function useStrictMode(configAndProps, preloadedFeatures) {
 function getProjectionFunctionality(props) {
   const featureDefinitions = getInitializedFeatureDefinitions();
   const { drag: drag2, layout: layout2 } = featureDefinitions;
-  if (!drag2 && !layout2) return {};
+  if (!drag2 && !layout2)
+    return {};
   const combined = { ...drag2, ...layout2 };
   return {
-    MeasureLayout:
-      drag2?.isEnabled(props) || layout2?.isEnabled(props) ? combined.MeasureLayout : void 0,
-    ProjectionNode: combined.ProjectionNode,
+    MeasureLayout: drag2?.isEnabled(props) || layout2?.isEnabled(props) ? combined.MeasureLayout : void 0,
+    ProjectionNode: combined.ProjectionNode
   };
 }
 function createMotionProxy(preloadedFeatures, createVisualElement) {
@@ -704,24 +539,20 @@ function createMotionProxy(preloadedFeatures, createVisualElement) {
      * DOM component with that name.
      */
     get: (_target, key) => {
-      if (key === "create") return factory;
+      if (key === "create")
+        return factory;
       if (!componentCache.has(key)) {
-        componentCache.set(
-          key,
-          createMotionComponent(key, void 0, preloadedFeatures, createVisualElement),
-        );
+        componentCache.set(key, createMotionComponent(key, void 0, preloadedFeatures, createVisualElement));
       }
       return componentCache.get(key);
-    },
+    }
   });
 }
 const createDomVisualElement = (Component, options) => {
   const isSVG = options.isSVG ?? isSVGComponent(Component);
-  return isSVG
-    ? new SVGVisualElement(options)
-    : new HTMLVisualElement(options, {
-        allowProjection: Component !== reactExports.Fragment,
-      });
+  return isSVG ? new SVGVisualElement(options) : new HTMLVisualElement(options, {
+    allowProjection: Component !== reactExports.Fragment
+  });
 };
 class AnimationFeature extends Feature {
   /**
@@ -765,7 +596,8 @@ class ExitAnimationFeature extends Feature {
     this.isExitComplete = false;
   }
   update() {
-    if (!this.node.presenceContext) return;
+    if (!this.node.presenceContext)
+      return;
     const { isPresent, onExitComplete } = this.node.presenceContext;
     const { isPresent: prevIsPresent } = this.node.prevPresenceContext || {};
     if (!this.node.animationState || isPresent === prevIsPresent) {
@@ -774,10 +606,7 @@ class ExitAnimationFeature extends Feature {
     if (isPresent && prevIsPresent === false) {
       if (this.isExitComplete) {
         const { initial, custom } = this.node.getProps();
-        if (
-          typeof initial === "string" ||
-          (typeof initial === "object" && initial !== null && !Array.isArray(initial))
-        ) {
+        if (typeof initial === "string" || typeof initial === "object" && initial !== null && !Array.isArray(initial)) {
           const resolved = resolveVariant(this.node, initial, custom);
           if (resolved) {
             const { transition, transitionEnd, ...target } = resolved;
@@ -811,26 +640,26 @@ class ExitAnimationFeature extends Feature {
       this.unmount = register(this.id);
     }
   }
-  unmount() {}
+  unmount() {
+  }
 }
 const animations = {
   animation: {
-    Feature: AnimationFeature,
+    Feature: AnimationFeature
   },
   exit: {
-    Feature: ExitAnimationFeature,
-  },
+    Feature: ExitAnimationFeature
+  }
 };
 function extractEventInfo(event) {
   return {
     point: {
       x: event.pageX,
-      y: event.pageY,
-    },
+      y: event.pageY
+    }
   };
 }
-const addPointerInfo = (handler) => (event) =>
-  isPrimaryPointer(event) && handler(event, extractEventInfo(event));
+const addPointerInfo = (handler) => (event) => isPrimaryPointer(event) && handler(event, extractEventInfo(event));
 function addPointerEvent(target, eventName, handler, options) {
   return addDomEvent(target, eventName, addPointerInfo(handler), options);
 }
@@ -845,17 +674,7 @@ function distance2D(a, b) {
 }
 const overflowStyles = /* @__PURE__ */ new Set(["auto", "scroll"]);
 class PanSession {
-  constructor(
-    event,
-    handlers,
-    {
-      transformPagePoint,
-      contextWindow = window,
-      dragSnapToOrigin = false,
-      distanceThreshold = 3,
-      element,
-    } = {},
-  ) {
+  constructor(event, handlers, { transformPagePoint, contextWindow = window, dragSnapToOrigin = false, distanceThreshold = 3, element } = {}) {
     this.startEvent = null;
     this.lastMoveEvent = null;
     this.lastMoveEventInfo = null;
@@ -871,15 +690,16 @@ class PanSession {
       this.handleScroll(window);
     };
     this.updatePoint = () => {
-      if (!(this.lastMoveEvent && this.lastMoveEventInfo)) return;
+      if (!(this.lastMoveEvent && this.lastMoveEventInfo))
+        return;
       if (this.lastRawMoveEventInfo) {
         this.lastMoveEventInfo = transformPoint(this.lastRawMoveEventInfo, this.transformPagePoint);
       }
       const info2 = getPanInfo(this.lastMoveEventInfo, this.history);
       const isPanStarted = this.startEvent !== null;
-      const isDistancePastThreshold =
-        distance2D(info2.offset, { x: 0, y: 0 }) >= this.distanceThreshold;
-      if (!isPanStarted && !isDistancePastThreshold) return;
+      const isDistancePastThreshold = distance2D(info2.offset, { x: 0, y: 0 }) >= this.distanceThreshold;
+      if (!isPanStarted && !isDistancePastThreshold)
+        return;
       const { point: point3 } = info2;
       const { timestamp: timestamp2 } = frameData;
       this.history.push({ ...point3, timestamp: timestamp2 });
@@ -902,19 +722,16 @@ class PanSession {
       if (this.dragSnapToOrigin || !this.startEvent) {
         resumeAnimation && resumeAnimation();
       }
-      if (!(this.lastMoveEvent && this.lastMoveEventInfo)) return;
-      const panInfo = getPanInfo(
-        event2.type === "pointercancel"
-          ? this.lastMoveEventInfo
-          : transformPoint(info2, this.transformPagePoint),
-        this.history,
-      );
+      if (!(this.lastMoveEvent && this.lastMoveEventInfo))
+        return;
+      const panInfo = getPanInfo(event2.type === "pointercancel" ? this.lastMoveEventInfo : transformPoint(info2, this.transformPagePoint), this.history);
       if (this.startEvent && onEnd) {
         onEnd(event2, panInfo);
       }
       onSessionEnd && onSessionEnd(event2, panInfo);
     };
-    if (!isPrimaryPointer(event)) return;
+    if (!isPrimaryPointer(event))
+      return;
     this.dragSnapToOrigin = dragSnapToOrigin;
     this.handlers = handlers;
     this.transformPagePoint = transformPagePoint;
@@ -927,11 +744,7 @@ class PanSession {
     this.history = [{ ...point2, timestamp }];
     const { onSessionStart } = handlers;
     onSessionStart && onSessionStart(event, getPanInfo(initialInfo, this.history));
-    this.removeListeners = pipe(
-      addPointerEvent(this.contextWindow, "pointermove", this.handlePointerMove),
-      addPointerEvent(this.contextWindow, "pointerup", this.handlePointerUp),
-      addPointerEvent(this.contextWindow, "pointercancel", this.handlePointerUp),
-    );
+    this.removeListeners = pipe(addPointerEvent(this.contextWindow, "pointermove", this.handlePointerMove), addPointerEvent(this.contextWindow, "pointerup", this.handlePointerUp), addPointerEvent(this.contextWindow, "pointercancel", this.handlePointerUp));
     if (element) {
       this.startScrollTracking(element);
     }
@@ -946,22 +759,22 @@ class PanSession {
       if (overflowStyles.has(style.overflowX) || overflowStyles.has(style.overflowY)) {
         this.scrollPositions.set(current, {
           x: current.scrollLeft,
-          y: current.scrollTop,
+          y: current.scrollTop
         });
       }
       current = current.parentElement;
     }
     this.scrollPositions.set(window, {
       x: window.scrollX,
-      y: window.scrollY,
+      y: window.scrollY
     });
     window.addEventListener("scroll", this.onElementScroll, {
-      capture: true,
+      capture: true
     });
     window.addEventListener("scroll", this.onWindowScroll);
     this.removeScrollListeners = () => {
       window.removeEventListener("scroll", this.onElementScroll, {
-        capture: true,
+        capture: true
       });
       window.removeEventListener("scroll", this.onWindowScroll);
     };
@@ -974,16 +787,16 @@ class PanSession {
    */
   handleScroll(target) {
     const initial = this.scrollPositions.get(target);
-    if (!initial) return;
+    if (!initial)
+      return;
     const isWindow = target === window;
-    const current = isWindow
-      ? { x: window.scrollX, y: window.scrollY }
-      : {
-          x: target.scrollLeft,
-          y: target.scrollTop,
-        };
+    const current = isWindow ? { x: window.scrollX, y: window.scrollY } : {
+      x: target.scrollLeft,
+      y: target.scrollTop
+    };
     const delta = { x: current.x - initial.x, y: current.y - initial.y };
-    if (delta.x === 0 && delta.y === 0) return;
+    if (delta.x === 0 && delta.y === 0)
+      return;
     if (isWindow) {
       if (this.lastMoveEventInfo) {
         this.lastMoveEventInfo.point.x += delta.x;
@@ -1019,7 +832,7 @@ function getPanInfo({ point: point2 }, history) {
     point: point2,
     delta: subtractPoint(point2, lastDevicePoint(history)),
     offset: subtractPoint(point2, startDevicePoint(history)),
-    velocity: getVelocity(history, 0.1),
+    velocity: getVelocity(history, 0.1)
   };
 }
 function startDevicePoint(history) {
@@ -1045,11 +858,7 @@ function getVelocity(history, timeDelta) {
   if (!timestampedPoint) {
     return { x: 0, y: 0 };
   }
-  if (
-    timestampedPoint === history[0] &&
-    history.length > 2 &&
-    lastPoint.timestamp - timestampedPoint.timestamp > secondsToMilliseconds(timeDelta) * 2
-  ) {
+  if (timestampedPoint === history[0] && history.length > 2 && lastPoint.timestamp - timestampedPoint.timestamp > secondsToMilliseconds(timeDelta) * 2) {
     timestampedPoint = history[1];
   }
   const time = millisecondsToSeconds(lastPoint.timestamp - timestampedPoint.timestamp);
@@ -1058,7 +867,7 @@ function getVelocity(history, timeDelta) {
   }
   const currentVelocity = {
     x: (lastPoint.x - timestampedPoint.x) / time,
-    y: (lastPoint.y - timestampedPoint.y) / time,
+    y: (lastPoint.y - timestampedPoint.y) / time
   };
   if (currentVelocity.x === Infinity) {
     currentVelocity.x = 0;
@@ -1079,13 +888,13 @@ function applyConstraints(point2, { min, max }, elastic) {
 function calcRelativeAxisConstraints(axis, min, max) {
   return {
     min: min !== void 0 ? axis.min + min : void 0,
-    max: max !== void 0 ? axis.max + max - (axis.max - axis.min) : void 0,
+    max: max !== void 0 ? axis.max + max - (axis.max - axis.min) : void 0
   };
 }
 function calcRelativeConstraints(layoutBox, { top, left, bottom, right }) {
   return {
     x: calcRelativeAxisConstraints(layoutBox.x, left, right),
-    y: calcRelativeAxisConstraints(layoutBox.y, top, bottom),
+    y: calcRelativeAxisConstraints(layoutBox.y, top, bottom)
   };
 }
 function calcViewportAxisConstraints(layoutAxis, constraintsAxis) {
@@ -1099,7 +908,7 @@ function calcViewportAxisConstraints(layoutAxis, constraintsAxis) {
 function calcViewportConstraints(layoutBox, constraintsBox) {
   return {
     x: calcViewportAxisConstraints(layoutBox.x, constraintsBox.x),
-    y: calcViewportAxisConstraints(layoutBox.y, constraintsBox.y),
+    y: calcViewportAxisConstraints(layoutBox.y, constraintsBox.y)
   };
 }
 function calcOrigin(source, target) {
@@ -1132,13 +941,13 @@ function resolveDragElastic(dragElastic = defaultElastic) {
   }
   return {
     x: resolveAxisElastic(dragElastic, "left", "right"),
-    y: resolveAxisElastic(dragElastic, "top", "bottom"),
+    y: resolveAxisElastic(dragElastic, "top", "bottom")
   };
 }
 function resolveAxisElastic(dragElastic, minLabel, maxLabel) {
   return {
     min: resolvePointElastic(dragElastic, minLabel),
-    max: resolvePointElastic(dragElastic, maxLabel),
+    max: resolvePointElastic(dragElastic, maxLabel)
   };
 }
 function resolvePointElastic(dragElastic, label) {
@@ -1160,7 +969,8 @@ class VisualElementDragControls {
   }
   start(originEvent, { snapToCursor = false, distanceThreshold } = {}) {
     const { presenceContext } = this.visualElement;
-    if (presenceContext && presenceContext.isPresent === false) return;
+    if (presenceContext && presenceContext.isPresent === false)
+      return;
     const onSessionStart = (event) => {
       if (snapToCursor) {
         this.snapToCursor(extractEventInfo(event).point);
@@ -1170,9 +980,11 @@ class VisualElementDragControls {
     const onStart = (event, info) => {
       const { drag: drag2, dragPropagation, onDragStart } = this.getProps();
       if (drag2 && !dragPropagation) {
-        if (this.openDragLock) this.openDragLock();
+        if (this.openDragLock)
+          this.openDragLock();
         this.openDragLock = setDragLock(drag2);
-        if (!this.openDragLock) return;
+        if (!this.openDragLock)
+          return;
       }
       this.latestPointerEvent = event;
       this.latestPanInfo = info;
@@ -1208,7 +1020,8 @@ class VisualElementDragControls {
       this.latestPointerEvent = event;
       this.latestPanInfo = info;
       const { dragPropagation, dragDirectionLock, onDirectionLock, onDrag } = this.getProps();
-      if (!dragPropagation && !this.openDragLock) return;
+      if (!dragPropagation && !this.openDragLock)
+        return;
       const { offset } = info;
       if (dragDirectionLock && this.currentDirection === null) {
         this.currentDirection = getCurrentDirection(offset);
@@ -1238,23 +1051,19 @@ class VisualElementDragControls {
       }
     };
     const { dragSnapToOrigin } = this.getProps();
-    this.panSession = new PanSession(
-      originEvent,
-      {
-        onSessionStart,
-        onStart,
-        onMove,
-        onSessionEnd,
-        resumeAnimation,
-      },
-      {
-        transformPagePoint: this.visualElement.getTransformPagePoint(),
-        dragSnapToOrigin,
-        distanceThreshold,
-        contextWindow: getContextWindow(this.visualElement),
-        element: this.visualElement.current,
-      },
-    );
+    this.panSession = new PanSession(originEvent, {
+      onSessionStart,
+      onStart,
+      onMove,
+      onSessionEnd,
+      resumeAnimation
+    }, {
+      transformPagePoint: this.visualElement.getTransformPagePoint(),
+      dragSnapToOrigin,
+      distanceThreshold,
+      contextWindow: getContextWindow(this.visualElement),
+      element: this.visualElement.current
+    });
   }
   /**
    * @internal
@@ -1264,7 +1073,8 @@ class VisualElementDragControls {
     const finalPanInfo = panInfo || this.latestPanInfo;
     const isDragging = this.isDragging;
     this.cancel();
-    if (!isDragging || !finalPanInfo || !finalEvent) return;
+    if (!isDragging || !finalPanInfo || !finalEvent)
+      return;
     const { velocity } = finalPanInfo;
     this.startAnimation(velocity);
     const { onDragEnd } = this.getProps();
@@ -1301,7 +1111,8 @@ class VisualElementDragControls {
   }
   updateAxis(axis, _point, offset) {
     const { drag: drag2 } = this.getProps();
-    if (!offset || !shouldDrag(axis, drag2, this.currentDirection)) return;
+    if (!offset || !shouldDrag(axis, drag2, this.currentDirection))
+      return;
     const axisValue = this.getAxisMotionValue(axis);
     let next = this.originPoint[axis] + offset[axis];
     if (this.constraints && this.constraints[axis]) {
@@ -1311,10 +1122,7 @@ class VisualElementDragControls {
   }
   resolveConstraints() {
     const { dragConstraints, dragElastic } = this.getProps();
-    const layout2 =
-      this.visualElement.projection && !this.visualElement.projection.layout
-        ? this.visualElement.projection.measure(false)
-        : this.visualElement.projection?.layout;
+    const layout2 = this.visualElement.projection && !this.visualElement.projection.layout ? this.visualElement.projection.measure(false) : this.visualElement.projection?.layout;
     const prevConstraints = this.constraints;
     if (dragConstraints && isRefObject(dragConstraints)) {
       if (!this.constraints) {
@@ -1328,43 +1136,30 @@ class VisualElementDragControls {
       }
     }
     this.elastic = resolveDragElastic(dragElastic);
-    if (
-      prevConstraints !== this.constraints &&
-      !isRefObject(dragConstraints) &&
-      layout2 &&
-      this.constraints &&
-      !this.hasMutatedConstraints
-    ) {
+    if (prevConstraints !== this.constraints && !isRefObject(dragConstraints) && layout2 && this.constraints && !this.hasMutatedConstraints) {
       eachAxis((axis) => {
         if (this.constraints !== false && this.getAxisMotionValue(axis)) {
-          this.constraints[axis] = rebaseAxisConstraints(
-            layout2.layoutBox[axis],
-            this.constraints[axis],
-          );
+          this.constraints[axis] = rebaseAxisConstraints(layout2.layoutBox[axis], this.constraints[axis]);
         }
       });
     }
   }
   resolveRefConstraints() {
     const { dragConstraints: constraints, onMeasureDragConstraints } = this.getProps();
-    if (!constraints || !isRefObject(constraints)) return false;
+    if (!constraints || !isRefObject(constraints))
+      return false;
     const constraintsElement = constraints.current;
     const { projection } = this.visualElement;
-    if (!projection || !projection.layout) return false;
+    if (!projection || !projection.layout)
+      return false;
     if (projection.root) {
       projection.root.scroll = void 0;
       projection.root.updateScroll();
     }
-    const constraintsBox = measurePageBox(
-      constraintsElement,
-      projection.root,
-      this.visualElement.getTransformPagePoint(),
-    );
+    const constraintsBox = measurePageBox(constraintsElement, projection.root, this.visualElement.getTransformPagePoint());
     let measuredConstraints = calcViewportConstraints(projection.layout.layoutBox, constraintsBox);
     if (onMeasureDragConstraints) {
-      const userConstraints = onMeasureDragConstraints(
-        convertBoxToBoundingBox(measuredConstraints),
-      );
+      const userConstraints = onMeasureDragConstraints(convertBoxToBoundingBox(measuredConstraints));
       this.hasMutatedConstraints = !!userConstraints;
       if (userConstraints) {
         measuredConstraints = convertBoundingBoxToBox(userConstraints);
@@ -1373,21 +1168,15 @@ class VisualElementDragControls {
     return measuredConstraints;
   }
   startAnimation(velocity) {
-    const {
-      drag: drag2,
-      dragMomentum,
-      dragElastic,
-      dragTransition,
-      dragSnapToOrigin,
-      onDragTransitionEnd,
-    } = this.getProps();
+    const { drag: drag2, dragMomentum, dragElastic, dragTransition, dragSnapToOrigin, onDragTransitionEnd } = this.getProps();
     const constraints = this.constraints || {};
     const momentumAnimations = eachAxis((axis) => {
       if (!shouldDrag(axis, drag2, this.currentDirection)) {
         return;
       }
-      let transition = (constraints && constraints[axis]) || {};
-      if (dragSnapToOrigin === true || dragSnapToOrigin === axis) transition = { min: 0, max: 0 };
+      let transition = constraints && constraints[axis] || {};
+      if (dragSnapToOrigin === true || dragSnapToOrigin === axis)
+        transition = { min: 0, max: 0 };
       const bounceStiffness = dragElastic ? 200 : 1e6;
       const bounceDamping = dragElastic ? 40 : 1e7;
       const inertia = {
@@ -1399,7 +1188,7 @@ class VisualElementDragControls {
         restDelta: 1,
         restSpeed: 10,
         ...dragTransition,
-        ...transition,
+        ...transition
       };
       return this.startAxisValueAnimation(axis, inertia);
     });
@@ -1408,9 +1197,7 @@ class VisualElementDragControls {
   startAxisValueAnimation(axis, transition) {
     const axisValue = this.getAxisMotionValue(axis);
     addValueToWillChange(this.visualElement, axis);
-    return axisValue.start(
-      animateMotionValue(axis, axisValue, 0, transition, this.visualElement, false),
-    );
+    return axisValue.start(animateMotionValue(axis, axisValue, 0, transition, this.visualElement, false));
   }
   stopAnimation() {
     eachAxis((axis) => this.getAxisMotionValue(axis).stop());
@@ -1425,14 +1212,13 @@ class VisualElementDragControls {
     const dragKey = `_drag${axis.toUpperCase()}`;
     const props = this.visualElement.getProps();
     const externalMotionValue = props[dragKey];
-    return externalMotionValue
-      ? externalMotionValue
-      : this.visualElement.getValue(axis, this.visualElement.latestValues[axis] ?? 0);
+    return externalMotionValue ? externalMotionValue : this.visualElement.getValue(axis, this.visualElement.latestValues[axis] ?? 0);
   }
   snapToCursor(point2) {
     eachAxis((axis) => {
       const { drag: drag2 } = this.getProps();
-      if (!shouldDrag(axis, drag2, this.currentDirection)) return;
+      if (!shouldDrag(axis, drag2, this.currentDirection))
+        return;
       const { projection } = this.visualElement;
       const axisValue = this.getAxisMotionValue(axis);
       if (projection && projection.layout) {
@@ -1448,10 +1234,12 @@ class VisualElementDragControls {
    * relative to where it was before the resize.
    */
   scalePositionWithinConstraints() {
-    if (!this.visualElement.current) return;
+    if (!this.visualElement.current)
+      return;
     const { drag: drag2, dragConstraints } = this.getProps();
     const { projection } = this.visualElement;
-    if (!isRefObject(dragConstraints) || !projection || !this.constraints) return;
+    if (!isRefObject(dragConstraints) || !projection || !this.constraints)
+      return;
     this.stopAnimation();
     const boxProgress = { x: 0, y: 0 };
     eachAxis((axis) => {
@@ -1462,15 +1250,14 @@ class VisualElementDragControls {
       }
     });
     const { transformTemplate } = this.visualElement.getProps();
-    this.visualElement.current.style.transform = transformTemplate
-      ? transformTemplate({}, "")
-      : "none";
+    this.visualElement.current.style.transform = transformTemplate ? transformTemplate({}, "") : "none";
     projection.root && projection.root.updateScroll();
     projection.updateLayout();
     this.constraints = false;
     this.resolveConstraints();
     eachAxis((axis) => {
-      if (!shouldDrag(axis, drag2, null)) return;
+      if (!shouldDrag(axis, drag2, null))
+        return;
       const axisValue = this.getAxisMotionValue(axis);
       const { min, max } = this.constraints[axis];
       axisValue.set(mixNumber(min, max, boxProgress[axis]));
@@ -1478,7 +1265,8 @@ class VisualElementDragControls {
     this.visualElement.render();
   }
   addListeners() {
-    if (!this.visualElement.current) return;
+    if (!this.visualElement.current)
+      return;
     elementDragControls.set(this.visualElement, this);
     const element = this.visualElement.current;
     const stopPointerListener = addPointerEvent(element, "pointerdown", (event) => {
@@ -1495,39 +1283,30 @@ class VisualElementDragControls {
       if (isRefObject(dragConstraints) && dragConstraints.current) {
         this.constraints = this.resolveRefConstraints();
         if (!stopResizeObservers) {
-          stopResizeObservers = startResizeObservers(element, dragConstraints.current, () =>
-            this.scalePositionWithinConstraints(),
-          );
+          stopResizeObservers = startResizeObservers(element, dragConstraints.current, () => this.scalePositionWithinConstraints());
         }
       }
     };
     const { projection } = this.visualElement;
-    const stopMeasureLayoutListener = projection.addEventListener(
-      "measure",
-      measureDragConstraints,
-    );
+    const stopMeasureLayoutListener = projection.addEventListener("measure", measureDragConstraints);
     if (projection && !projection.layout) {
       projection.root && projection.root.updateScroll();
       projection.updateLayout();
     }
     frame.read(measureDragConstraints);
-    const stopResizeListener = addDomEvent(window, "resize", () =>
-      this.scalePositionWithinConstraints(),
-    );
-    const stopLayoutUpdateListener = projection.addEventListener(
-      "didUpdate",
-      ({ delta, hasLayoutChanged }) => {
-        if (this.isDragging && hasLayoutChanged) {
-          eachAxis((axis) => {
-            const motionValue2 = this.getAxisMotionValue(axis);
-            if (!motionValue2) return;
-            this.originPoint[axis] += delta[axis].translate;
-            motionValue2.set(motionValue2.get() + delta[axis].translate);
-          });
-          this.visualElement.render();
-        }
-      },
-    );
+    const stopResizeListener = addDomEvent(window, "resize", () => this.scalePositionWithinConstraints());
+    const stopLayoutUpdateListener = projection.addEventListener("didUpdate", (({ delta, hasLayoutChanged }) => {
+      if (this.isDragging && hasLayoutChanged) {
+        eachAxis((axis) => {
+          const motionValue2 = this.getAxisMotionValue(axis);
+          if (!motionValue2)
+            return;
+          this.originPoint[axis] += delta[axis].translate;
+          motionValue2.set(motionValue2.get() + delta[axis].translate);
+        });
+        this.visualElement.render();
+      }
+    }));
     return () => {
       stopResizeListener();
       stopPointerListener();
@@ -1538,14 +1317,7 @@ class VisualElementDragControls {
   }
   getProps() {
     const props = this.visualElement.getProps();
-    const {
-      drag: drag2 = false,
-      dragDirectionLock = false,
-      dragPropagation = false,
-      dragConstraints = false,
-      dragElastic = defaultElastic,
-      dragMomentum = true,
-    } = props;
+    const { drag: drag2 = false, dragDirectionLock = false, dragPropagation = false, dragConstraints = false, dragElastic = defaultElastic, dragMomentum = true } = props;
     return {
       ...props,
       drag: drag2,
@@ -1553,7 +1325,7 @@ class VisualElementDragControls {
       dragPropagation,
       dragConstraints,
       dragElastic,
-      dragMomentum,
+      dragMomentum
     };
   }
 }
@@ -1576,10 +1348,7 @@ function startResizeObservers(element, constraintsElement, onResize) {
   };
 }
 function shouldDrag(direction, drag2, currentDirection) {
-  return (
-    (drag2 === true || drag2 === direction) &&
-    (currentDirection === null || currentDirection === direction)
-  );
+  return (drag2 === true || drag2 === direction) && (currentDirection === null || currentDirection === direction);
 }
 function getCurrentDirection(offset, lockThreshold = 10) {
   let direction = null;
@@ -1635,7 +1404,7 @@ class PanGesture extends Feature {
   onPointerDown(pointerDownEvent) {
     this.session = new PanSession(pointerDownEvent, this.createPanHandlers(), {
       transformPagePoint: this.node.getTransformPagePoint(),
-      contextWindow: getContextWindow(this.node),
+      contextWindow: getContextWindow(this.node)
     });
   }
   createPanHandlers() {
@@ -1649,13 +1418,11 @@ class PanGesture extends Feature {
         if (onPanEnd) {
           frame.postRender(() => onPanEnd(event, info));
         }
-      },
+      }
     };
   }
   mount() {
-    this.removePointerDownListener = addPointerEvent(this.node.current, "pointerdown", (event) =>
-      this.onPointerDown(event),
-    );
+    this.removePointerDownListener = addPointerEvent(this.node.current, "pointerdown", (event) => this.onPointerDown(event));
   }
   update() {
     this.session && this.session.updateHandlers(this.createPanHandlers());
@@ -1676,7 +1443,8 @@ class MeasureLayoutWithContext extends reactExports.Component {
     const { visualElement, layoutGroup, switchLayoutGroup, layoutId } = this.props;
     const { projection } = visualElement;
     if (projection) {
-      if (layoutGroup.group) layoutGroup.group.add(projection);
+      if (layoutGroup.group)
+        layoutGroup.group.add(projection);
       if (switchLayoutGroup && switchLayoutGroup.register && layoutId) {
         switchLayoutGroup.register(projection);
       }
@@ -1689,7 +1457,7 @@ class MeasureLayoutWithContext extends reactExports.Component {
       projection.setOptions({
         ...projection.options,
         layoutDependency: this.props.layoutDependency,
-        onExitComplete: () => this.safeToRemove(),
+        onExitComplete: () => this.safeToRemove()
       });
     }
     globalProjectionState.hasEverUpdated = true;
@@ -1697,21 +1465,17 @@ class MeasureLayoutWithContext extends reactExports.Component {
   getSnapshotBeforeUpdate(prevProps) {
     const { layoutDependency, visualElement, drag: drag2, isPresent } = this.props;
     const { projection } = visualElement;
-    if (!projection) return null;
+    if (!projection)
+      return null;
     projection.isPresent = isPresent;
     if (prevProps.layoutDependency !== layoutDependency) {
       projection.setOptions({
         ...projection.options,
-        layoutDependency,
+        layoutDependency
       });
     }
     hasTakenAnySnapshot = true;
-    if (
-      drag2 ||
-      prevProps.layoutDependency !== layoutDependency ||
-      layoutDependency === void 0 ||
-      prevProps.isPresent !== isPresent
-    ) {
+    if (drag2 || prevProps.layoutDependency !== layoutDependency || layoutDependency === void 0 || prevProps.isPresent !== isPresent) {
       projection.willUpdate();
     } else {
       this.safeToRemove();
@@ -1749,8 +1513,10 @@ class MeasureLayoutWithContext extends reactExports.Component {
     hasTakenAnySnapshot = true;
     if (projection) {
       projection.scheduleCheckAfterUnmount();
-      if (layoutGroup && layoutGroup.group) layoutGroup.group.remove(projection);
-      if (promoteContext && promoteContext.deregister) promoteContext.deregister(projection);
+      if (layoutGroup && layoutGroup.group)
+        layoutGroup.group.remove(projection);
+      if (promoteContext && promoteContext.deregister)
+        promoteContext.deregister(projection);
     }
   }
   safeToRemove() {
@@ -1764,23 +1530,17 @@ class MeasureLayoutWithContext extends reactExports.Component {
 function MeasureLayout(props) {
   const [isPresent, safeToRemove] = usePresence();
   const layoutGroup = reactExports.useContext(LayoutGroupContext);
-  return jsxRuntimeExports.jsx(MeasureLayoutWithContext, {
-    ...props,
-    layoutGroup,
-    switchLayoutGroup: reactExports.useContext(SwitchLayoutGroupContext),
-    isPresent,
-    safeToRemove,
-  });
+  return jsxRuntimeExports.jsx(MeasureLayoutWithContext, { ...props, layoutGroup, switchLayoutGroup: reactExports.useContext(SwitchLayoutGroupContext), isPresent, safeToRemove });
 }
 const drag = {
   pan: {
-    Feature: PanGesture,
+    Feature: PanGesture
   },
   drag: {
     Feature: DragGesture,
     ProjectionNode: HTMLProjectionNode,
-    MeasureLayout,
-  },
+    MeasureLayout
+  }
 };
 function handleHoverEvent(node, event, lifecycle) {
   const { props } = node;
@@ -1796,13 +1556,15 @@ function handleHoverEvent(node, event, lifecycle) {
 class HoverGesture extends Feature {
   mount() {
     const { current } = this.node;
-    if (!current) return;
+    if (!current)
+      return;
     this.unmount = hover(current, (_element, startEvent) => {
       handleHoverEvent(this.node, startEvent, "Start");
       return (endEvent) => handleHoverEvent(this.node, endEvent, "End");
     });
   }
-  unmount() {}
+  unmount() {
+  }
 }
 class FocusGesture extends Feature {
   constructor() {
@@ -1816,22 +1578,22 @@ class FocusGesture extends Feature {
     } catch (e) {
       isFocusVisible = true;
     }
-    if (!isFocusVisible || !this.node.animationState) return;
+    if (!isFocusVisible || !this.node.animationState)
+      return;
     this.node.animationState.setActive("whileFocus", true);
     this.isActive = true;
   }
   onBlur() {
-    if (!this.isActive || !this.node.animationState) return;
+    if (!this.isActive || !this.node.animationState)
+      return;
     this.node.animationState.setActive("whileFocus", false);
     this.isActive = false;
   }
   mount() {
-    this.unmount = pipe(
-      addDomEvent(this.node.current, "focus", () => this.onFocus()),
-      addDomEvent(this.node.current, "blur", () => this.onBlur()),
-    );
+    this.unmount = pipe(addDomEvent(this.node.current, "focus", () => this.onFocus()), addDomEvent(this.node.current, "blur", () => this.onBlur()));
   }
-  unmount() {}
+  unmount() {
+  }
 }
 function handlePressEvent(node, event, lifecycle) {
   const { props } = node;
@@ -1850,22 +1612,19 @@ function handlePressEvent(node, event, lifecycle) {
 class PressGesture extends Feature {
   mount() {
     const { current } = this.node;
-    if (!current) return;
+    if (!current)
+      return;
     const { globalTapTarget, propagate } = this.node.props;
-    this.unmount = press(
-      current,
-      (_element, startEvent) => {
-        handlePressEvent(this.node, startEvent, "Start");
-        return (endEvent, { success }) =>
-          handlePressEvent(this.node, endEvent, success ? "End" : "Cancel");
-      },
-      {
-        useGlobalTarget: globalTapTarget,
-        stopPropagation: propagate?.tap === false,
-      },
-    );
+    this.unmount = press(current, (_element, startEvent) => {
+      handlePressEvent(this.node, startEvent, "Start");
+      return (endEvent, { success }) => handlePressEvent(this.node, endEvent, success ? "End" : "Cancel");
+    }, {
+      useGlobalTarget: globalTapTarget,
+      stopPropagation: propagate?.tap === false
+    });
   }
-  unmount() {}
+  unmount() {
+  }
 }
 const observerCallbacks = /* @__PURE__ */ new WeakMap();
 const observers = /* @__PURE__ */ new WeakMap();
@@ -1899,7 +1658,7 @@ function observeIntersection(element, options, callback) {
 }
 const thresholdNames = {
   some: 0,
-  all: 1,
+  all: 1
 };
 class InViewFeature extends Feature {
   constructor() {
@@ -1914,11 +1673,12 @@ class InViewFeature extends Feature {
     const options = {
       root: root ? root.current : void 0,
       rootMargin,
-      threshold: typeof amount === "number" ? amount : thresholdNames[amount],
+      threshold: typeof amount === "number" ? amount : thresholdNames[amount]
     };
     const onIntersectionUpdate = (entry) => {
       const { isIntersecting } = entry;
-      if (this.isInView === isIntersecting) return;
+      if (this.isInView === isIntersecting)
+        return;
       this.isInView = isIntersecting;
       if (once && !isIntersecting && this.hasEnteredView) {
         return;
@@ -1938,11 +1698,10 @@ class InViewFeature extends Feature {
     this.startObserver();
   }
   update() {
-    if (typeof IntersectionObserver === "undefined") return;
+    if (typeof IntersectionObserver === "undefined")
+      return;
     const { props, prevProps } = this.node;
-    const hasOptionsChanged = ["amount", "margin", "root"].some(
-      hasViewportOptionChanged(props, prevProps),
-    );
+    const hasOptionsChanged = ["amount", "margin", "root"].some(hasViewportOptionChanged(props, prevProps));
     if (hasOptionsChanged) {
       this.startObserver();
     }
@@ -1958,33 +1717,34 @@ function hasViewportOptionChanged({ viewport = {} }, { viewport: prevViewport = 
 }
 const gestureAnimations = {
   inView: {
-    Feature: InViewFeature,
+    Feature: InViewFeature
   },
   tap: {
-    Feature: PressGesture,
+    Feature: PressGesture
   },
   focus: {
-    Feature: FocusGesture,
+    Feature: FocusGesture
   },
   hover: {
-    Feature: HoverGesture,
-  },
+    Feature: HoverGesture
+  }
 };
 const layout = {
   layout: {
     ProjectionNode: HTMLProjectionNode,
-    MeasureLayout,
-  },
+    MeasureLayout
+  }
 };
 const featureBundle = {
   ...animations,
   ...gestureAnimations,
   ...drag,
-  ...layout,
+  ...layout
 };
 const motion = /* @__PURE__ */ createMotionProxy(featureBundle, createDomVisualElement);
 function canUseNativeTimeline(target) {
-  if (typeof window === "undefined") return false;
+  if (typeof window === "undefined")
+    return false;
   return target ? supportsViewTimeline() : supportsScrollTimeline();
 }
 const maxElapsed = 50;
@@ -1996,22 +1756,22 @@ const createAxisInfo = () => ({
   targetOffset: 0,
   targetLength: 0,
   containerLength: 0,
-  velocity: 0,
+  velocity: 0
 });
 const createScrollInfo = () => ({
   time: 0,
   x: createAxisInfo(),
-  y: createAxisInfo(),
+  y: createAxisInfo()
 });
 const keys = {
   x: {
     length: "Width",
-    position: "Left",
+    position: "Left"
   },
   y: {
     length: "Height",
-    position: "Top",
-  },
+    position: "Top"
+  }
 };
 function updateAxisInfo(element, axisName, info, time) {
   const axis = info[axisName];
@@ -2068,7 +1828,7 @@ function calcInset(element, container) {
 const namedEdges = {
   start: 0,
   center: 0.5,
-  end: 1,
+  end: 1
 };
 function resolveEdge(edge, length, inset = 0) {
   let delta = 0;
@@ -2082,9 +1842,9 @@ function resolveEdge(edge, length, inset = 0) {
     } else if (edge.endsWith("%")) {
       edge = asNumber / 100;
     } else if (edge.endsWith("vw")) {
-      delta = (asNumber / 100) * document.documentElement.clientWidth;
+      delta = asNumber / 100 * document.documentElement.clientWidth;
     } else if (edge.endsWith("vh")) {
-      delta = (asNumber / 100) * document.documentElement.clientHeight;
+      delta = asNumber / 100 * document.documentElement.clientHeight;
     } else {
       edge = asNumber;
     }
@@ -2116,59 +1876,47 @@ function resolveOffset(offset, containerLength, targetLength, targetInset) {
 const ScrollOffset = {
   Enter: [
     [0, 1],
-    [1, 1],
+    [1, 1]
   ],
   Exit: [
     [0, 0],
-    [1, 0],
+    [1, 0]
   ],
   Any: [
     [1, 0],
-    [0, 1],
+    [0, 1]
   ],
   All: [
     [0, 0],
-    [1, 1],
-  ],
+    [1, 1]
+  ]
 };
 const point = { x: 0, y: 0 };
 function getTargetSize(target) {
-  return "getBBox" in target && target.tagName !== "svg"
-    ? target.getBBox()
-    : { width: target.clientWidth, height: target.clientHeight };
+  return "getBBox" in target && target.tagName !== "svg" ? target.getBBox() : { width: target.clientWidth, height: target.clientHeight };
 }
 function resolveOffsets(container, info, options) {
   const { offset: offsetDefinition = ScrollOffset.All } = options;
   const { target = container, axis = "y" } = options;
   const lengthLabel = axis === "y" ? "height" : "width";
   const inset = target !== container ? calcInset(target, container) : point;
-  const targetSize =
-    target === container
-      ? { width: container.scrollWidth, height: container.scrollHeight }
-      : getTargetSize(target);
+  const targetSize = target === container ? { width: container.scrollWidth, height: container.scrollHeight } : getTargetSize(target);
   const containerSize = {
     width: container.clientWidth,
-    height: container.clientHeight,
+    height: container.clientHeight
   };
   info[axis].offset.length = 0;
   let hasChanged = !info[axis].interpolate;
   const numOffsets = offsetDefinition.length;
   for (let i = 0; i < numOffsets; i++) {
-    const offset = resolveOffset(
-      offsetDefinition[i],
-      containerSize[lengthLabel],
-      targetSize[lengthLabel],
-      inset[axis],
-    );
+    const offset = resolveOffset(offsetDefinition[i], containerSize[lengthLabel], targetSize[lengthLabel], inset[axis]);
     if (!hasChanged && offset !== info[axis].interpolatorOffsets[i]) {
       hasChanged = true;
     }
     info[axis].offset[i] = offset;
   }
   if (hasChanged) {
-    info[axis].interpolate = interpolate(info[axis].offset, defaultOffset$1(offsetDefinition), {
-      clamp: false,
-    });
+    info[axis].interpolate = interpolate(info[axis].offset, defaultOffset$1(offsetDefinition), { clamp: false });
     info[axis].interpolatorOffsets = [...info[axis].offset];
   }
   info[axis].progress = clamp(0, 1, info[axis].interpolate(info[axis].current));
@@ -2198,7 +1946,7 @@ function createOnScrollHandler(element, onScroll, info, options = {}) {
         resolveOffsets(element, info, options);
       }
     },
-    notify: () => onScroll(info),
+    notify: () => onScroll(info)
   };
 }
 const scrollListeners = /* @__PURE__ */ new WeakMap();
@@ -2206,12 +1954,10 @@ const resizeListeners = /* @__PURE__ */ new WeakMap();
 const onScrollHandlers = /* @__PURE__ */ new WeakMap();
 const scrollSize = /* @__PURE__ */ new WeakMap();
 const dimensionCheckProcesses = /* @__PURE__ */ new WeakMap();
-const getEventTarget = (element) => (element === document.scrollingElement ? window : element);
-function scrollInfo(
-  onScroll,
-  { container = document.scrollingElement, trackContentSize = false, ...options } = {},
-) {
-  if (!container) return noop;
+const getEventTarget = (element) => element === document.scrollingElement ? window : element;
+function scrollInfo(onScroll, { container = document.scrollingElement, trackContentSize = false, ...options } = {}) {
+  if (!container)
+    return noop;
   let containerHandlers = onScrollHandlers.get(container);
   if (!containerHandlers) {
     containerHandlers = /* @__PURE__ */ new Set();
@@ -2246,7 +1992,7 @@ function scrollInfo(
     const listener2 = scrollListeners.get(container);
     const size = {
       width: container.scrollWidth,
-      height: container.scrollHeight,
+      height: container.scrollHeight
     };
     scrollSize.set(container, size);
     const checkScrollDimensions = () => {
@@ -2266,9 +2012,11 @@ function scrollInfo(
   return () => {
     cancelFrame(listener);
     const currentHandlers = onScrollHandlers.get(container);
-    if (!currentHandlers) return;
+    if (!currentHandlers)
+      return;
     currentHandlers.delete(containerHandler);
-    if (currentHandlers.size) return;
+    if (currentHandlers.size)
+      return;
     const scrollListener = scrollListeners.get(container);
     scrollListeners.delete(container);
     if (scrollListener) {
@@ -2288,29 +2036,33 @@ const presets = [
   [ScrollOffset.Enter, "entry"],
   [ScrollOffset.Exit, "exit"],
   [ScrollOffset.Any, "cover"],
-  [ScrollOffset.All, "contain"],
+  [ScrollOffset.All, "contain"]
 ];
 const stringToProgress = {
   start: 0,
-  end: 1,
+  end: 1
 };
 function parseStringOffset(s) {
   const parts = s.trim().split(/\s+/);
-  if (parts.length !== 2) return void 0;
+  if (parts.length !== 2)
+    return void 0;
   const a = stringToProgress[parts[0]];
   const b = stringToProgress[parts[1]];
-  if (a === void 0 || b === void 0) return void 0;
+  if (a === void 0 || b === void 0)
+    return void 0;
   return [a, b];
 }
 function normaliseOffset(offset) {
-  if (offset.length !== 2) return void 0;
+  if (offset.length !== 2)
+    return void 0;
   const result = [];
   for (const item of offset) {
     if (Array.isArray(item)) {
       result.push(item);
     } else if (typeof item === "string") {
       const parsed = parseStringOffset(item);
-      if (!parsed) return void 0;
+      if (!parsed)
+        return void 0;
       result.push(parsed);
     } else {
       return void 0;
@@ -2320,11 +2072,13 @@ function normaliseOffset(offset) {
 }
 function matchesPreset(offset, preset) {
   const normalised = normaliseOffset(offset);
-  if (!normalised) return false;
+  if (!normalised)
+    return false;
   for (let i = 0; i < 2; i++) {
     const o = normalised[i];
     const p = preset[i];
-    if (o[0] !== p[0] || o[1] !== p[1]) return false;
+    if (o[0] !== p[0] || o[1] !== p[1])
+      return false;
   }
   return true;
 }
@@ -2349,7 +2103,8 @@ function scrollTimelineFallback(options) {
 }
 function getTimeline({ source, container, ...options }) {
   const { axis } = options;
-  if (source) container = source;
+  if (source)
+    container = source;
   let containerCache = timelineCache.get(container);
   if (!containerCache) {
     containerCache = /* @__PURE__ */ new Map();
@@ -2368,23 +2123,23 @@ function getTimeline({ source, container, ...options }) {
       if (range) {
         targetCache[axisKey] = new ViewTimeline({
           subject: options.target,
-          axis,
+          axis
         });
       } else {
         targetCache[axisKey] = scrollTimelineFallback({
           container,
-          ...options,
+          ...options
         });
       }
     } else if (canUseNativeTimeline()) {
       targetCache[axisKey] = new ScrollTimeline({
         source: container,
-        axis,
+        axis
       });
     } else {
       targetCache[axisKey] = scrollTimelineFallback({
         container,
-        ...options,
+        ...options
       });
     }
   }
@@ -2393,22 +2148,19 @@ function getTimeline({ source, container, ...options }) {
 function attachToAnimation(animation, options) {
   const timeline = getTimeline(options);
   const range = options.target ? offsetToViewTimelineRange(options.offset) : void 0;
-  const useNative = options.target
-    ? canUseNativeTimeline(options.target) && !!range
-    : canUseNativeTimeline();
+  const useNative = options.target ? canUseNativeTimeline(options.target) && !!range : canUseNativeTimeline();
   return animation.attachTimeline({
     timeline: useNative ? timeline : void 0,
-    ...(range &&
-      useNative && {
-        rangeStart: range.rangeStart,
-        rangeEnd: range.rangeEnd,
-      }),
+    ...range && useNative && {
+      rangeStart: range.rangeStart,
+      rangeEnd: range.rangeEnd
+    },
     observe: (valueAnimation) => {
       valueAnimation.pause();
       return observeTimeline((progress2) => {
         valueAnimation.time = valueAnimation.iterationDuration * progress2;
       }, timeline);
-    },
+    }
   });
 }
 function isElementTracking(options) {
@@ -2427,20 +2179,20 @@ function attachToFunction(onScroll, options) {
   }
 }
 function scroll(onScroll, { axis = "y", container = document.scrollingElement, ...options } = {}) {
-  if (!container) return noop;
+  if (!container)
+    return noop;
   const optionsWithDefaults = { axis, container, ...options };
-  return typeof onScroll === "function"
-    ? attachToFunction(onScroll, optionsWithDefaults)
-    : attachToAnimation(onScroll, optionsWithDefaults);
+  return typeof onScroll === "function" ? attachToFunction(onScroll, optionsWithDefaults) : attachToAnimation(onScroll, optionsWithDefaults);
 }
 const createScrollMotionValues = () => ({
   scrollX: motionValue(0),
   scrollY: motionValue(0),
   scrollXProgress: motionValue(0),
-  scrollYProgress: motionValue(0),
+  scrollYProgress: motionValue(0)
 });
 const isRefPending = (ref) => {
-  if (!ref) return false;
+  if (!ref)
+    return false;
   return !ref.current;
 };
 function makeAccelerateConfig(axis, options, container, target) {
@@ -2458,7 +2210,7 @@ function makeAccelerateConfig(axis, options, container, target) {
           ...options,
           axis,
           container: container?.current || void 0,
-          target: target?.current || void 0,
+          target: target?.current || void 0
         });
       };
       microtask.read(start);
@@ -2470,14 +2222,13 @@ function makeAccelerateConfig(axis, options, container, target) {
     times: [0, 1],
     keyframes: [0, 1],
     ease: (v) => v,
-    duration: 1,
+    duration: 1
   };
 }
 function canAccelerateScroll(target, offset) {
-  if (typeof window === "undefined") return false;
-  return target
-    ? supportsViewTimeline() && !!offsetToViewTimelineRange(offset)
-    : supportsScrollTimeline();
+  if (typeof window === "undefined")
+    return false;
+  return target ? supportsViewTimeline() && !!offsetToViewTimelineRange(offset) : supportsScrollTimeline();
 }
 function useScroll({ container, target, ...options } = {}) {
   const values = useConstant(createScrollMotionValues);
@@ -2488,19 +2239,16 @@ function useScroll({ container, target, ...options } = {}) {
   const scrollAnimation = reactExports.useRef(null);
   const needsStart = reactExports.useRef(false);
   const start = reactExports.useCallback(() => {
-    scrollAnimation.current = scroll(
-      (_progress, { x, y }) => {
-        values.scrollX.set(x.current);
-        values.scrollXProgress.set(x.progress);
-        values.scrollY.set(y.current);
-        values.scrollYProgress.set(y.progress);
-      },
-      {
-        ...options,
-        container: container?.current || void 0,
-        target: target?.current || void 0,
-      },
-    );
+    scrollAnimation.current = scroll((_progress, { x, y }) => {
+      values.scrollX.set(x.current);
+      values.scrollXProgress.set(x.progress);
+      values.scrollY.set(y.current);
+      values.scrollYProgress.set(y.progress);
+    }, {
+      ...options,
+      container: container?.current || void 0,
+      target: target?.current || void 0
+    });
     return () => {
       scrollAnimation.current?.();
     };
@@ -2515,12 +2263,14 @@ function useScroll({ container, target, ...options } = {}) {
     }
   }, [start]);
   reactExports.useEffect(() => {
-    if (!needsStart.current) return;
+    if (!needsStart.current)
+      return;
     let cleanup;
     const tryStart = () => {
       const containerPending = isRefPending(container);
       const targetPending = isRefPending(target);
-      if (!containerPending && !targetPending) cleanup = start();
+      if (!containerPending && !targetPending)
+        cleanup = start();
     };
     microtask.read(tryStart);
     return () => {
@@ -2564,35 +2314,21 @@ function useTransform(input, inputRangeOrTransformer, outputRangeOrMap, options)
   if (typeof input === "function") {
     return useComputed(input);
   }
-  const isOutputMap =
-    outputRangeOrMap !== void 0 &&
-    !Array.isArray(outputRangeOrMap) &&
-    typeof inputRangeOrTransformer !== "function";
+  const isOutputMap = outputRangeOrMap !== void 0 && !Array.isArray(outputRangeOrMap) && typeof inputRangeOrTransformer !== "function";
   if (isOutputMap) {
     return useMapTransform(input, inputRangeOrTransformer, outputRangeOrMap, options);
   }
   const outputRange = outputRangeOrMap;
-  const transformer =
-    typeof inputRangeOrTransformer === "function"
-      ? inputRangeOrTransformer
-      : transform(inputRangeOrTransformer, outputRange, options);
-  const result = Array.isArray(input)
-    ? useListTransform(input, transformer)
-    : useListTransform([input], ([latest]) => transformer(latest));
+  const transformer = typeof inputRangeOrTransformer === "function" ? inputRangeOrTransformer : transform(inputRangeOrTransformer, outputRange, options);
+  const result = Array.isArray(input) ? useListTransform(input, transformer) : useListTransform([input], ([latest]) => transformer(latest));
   const inputAccelerate = !Array.isArray(input) ? input.accelerate : void 0;
-  if (
-    inputAccelerate &&
-    !inputAccelerate.isTransformed &&
-    typeof inputRangeOrTransformer !== "function" &&
-    Array.isArray(outputRangeOrMap) &&
-    options?.clamp !== false
-  ) {
+  if (inputAccelerate && !inputAccelerate.isTransformed && typeof inputRangeOrTransformer !== "function" && Array.isArray(outputRangeOrMap) && options?.clamp !== false) {
     result.accelerate = {
       ...inputAccelerate,
       times: inputRangeOrTransformer,
       keyframes: outputRangeOrMap,
       isTransformed: true,
-      ...{},
+      ...{}
     };
   }
   return result;
@@ -2616,4 +2352,8 @@ function useMapTransform(inputValue, inputRange, outputMap, options) {
   }
   return output;
 }
-export { useTransform as a, motion as m, useScroll as u };
+export {
+  useTransform as a,
+  motion as m,
+  useScroll as u
+};

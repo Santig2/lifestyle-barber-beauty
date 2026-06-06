@@ -1,16 +1,6 @@
 import { Q as QueryClient } from "../_libs/tanstack__query-core.mjs";
 import { Q as QueryClientProvider } from "../_libs/tanstack__react-query.mjs";
-import {
-  b as createRouter,
-  a as createRootRouteWithContext,
-  u as useRouter,
-  L as Link,
-  O as Outlet,
-  H as HeadContent,
-  S as Scripts,
-  c as createFileRoute,
-  l as lazyRouteComponent,
-} from "../_libs/tanstack__react-router.mjs";
+import { b as createRouter, a as createRootRouteWithContext, u as useRouter, L as Link, O as Outlet, H as HeadContent, S as Scripts, c as createFileRoute, l as lazyRouteComponent } from "../_libs/tanstack__react-router.mjs";
 import { j as jsxRuntimeExports, r as reactExports } from "../_libs/react.mjs";
 import "../_libs/tanstack__router-core.mjs";
 import "../_libs/tanstack__history.mjs";
@@ -30,7 +20,7 @@ const translations = {
       artisans: "Artisans",
       gallery: "Gallery",
       visit: "Visit",
-      book: "Book Now",
+      book: "Book Now"
     },
     hero: {
       location: "· Leander, Texas · Est. 2014 ·",
@@ -41,7 +31,7 @@ const translations = {
       reviews: "170+ Reviews",
       btnBook: "Book Appointment",
       btnExplore: "Explore Services",
-      scroll: "Scroll ↓",
+      scroll: "Scroll ↓"
     },
     marquee: [
       "2405 S Hwy 183 #102, Leander TX",
@@ -51,13 +41,13 @@ const translations = {
       "Premium Cuts & Couture Beauty",
       "•",
       "Open 7 Days",
-      "•",
+      "•"
     ],
     space: {
       subtitle: "— The Space",
       title1: "Designed for ",
       title2: "your comfort.",
-      desc: "A modern sanctuary designed for your comfort. Enjoy personalized attention, updated techniques, and premium products to guarantee an excellent experience on every visit.",
+      desc: "A modern sanctuary designed for your comfort. Enjoy personalized attention, updated techniques, and premium products to guarantee an excellent experience on every visit."
     },
     philosophy: {
       subtitle: "— The Philosophy",
@@ -74,31 +64,70 @@ const translations = {
       stat3: "170+",
       stat3Desc: "5★ Reviews",
       label1: "Barber Craft",
-      label2: "Beauty Couture",
+      label2: "Beauty Couture"
     },
     services: {
       barberSubtitle: "— For Him",
-      barberTitle: "Master Barbering",
+      barberTitle: "Barber Services",
       barberMenu: "The Barber Menu →",
-      barberList: [
-        { name: "Modern Cuts & Fades", price: "$45+" },
-        { name: "Professional Barbering", price: "$40+" },
-        { name: "Razor Line Up", price: "$35+" },
-        { name: "Beard Sculpting", price: "$30+" },
-        { name: "Kids Cuts", price: "$25+" },
-        { name: "Hot Towel Shave", price: "$50+" },
+      barberCategories: [
+        {
+          title: "Barber Services",
+          items: [
+            { name: "Regular Cut", price: "$30" },
+            { name: "Skin Fade", price: "$35" },
+            { name: "Cut & Beard", price: "$50" },
+            { name: "Beard", price: "$20" }
+          ]
+        },
+        {
+          title: "Premium Services",
+          items: [
+            { name: "Custom Design", price: "from $5+" },
+            { name: "Razor Eyebrows", price: "$10" },
+            { name: "Hair Wash", price: "$10" },
+            { name: "Wax", price: "$15" },
+            { name: "Facial Mask", price: "$15" }
+          ]
+        },
+        {
+          title: "Color & Style",
+          items: [
+            { name: "Men's Hair Dye", price: "from $40" },
+            { name: "Bleaching", price: "from $80" },
+            { name: "Perms", price: "from $80" }
+          ]
+        }
       ],
       beautySubtitle: "— For Her",
-      beautyTitle: "Artisan Beauty",
+      beautyTitle: "Beauty Services",
       beautyMenu: "The Beauty Menu →",
-      beautyList: [
-        { name: "Color & Balayage", price: "$150+" },
-        { name: "Highlights", price: "$120+" },
-        { name: "Hair Treatments", price: "$85+" },
-        { name: "Custom Facials", price: "$95+" },
-        { name: "Men's & Women's Beauty", price: "$65+" },
-        { name: "Lash & Brow Artistry", price: "$45+" },
-      ],
+      beautyCategories: [
+        {
+          title: "Ladies Services",
+          items: [
+            { name: "Ladies Cut", price: "from $35" },
+            { name: "Brushing", price: "from $30" },
+            { name: "Makeup", price: "from $65" },
+            { name: "Hairstyling", price: "from $50" }
+          ]
+        },
+        {
+          title: "Facials",
+          items: [
+            { name: "Express Facial", price: "$30" },
+            { name: "Deep Facial", price: "$40" },
+            { name: "Premium Facial (Galvanic Tech)", price: "$60" }
+          ]
+        },
+        {
+          title: "Color & Style",
+          items: [
+            { name: "Highlights", price: "from $120" },
+            { name: "Balayage", price: "from $150" }
+          ]
+        }
+      ]
     },
     team: {
       subtitle: "— The Founder",
@@ -109,7 +138,7 @@ const translations = {
       badge: "Master Barber",
       name: "Alberto",
       role: "CEO & Manager",
-      founder: "Founder",
+      founder: "Founder"
     },
     gallery: {
       subtitle: "— Visual Archive",
@@ -120,7 +149,7 @@ const translations = {
       alt3: "Balayage detail",
       alt4: "Beauty atelier",
       alt5: "Editorial portrait",
-      alt6: "Beauty editorial",
+      alt6: "Beauty editorial"
     },
     reels: {
       subtitle: "— @lifestyle_barberstx",
@@ -134,8 +163,8 @@ const translations = {
         { title: "The Skin Fade" },
         { title: "Beauty Glow Up" },
         { title: "Beard Sculpt" },
-        { title: "Color Story" },
-      ],
+        { title: "Color Story" }
+      ]
     },
     testimonials: {
       subtitle: "— Voices",
@@ -145,24 +174,21 @@ const translations = {
       verified: "Verified Guest",
       reviews: [
         {
-          quote:
-            "Excellent service and amazing attention to detail. The best taper fade I've had in years.",
+          quote: "Excellent service and amazing attention to detail. The best taper fade I've had in years.",
           name: "Marcus R.",
-          rating: 5,
+          rating: 5
         },
         {
-          quote:
-            "Professional, modern, and highly recommended. Walked out feeling like a new person.",
+          quote: "Professional, modern, and highly recommended. Walked out feeling like a new person.",
           name: "Sofia K.",
-          rating: 5,
+          rating: 5
         },
         {
-          quote:
-            "Best barber shop in Leander. The atmosphere is incredible and the cuts are precision-level.",
+          quote: "Best barber shop in Leander. The atmosphere is incredible and the cuts are precision-level.",
           name: "Daniel V.",
-          rating: 5,
-        },
-      ],
+          rating: 5
+        }
+      ]
     },
     contact: {
       subtitle: "— Reserve Your Seat",
@@ -176,7 +202,7 @@ const translations = {
       serviceLabel: "Service",
       servicePlaceholder: "What can we do for you?",
       btnBook: "Request Booking",
-      btnWhatsApp: "WhatsApp Us",
+      btnWhatsApp: "WhatsApp Us"
     },
     footer: {
       visit: "Visit",
@@ -185,11 +211,11 @@ const translations = {
       monSat: "Mon–Sat: 9AM – 8PM",
       sun: "Sun: 10AM – 6PM",
       copy: "© 2026 Lifestyle Barber & Beauty Salon",
-      crafted: "Crafted with precision in Leander, TX",
+      crafted: "Crafted with precision in Leander, TX"
     },
     cta: {
-      book: "Book",
-    },
+      book: "Book"
+    }
   },
   es: {
     nav: {
@@ -198,7 +224,7 @@ const translations = {
       artisans: "Artistas",
       gallery: "Galería",
       visit: "Visítanos",
-      book: "Reservar",
+      book: "Reservar"
     },
     hero: {
       location: "· Leander, Texas · Est. 2014 ·",
@@ -209,7 +235,7 @@ const translations = {
       reviews: "170+ Reseñas",
       btnBook: "Agendar Cita",
       btnExplore: "Explorar Servicios",
-      scroll: "Deslizar ↓",
+      scroll: "Deslizar ↓"
     },
     marquee: [
       "2405 S Hwy 183 #102, Leander TX",
@@ -219,13 +245,13 @@ const translations = {
       "Cortes Premium y Alta Belleza",
       "•",
       "Abierto los 7 días",
-      "•",
+      "•"
     ],
     space: {
       subtitle: "— El Lugar",
       title1: "Diseñado para ",
       title2: "tu comodidad.",
-      desc: "Un santuario moderno diseñado para tu comodidad. Disfruta de atención personalizada, técnicas actualizadas y productos de alta calidad para garantizar una excelente experiencia en cada visita.",
+      desc: "Un santuario moderno diseñado para tu comodidad. Disfruta de atención personalizada, técnicas actualizadas y productos de alta calidad para garantizar una excelente experiencia en cada visita."
     },
     philosophy: {
       subtitle: "— La Filosofía",
@@ -242,31 +268,70 @@ const translations = {
       stat3: "170+",
       stat3Desc: "Reseñas 5★",
       label1: "Arte Barbería",
-      label2: "Alta Belleza",
+      label2: "Alta Belleza"
     },
     services: {
       barberSubtitle: "— Para Él",
-      barberTitle: "Barbería Máster",
+      barberTitle: "Barbería y Estilo",
       barberMenu: "Menú de Barbería →",
-      barberList: [
-        { name: "Cortes Modernos & Fades", price: "$45+" },
-        { name: "Barbería Profesional", price: "$40+" },
-        { name: "Alineación a Navaja", price: "$35+" },
-        { name: "Esculpido de Barba", price: "$30+" },
-        { name: "Cortes para Niños", price: "$25+" },
-        { name: "Afeitado con Toalla Caliente", price: "$50+" },
+      barberCategories: [
+        {
+          title: "Barber Services",
+          items: [
+            { name: "Corte Regular", price: "$30" },
+            { name: "Skin Fade", price: "$35" },
+            { name: "Corte y Barba", price: "$50" },
+            { name: "Barba", price: "$20" }
+          ]
+        },
+        {
+          title: "Premium Services",
+          items: [
+            { name: "Diseño Personalizado", price: "desde $5+" },
+            { name: "Cejas con Navaja", price: "$10" },
+            { name: "Lavado Capilar", price: "$10" },
+            { name: "Wax", price: "$15" },
+            { name: "Mascarilla Facial", price: "$15" }
+          ]
+        },
+        {
+          title: "Color & Style",
+          items: [
+            { name: "Tinte para Caballero", price: "desde $40" },
+            { name: "Decoloración", price: "desde $80" },
+            { name: "Permanentes", price: "desde $80" }
+          ]
+        }
       ],
       beautySubtitle: "— Para Ella",
       beautyTitle: "Belleza Artesanal",
       beautyMenu: "Menú de Belleza →",
-      beautyList: [
-        { name: "Coloración & Balayage", price: "$150+" },
-        { name: "Highlights", price: "$120+" },
-        { name: "Tratamientos Capilares", price: "$85+" },
-        { name: "Faciales a la Medida", price: "$95+" },
-        { name: "Belleza para Él y Ella", price: "$65+" },
-        { name: "Arte en Pestañas y Cejas", price: "$45+" },
-      ],
+      beautyCategories: [
+        {
+          title: "Servicios para Dama",
+          items: [
+            { name: "Corte de Dama", price: "desde $35" },
+            { name: "Brushing", price: "desde $30" },
+            { name: "Maquillaje", price: "desde $65" },
+            { name: "Peinados", price: "desde $50" }
+          ]
+        },
+        {
+          title: "Faciales",
+          items: [
+            { name: "Facial Express", price: "$30" },
+            { name: "Facial Profundo", price: "$40" },
+            { name: "Facial Premium (Tecnología Galvánica)", price: "$60" }
+          ]
+        },
+        {
+          title: "Color & Style",
+          items: [
+            { name: "Highlights", price: "desde $120" },
+            { name: "Balayage", price: "desde $150" }
+          ]
+        }
+      ]
     },
     team: {
       subtitle: "— El Fundador",
@@ -277,7 +342,7 @@ const translations = {
       badge: "Máster Barbero",
       name: "Alberto",
       role: "CEO y Mánager",
-      founder: "Fundador",
+      founder: "Fundador"
     },
     gallery: {
       subtitle: "— Archivo Visual",
@@ -288,7 +353,7 @@ const translations = {
       alt3: "Detalle de Balayage",
       alt4: "Atelier de belleza",
       alt5: "Retrato editorial",
-      alt6: "Belleza editorial",
+      alt6: "Belleza editorial"
     },
     reels: {
       subtitle: "— @lifestyle_barberstx",
@@ -302,8 +367,8 @@ const translations = {
         { title: "El Skin Fade" },
         { title: "Resplandor de Belleza" },
         { title: "Esculpido de Barba" },
-        { title: "Historia de Color" },
-      ],
+        { title: "Historia de Color" }
+      ]
     },
     testimonials: {
       subtitle: "— Voces",
@@ -313,24 +378,21 @@ const translations = {
       verified: "Cliente Verificado",
       reviews: [
         {
-          quote:
-            "Excelente servicio y una increíble atención al detalle. El mejor Taper Fade que me han hecho en años.",
+          quote: "Excelente servicio y una increíble atención al detalle. El mejor Taper Fade que me han hecho en años.",
           name: "Marcus R.",
-          rating: 5,
+          rating: 5
         },
         {
-          quote:
-            "Profesional, moderno y altamente recomendado. Salí sintiéndome como una persona nueva.",
+          quote: "Profesional, moderno y altamente recomendado. Salí sintiéndome como una persona nueva.",
           name: "Sofia K.",
-          rating: 5,
+          rating: 5
         },
         {
-          quote:
-            "La mejor barbería en Leander. El ambiente es increíble y los cortes son de nivel de precisión.",
+          quote: "La mejor barbería en Leander. El ambiente es increíble y los cortes son de nivel de precisión.",
           name: "Daniel V.",
-          rating: 5,
-        },
-      ],
+          rating: 5
+        }
+      ]
     },
     contact: {
       subtitle: "— Reserva Tu Asiento",
@@ -344,7 +406,7 @@ const translations = {
       serviceLabel: "Servicio",
       servicePlaceholder: "¿Qué podemos hacer por ti?",
       btnBook: "Solicitar Reserva",
-      btnWhatsApp: "Escríbenos por WhatsApp",
+      btnWhatsApp: "Escríbenos por WhatsApp"
     },
     footer: {
       visit: "Visítanos",
@@ -353,12 +415,12 @@ const translations = {
       monSat: "Lun–Sáb: 9AM – 8PM",
       sun: "Dom: 10AM – 6PM",
       copy: "© 2026 Lifestyle Barber & Beauty Salon",
-      crafted: "Creado con precisión en Leander, TX",
+      crafted: "Creado con precisión en Leander, TX"
     },
     cta: {
-      book: "Reservar",
-    },
-  },
+      book: "Reservar"
+    }
+  }
 };
 const LanguageContext = reactExports.createContext(void 0);
 const LanguageProvider = ({ children }) => {
@@ -377,10 +439,7 @@ const LanguageProvider = ({ children }) => {
     localStorage.setItem("preferredLanguage", lang);
   };
   const t = translations[language];
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(LanguageContext.Provider, {
-    value: { language, setLanguage, t },
-    children,
-  });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(LanguageContext.Provider, { value: { language, setLanguage, t }, children });
 };
 const useLanguage = () => {
   const context = reactExports.useContext(LanguageContext);
@@ -389,77 +448,50 @@ const useLanguage = () => {
   }
   return context;
 };
-const appCss = "/assets/styles-B4vZB6lv.css";
+const appCss = "/assets/styles-B2Nt9Qsc.css";
 function NotFoundComponent() {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
-    className: "flex min-h-screen items-center justify-center bg-background px-4",
-    children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", {
-      className: "max-w-md text-center",
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", {
-          className: "text-7xl font-bold text-foreground",
-          children: "404",
-        }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", {
-          className: "mt-4 text-xl font-semibold text-foreground",
-          children: "Page not found",
-        }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", {
-          className: "mt-2 text-sm text-muted-foreground",
-          children: "The page you're looking for doesn't exist or has been moved.",
-        }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
-          className: "mt-6",
-          children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, {
-            to: "/",
-            className:
-              "inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90",
-            children: "Go home",
-          }),
-        }),
-      ],
-    }),
-  });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex min-h-screen items-center justify-center bg-background px-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-md text-center", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-7xl font-bold text-foreground", children: "404" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "mt-4 text-xl font-semibold text-foreground", children: "Page not found" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-muted-foreground", children: "The page you're looking for doesn't exist or has been moved." }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "mt-6", children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      Link,
+      {
+        to: "/",
+        className: "inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90",
+        children: "Go home"
+      }
+    ) })
+  ] }) });
 }
 function ErrorComponent({ error, reset }) {
   console.error(error);
   const router2 = useRouter();
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", {
-    className: "flex min-h-screen items-center justify-center bg-background px-4",
-    children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", {
-      className: "max-w-md text-center",
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", {
-          className: "text-xl font-semibold tracking-tight text-foreground",
-          children: "This page didn't load",
-        }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", {
-          className: "mt-2 text-sm text-muted-foreground",
-          children: "Something went wrong on our end. You can try refreshing or head back home.",
-        }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", {
-          className: "mt-6 flex flex-wrap justify-center gap-2",
-          children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx("button", {
-              onClick: () => {
-                router2.invalidate();
-                reset();
-              },
-              className:
-                "inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90",
-              children: "Try again",
-            }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx("a", {
-              href: "/",
-              className:
-                "inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent",
-              children: "Go home",
-            }),
-          ],
-        }),
-      ],
-    }),
-  });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex min-h-screen items-center justify-center bg-background px-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-md text-center", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-xl font-semibold tracking-tight text-foreground", children: "This page didn't load" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-2 text-sm text-muted-foreground", children: "Something went wrong on our end. You can try refreshing or head back home." }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 flex flex-wrap justify-center gap-2", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "button",
+        {
+          onClick: () => {
+            router2.invalidate();
+            reset();
+          },
+          className: "inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90",
+          children: "Try again"
+        }
+      ),
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
+        "a",
+        {
+          href: "/",
+          className: "inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent",
+          children: "Go home"
+        }
+      )
+    ] })
+  ] }) });
 }
 const Route$1 = createRootRouteWithContext()({
   head: () => ({
@@ -470,15 +502,13 @@ const Route$1 = createRootRouteWithContext()({
       { title: "Lifestyle Barber & Beauty Salon — Leander, TX" },
       {
         name: "description",
-        content:
-          "Premium barber and beauty experience in Leander, Texas. Tailored cuts, beard sculpting, hair coloring, facials & more. Book today.",
+        content: "Premium barber and beauty experience in Leander, Texas. Tailored cuts, beard sculpting, hair coloring, facials & more. Book today."
       },
       { name: "author", content: "Lifestyle Barber & Beauty Salon" },
       { property: "og:title", content: "Lifestyle Barber & Beauty Salon — Leander, TX" },
       {
         property: "og:description",
-        content:
-          "A cinematic fusion of luxury barbering and modern beauty atelier in Leander, Texas.",
+        content: "A cinematic fusion of luxury barbering and modern beauty atelier in Leander, Texas."
       },
       { property: "og:type", content: "website" },
       { property: "og:image", content: "/og-image.jpg" },
@@ -486,85 +516,69 @@ const Route$1 = createRootRouteWithContext()({
       { name: "twitter:title", content: "Lifestyle Barber & Beauty Salon — Leander, TX" },
       {
         name: "twitter:description",
-        content:
-          "Premium barber and beauty experience in Leander, Texas. Tailored cuts, beard sculpting, hair coloring, facials & more. Book today.",
+        content: "Premium barber and beauty experience in Leander, Texas. Tailored cuts, beard sculpting, hair coloring, facials & more. Book today."
       },
-      { name: "twitter:image", content: "/og-image.jpg" },
+      { name: "twitter:image", content: "/og-image.jpg" }
     ],
     links: [
       {
         rel: "icon",
         type: "image/png",
-        href: "/favicon.png",
+        href: "/favicon.png"
       },
       {
         rel: "apple-touch-icon",
-        href: "/favicon.png",
+        href: "/favicon.png"
       },
       {
         rel: "stylesheet",
-        href: appCss,
-      },
-    ],
+        href: appCss
+      }
+    ]
   }),
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
-  errorComponent: ErrorComponent,
+  errorComponent: ErrorComponent
 });
 function RootShell({ children }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("html", {
-    lang: "en",
-    children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("head", {
-        children: /* @__PURE__ */ jsxRuntimeExports.jsx(HeadContent, {}),
-      }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("body", {
-        children: [children, /* @__PURE__ */ jsxRuntimeExports.jsx(Scripts, {})],
-      }),
-    ],
-  });
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("html", { lang: "en", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("head", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(HeadContent, {}) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("body", { children: [
+      children,
+      /* @__PURE__ */ jsxRuntimeExports.jsx(Scripts, {})
+    ] })
+  ] });
 }
 function RootComponent() {
   const { queryClient } = Route$1.useRouteContext();
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(LanguageProvider, {
-    children: /* @__PURE__ */ jsxRuntimeExports.jsx(QueryClientProvider, {
-      client: queryClient,
-      children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}),
-    }),
-  });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(LanguageProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(QueryClientProvider, { client: queryClient, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }) });
 }
-const $$splitComponentImporter = () => import("./index-COLCAOMC.mjs");
+const $$splitComponentImporter = () => import("./index-BxwdTZWz.mjs");
 const Route = createFileRoute("/")({
   head: () => ({
-    meta: [
-      {
-        title: "Lifestyle Barber & Beauty Salon — Premium Cuts & Beauty in Leander, TX",
-      },
-      {
-        name: "description",
-        content:
-          "A cinematic fusion of luxury barbering and modern beauty atelier in Leander, Texas. Tailored cuts, beard sculpting, hair coloring, facials & more. Book today.",
-      },
-      {
-        property: "og:title",
-        content: "Lifestyle Barber & Beauty Salon — Leander, TX",
-      },
-      {
-        property: "og:description",
-        content: "Premium cuts, beauty services, grooming & style in Leander, Texas.",
-      },
-    ],
+    meta: [{
+      title: "Lifestyle Barber & Beauty Salon — Premium Cuts & Beauty in Leander, TX"
+    }, {
+      name: "description",
+      content: "A cinematic fusion of luxury barbering and modern beauty atelier in Leander, Texas. Tailored cuts, beard sculpting, hair coloring, facials & more. Book today."
+    }, {
+      property: "og:title",
+      content: "Lifestyle Barber & Beauty Salon — Leander, TX"
+    }, {
+      property: "og:description",
+      content: "Premium cuts, beauty services, grooming & style in Leander, Texas."
+    }]
   }),
-  component: lazyRouteComponent($$splitComponentImporter, "component"),
+  component: lazyRouteComponent($$splitComponentImporter, "component")
 });
 const IndexRoute = Route.update({
   id: "/",
   path: "/",
-  getParentRoute: () => Route$1,
+  getParentRoute: () => Route$1
 });
 const rootRouteChildren = {
-  IndexRoute,
+  IndexRoute
 };
 const routeTree = Route$1._addFileChildren(rootRouteChildren)._addFileTypes();
 const getRouter = () => {
@@ -573,18 +587,15 @@ const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
-    defaultPreloadStaleTime: 0,
+    defaultPreloadStaleTime: 0
   });
   return router2;
 };
-const router = /* @__PURE__ */ Object.freeze(
-  /* @__PURE__ */ Object.defineProperty(
-    {
-      __proto__: null,
-      getRouter,
-    },
-    Symbol.toStringTag,
-    { value: "Module" },
-  ),
-);
-export { router as r, useLanguage as u };
+const router = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  getRouter
+}, Symbol.toStringTag, { value: "Module" }));
+export {
+  router as r,
+  useLanguage as u
+};

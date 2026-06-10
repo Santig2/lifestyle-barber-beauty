@@ -1,5 +1,5 @@
 import { j as jsxRuntimeExports, r as reactExports } from "../_libs/react.mjs";
-import { u as useLanguage } from "./router-DDq2cRNl.mjs";
+import { u as useLanguage } from "./router-DLI5u4Ue.mjs";
 import { u as useScroll, a as useTransform, m as motion } from "../_libs/framer-motion.mjs";
 import "../_libs/tanstack__query-core.mjs";
 import "../_libs/tanstack__react-query.mjs";

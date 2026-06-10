@@ -158,12 +158,12 @@ const translations = {
       follow: "Follow on Instagram →",
       label: "Reel",
       items: [
-        { title: "Hot Towel Ritual" },
-        { title: "Balayage Magic" },
-        { title: "The Skin Fade" },
-        { title: "Beauty Glow Up" },
-        { title: "Beard Sculpt" },
-        { title: "Color Story" }
+        { title: "Haircut" },
+        { title: "Coloring" },
+        { title: "Haircut" },
+        { title: "Treatment" },
+        { title: "Facial" },
+        { title: "Haircut" }
       ]
     },
     testimonials: {
@@ -363,12 +363,12 @@ const translations = {
       follow: "Síguenos en Instagram →",
       label: "Reel",
       items: [
-        { title: "Ritual de Toalla Caliente" },
-        { title: "Magia del Balayage" },
-        { title: "El Skin Fade" },
-        { title: "Resplandor de Belleza" },
-        { title: "Esculpido de Barba" },
-        { title: "Historia de Color" }
+        { title: "Corte" },
+        { title: "Tinturado" },
+        { title: "Corte" },
+        { title: "Tratamiento" },
+        { title: "Facial" },
+        { title: "Corte" }
       ]
     },
     testimonials: {
@@ -556,7 +556,7 @@ function RootComponent() {
   const { queryClient } = Route$1.useRouteContext();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(LanguageProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(QueryClientProvider, { client: queryClient, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }) });
 }
-const $$splitComponentImporter = () => import("./index-DkLbAHOI.mjs");
+const $$splitComponentImporter = () => import("./index-DcZ7PEOG.mjs");
 const Route = createFileRoute("/")({
   head: () => ({
     meta: [{

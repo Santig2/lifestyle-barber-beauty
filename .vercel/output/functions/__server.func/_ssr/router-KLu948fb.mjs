@@ -130,15 +130,46 @@ const translations = {
       ]
     },
     team: {
-      subtitle: "— The Founder",
-      title1: "Our ",
-      title2: "Story.",
+      subtitle: "— The Artisans",
+      title1: "Master ",
+      title2: "Artisans.",
+      storySubtitle: "— The Founder",
+      storyTitle1: "Our ",
+      storyTitle2: "Story.",
       p1: "At Lifestyle Barber & Beauty Salon, we bring over 12 years of experience offering barbering and beauty services with uncompromising quality, professionalism, and dedication.",
       p2: "Thank you for being part of Lifestyle and allowing us to grow alongside you. Our goal will always be to provide personalized attention and results that make you feel secure, confident, and stylish.",
       badge: "Master Barber",
       name: "Alberto",
       role: "CEO & Manager",
-      founder: "Founder"
+      founder: "Founder",
+      list: [
+        {
+          name: "Alberto",
+          role: "Barber & Cosmetologist",
+          special: "Founder",
+          image: "/alberto.jpeg"
+        },
+        {
+          name: "Yonathan",
+          role: "Barber",
+          image: "/yonathan.jpeg"
+        },
+        {
+          name: "Teresita",
+          role: "Cosmetologist",
+          image: "/teresita.jpeg"
+        },
+        {
+          name: "Yami",
+          role: "Esthetician",
+          image: "/yami.jpeg"
+        },
+        {
+          name: "Daniel",
+          role: "Barber & Cosmetologist",
+          image: "/daniel.jpeg"
+        }
+      ]
     },
     gallery: {
       subtitle: "— Visual Archive",
@@ -335,15 +366,46 @@ const translations = {
       ]
     },
     team: {
-      subtitle: "— El Fundador",
-      title1: "Nuestra ",
-      title2: "Historia.",
+      subtitle: "— Los Artistas",
+      title1: "Maestros ",
+      title2: "Artesanos.",
+      storySubtitle: "— El Fundador",
+      storyTitle1: "Nuestra ",
+      storyTitle2: "Historia.",
       p1: "En Lifestyle Barber & Beauty Salon contamos con más de 12 años de experiencia ofreciendo servicios de barbería y belleza con calidad, profesionalismo y dedicación.",
       p2: "Gracias por formar parte de Lifestyle y permitirnos seguir creciendo junto a ustedes. Nuestro objetivo siempre será brindar atención personalizada y resultados que te hagan sentir seguridad, confianza y estilo.",
       badge: "Máster Barbero",
       name: "Alberto",
       role: "CEO y Mánager",
-      founder: "Fundador"
+      founder: "Fundador",
+      list: [
+        {
+          name: "Alberto",
+          role: "Barbero y Cosmetólogo",
+          special: "Fundador",
+          image: "/alberto.jpeg"
+        },
+        {
+          name: "Yonathan",
+          role: "Barbero",
+          image: "/yonathan.jpeg"
+        },
+        {
+          name: "Teresita",
+          role: "Cosmetóloga",
+          image: "/teresita.jpeg"
+        },
+        {
+          name: "Yami",
+          role: "Esteticista",
+          image: "/yami.jpeg"
+        },
+        {
+          name: "Daniel",
+          role: "Barbero y Cosmetólogo",
+          image: "/daniel.jpeg"
+        }
+      ]
     },
     gallery: {
       subtitle: "— Archivo Visual",
@@ -450,7 +512,7 @@ const useLanguage = () => {
   }
   return context;
 };
-const appCss = "/assets/styles-B2Nt9Qsc.css";
+const appCss = "/assets/styles-BMxPs38w.css";
 function NotFoundComponent() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex min-h-screen items-center justify-center bg-background px-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-md text-center", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "text-7xl font-bold text-foreground", children: "404" }),
@@ -556,7 +618,7 @@ function RootComponent() {
   const { queryClient } = Route$1.useRouteContext();
   return /* @__PURE__ */ jsxRuntimeExports.jsx(LanguageProvider, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(QueryClientProvider, { client: queryClient, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Outlet, {}) }) });
 }
-const $$splitComponentImporter = () => import("./index-DcZ7PEOG.mjs");
+const $$splitComponentImporter = () => import("./index-DCLfYRIH.mjs");
 const Route = createFileRoute("/")({
   head: () => ({
     meta: [{

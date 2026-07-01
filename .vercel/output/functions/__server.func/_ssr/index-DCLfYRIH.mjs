@@ -1,6 +1,10 @@
 import { j as jsxRuntimeExports, r as reactExports } from "../_libs/react.mjs";
-import { u as useLanguage } from "./router-DLI5u4Ue.mjs";
+import { u as useLanguage } from "./router-KLu948fb.mjs";
+import { R as Root2, I as Item, H as Header, T as Trigger2, C as Content2 } from "../_libs/radix-ui__react-accordion.mjs";
+import { c as clsx } from "../_libs/clsx.mjs";
+import { t as twMerge } from "../_libs/tailwind-merge.mjs";
 import { u as useScroll, a as useTransform, m as motion } from "../_libs/framer-motion.mjs";
+import { C as ChevronDown } from "../_libs/lucide-react.mjs";
 import "../_libs/tanstack__query-core.mjs";
 import "../_libs/tanstack__react-query.mjs";
 import "../_libs/tanstack__react-router.mjs";
@@ -14,6 +18,18 @@ import "crypto";
 import "async_hooks";
 import "stream";
 import "../_libs/isbot.mjs";
+import "../_libs/radix-ui__react-context.mjs";
+import "../_libs/radix-ui__react-collection.mjs";
+import "../_libs/radix-ui__react-compose-refs.mjs";
+import "../_libs/radix-ui__react-slot.mjs";
+import "../_libs/radix-ui__primitive.mjs";
+import "../_libs/@radix-ui/react-use-controllable-state+[...].mjs";
+import "../_libs/@radix-ui/react-use-layout-effect+[...].mjs";
+import "../_libs/radix-ui__react-primitive.mjs";
+import "../_libs/radix-ui__react-collapsible.mjs";
+import "../_libs/radix-ui__react-presence.mjs";
+import "../_libs/radix-ui__react-id.mjs";
+import "../_libs/radix-ui__react-direction.mjs";
 import "../_libs/motion-dom.mjs";
 import "../_libs/motion-utils.mjs";
 const logoPrincipal = "/assets/logo1principal-ClIfHp36.png";
@@ -73,6 +89,38 @@ function Nav() {
     }
   );
 }
+function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
+const Accordion = Root2;
+const AccordionItem = reactExports.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(Item, { ref, className: cn("border-b", className), ...props }));
+AccordionItem.displayName = "AccordionItem";
+const AccordionTrigger = reactExports.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(Header, { className: "flex", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  Trigger2,
+  {
+    ref,
+    className: cn(
+      "flex flex-1 items-center justify-between py-4 text-sm font-medium cursor-pointer transition-all hover:underline text-left [&[data-state=open]>svg]:rotate-180",
+      className
+    ),
+    ...props,
+    children: [
+      children,
+      /* @__PURE__ */ jsxRuntimeExports.jsx(ChevronDown, { className: "h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-200" })
+    ]
+  }
+) }));
+AccordionTrigger.displayName = Trigger2.displayName;
+const AccordionContent = reactExports.forwardRef(({ className, children, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+  Content2,
+  {
+    ref,
+    className: "overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+    ...props,
+    children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: cn("pb-4 pt-0", className), children })
+  }
+));
+AccordionContent.displayName = Content2.displayName;
 const barberia4 = "/assets/barberia4-qf7ag7vD.jpg";
 const portraitBarber = "/assets/fade5-CsMoiu34.jpg";
 const reel4 = "/assets/mujer1-CUI8GTNP.JPG";
@@ -396,38 +444,82 @@ function Team() {
   const {
     t
   } = useLanguage();
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("section", { id: "artisans", className: "bg-charcoal py-24 md:py-32 overflow-hidden relative", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-[1600px] mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 items-center", children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { ...fadeUp, className: "max-w-2xl", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-mono text-gold text-[10px] uppercase tracking-[0.4em] mb-4", children: t.team.subtitle }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "font-display text-5xl md:text-7xl text-champagne italic leading-[0.95] mb-8", children: [
-        t.team.title1,
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gold", children: t.team.title2 })
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("section", { id: "artisans", className: "bg-charcoal py-24 md:py-32 overflow-hidden relative", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-[1600px] mx-auto px-6 md:px-10 mb-20", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { ...fadeUp, className: "max-w-2xl mb-16", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-mono text-gold text-[10px] uppercase tracking-[0.4em] mb-4", children: t.team.subtitle }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "font-display text-5xl md:text-7xl text-champagne italic leading-[0.95]", children: [
+          t.team.title1,
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gold", children: t.team.title2 })
+        ] })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6 text-champagne/70 text-lg leading-relaxed", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t.team.p1 }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t.team.p2 })
-      ] })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8", children: t.team.list.map((member, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { initial: {
+        opacity: 0,
+        y: 50
+      }, whileInView: {
+        opacity: 1,
+        y: 0
+      }, viewport: {
+        once: true
+      }, transition: {
+        duration: 0.6,
+        delay: i * 0.1,
+        ease: [0.16, 1, 0.3, 1]
+      }, className: "group bg-espresso/20 border border-white/5 hover:border-gold/20 transition-all duration-500 flex flex-col h-full", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "aspect-[3/4] overflow-hidden relative bg-charcoal", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: member.image, alt: member.name, className: "w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700", loading: "lazy" }),
+          member.special && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "absolute top-3 right-3 font-mono text-[8px] uppercase tracking-widest text-charcoal bg-gold px-2 py-1 font-bold", children: member.special })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-5 flex-1 flex flex-col justify-between", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-display text-2xl text-champagne italic group-hover:text-gold transition-colors duration-300", children: member.name }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-mono text-[9px] uppercase tracking-[0.15em] text-champagne/50 mt-1 leading-normal", children: member.role })
+        ] }) })
+      ] }, member.name)) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "block sm:hidden border-t border-white/5", children: /* @__PURE__ */ jsxRuntimeExports.jsx(Accordion, { type: "single", collapsible: true, className: "w-full", children: t.team.list.map((member, i) => /* @__PURE__ */ jsxRuntimeExports.jsxs(AccordionItem, { value: `item-${i}`, className: "border-b border-white/5", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(AccordionTrigger, { className: "hover:no-underline py-5 text-champagne", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between w-full pr-4 text-left", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-display text-xl text-champagne italic transition-colors", children: member.name }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-[9px] uppercase tracking-widest text-gold mt-1", children: member.role })
+          ] }),
+          member.special && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "font-mono text-[8px] uppercase tracking-widest text-charcoal bg-gold px-2 py-0.5 font-bold", children: member.special })
+        ] }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(AccordionContent, { className: "bg-espresso/10", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "p-4 flex flex-col items-center", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full max-w-[280px] aspect-[3/4] overflow-hidden border border-white/5 relative bg-charcoal", children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: member.image, alt: member.name, className: "w-full h-full object-cover grayscale", loading: "lazy" }) }) }) })
+      ] }, member.name)) }) })
     ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-center lg:justify-end", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { initial: {
-      opacity: 0,
-      y: 60
-    }, whileInView: {
-      opacity: 1,
-      y: 0
-    }, viewport: {
-      once: true
-    }, transition: {
-      duration: 0.8,
-      ease: [0.16, 1, 0.3, 1]
-    }, className: "w-full max-w-sm mt-10 lg:mt-0 p-8 md:p-10 bg-espresso/30 border border-white/5 hover:border-gold/20 transition-all", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block font-mono text-[10px] uppercase tracking-widest text-gold bg-charcoal/80 px-3 py-1.5 border border-gold/20 mb-8", children: t.team.badge }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-display text-5xl md:text-6xl text-champagne italic mb-6", children: t.team.name }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center border-t border-white/10 pt-6 mt-2", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-mono text-xs uppercase tracking-[0.2em] text-gold font-bold", children: t.team.role }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-mono text-[10px] uppercase tracking-widest text-champagne/40", children: t.team.founder })
-      ] })
-    ] }) })
-  ] }) });
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "max-w-[1600px] mx-auto px-6 md:px-10 my-20", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent relative", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-charcoal px-4 py-1 text-gold/50 font-mono text-[9px] uppercase tracking-[0.25em]", children: "Lifestyle & Co." }) }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-[1600px] mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 items-center", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { ...fadeUp, className: "max-w-2xl", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-mono text-gold text-[10px] uppercase tracking-[0.4em] mb-4", children: t.team.storySubtitle }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("h2", { className: "font-display text-5xl md:text-7xl text-champagne italic leading-[0.95] mb-8", children: [
+          t.team.storyTitle1,
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gold", children: t.team.storyTitle2 })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-6 text-champagne/70 text-lg leading-relaxed", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t.team.p1 }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: t.team.p2 })
+        ] })
+      ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-center lg:justify-end", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(motion.div, { initial: {
+        opacity: 0,
+        y: 60
+      }, whileInView: {
+        opacity: 1,
+        y: 0
+      }, viewport: {
+        once: true
+      }, transition: {
+        duration: 0.8,
+        ease: [0.16, 1, 0.3, 1]
+      }, className: "w-full max-w-sm mt-10 lg:mt-0 p-8 md:p-10 bg-espresso/30 border border-white/5 hover:border-gold/20 transition-all", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "inline-block font-mono text-[10px] uppercase tracking-widest text-gold bg-charcoal/80 px-3 py-1.5 border border-gold/20 mb-8", children: t.team.badge }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-display text-5xl md:text-6xl text-champagne italic mb-6", children: t.team.name }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center border-t border-white/10 pt-6 mt-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-mono text-xs uppercase tracking-[0.2em] text-gold font-bold", children: t.team.role }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "font-mono text-[10px] uppercase tracking-widest text-champagne/40", children: t.team.founder })
+        ] })
+      ] }) })
+    ] })
+  ] });
 }
 function Gallery() {
   const {

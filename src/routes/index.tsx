@@ -3,6 +3,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { Nav } from "@/components/site/Nav";
 import { useLanguage } from "@/i18n/LanguageContext";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import heroImg from "@/assets/Barber/barberia4.jpg";
 import portraitBarber from "@/assets/Barber/fade5.jpg";
 import portraitBeauty from "@/assets/Barber/mujer1.JPG";
@@ -448,14 +454,117 @@ function Team() {
   const { t } = useLanguage();
   return (
     <section id="artisans" className="bg-charcoal py-24 md:py-32 overflow-hidden relative">
-      <div className="max-w-[1600px] mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 items-center">
-        <motion.div {...fadeUp} className="max-w-2xl">
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10 mb-20">
+        {/* Header */}
+        <motion.div {...fadeUp} className="max-w-2xl mb-16">
           <div className="font-mono text-gold text-[10px] uppercase tracking-[0.4em] mb-4">
             {t.team.subtitle}
           </div>
-          <h2 className="font-display text-5xl md:text-7xl text-champagne italic leading-[0.95] mb-8">
+          <h2 className="font-display text-5xl md:text-7xl text-champagne italic leading-[0.95]">
             {t.team.title1}
             <span className="text-gold">{t.team.title2}</span>
+          </h2>
+        </motion.div>
+
+        {/* Artisans Grid (Desktop / Tablet) */}
+        <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
+          {t.team.list.map((member, i) => (
+            <motion.div
+              key={member.name}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="group bg-espresso/20 border border-white/5 hover:border-gold/20 transition-all duration-500 flex flex-col h-full"
+            >
+              {/* Image wrapper */}
+              <div className="aspect-[3/4] overflow-hidden relative bg-charcoal">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                  loading="lazy"
+                />
+                {member.special && (
+                  <span className="absolute top-3 right-3 font-mono text-[8px] uppercase tracking-widest text-charcoal bg-gold px-2 py-1 font-bold">
+                    {member.special}
+                  </span>
+                )}
+              </div>
+              
+              {/* Text content */}
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h4 className="font-display text-2xl text-champagne italic group-hover:text-gold transition-colors duration-300">
+                    {member.name}
+                  </h4>
+                  <p className="font-mono text-[9px] uppercase tracking-[0.15em] text-champagne/50 mt-1 leading-normal">
+                    {member.role}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Artisans Accordion (Mobile only) */}
+        <div className="block sm:hidden border-t border-white/5">
+          <Accordion type="single" collapsible className="w-full">
+            {t.team.list.map((member, i) => (
+              <AccordionItem key={member.name} value={`item-${i}`} className="border-b border-white/5">
+                <AccordionTrigger className="hover:no-underline py-5 text-champagne">
+                  <div className="flex items-center justify-between w-full pr-4 text-left">
+                    <div className="flex flex-col">
+                      <span className="font-display text-xl text-champagne italic transition-colors">
+                        {member.name}
+                      </span>
+                      <span className="font-mono text-[9px] uppercase tracking-widest text-gold mt-1">
+                        {member.role}
+                      </span>
+                    </div>
+                    {member.special && (
+                      <span className="font-mono text-[8px] uppercase tracking-widest text-charcoal bg-gold px-2 py-0.5 font-bold">
+                        {member.special}
+                      </span>
+                    )}
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="bg-espresso/10">
+                  <div className="p-4 flex flex-col items-center">
+                    <div className="w-full max-w-[280px] aspect-[3/4] overflow-hidden border border-white/5 relative bg-charcoal">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover grayscale"
+                        loading="lazy"
+                      />
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
+      </div>
+
+      {/* Premium Divider Separator */}
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10 my-20">
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent relative">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-charcoal px-4 py-1 text-gold/50 font-mono text-[9px] uppercase tracking-[0.25em]">
+            Lifestyle & Co.
+          </div>
+        </div>
+      </div>
+
+      {/* Founder's Story */}
+      <div className="max-w-[1600px] mx-auto px-6 md:px-10 grid lg:grid-cols-2 gap-16 items-center">
+        <motion.div {...fadeUp} className="max-w-2xl">
+          <div className="font-mono text-gold text-[10px] uppercase tracking-[0.4em] mb-4">
+            {t.team.storySubtitle}
+          </div>
+          <h2 className="font-display text-5xl md:text-7xl text-champagne italic leading-[0.95] mb-8">
+            {t.team.storyTitle1}
+            <span className="text-gold">{t.team.storyTitle2}</span>
           </h2>
           <div className="space-y-6 text-champagne/70 text-lg leading-relaxed">
             <p>{t.team.p1}</p>
